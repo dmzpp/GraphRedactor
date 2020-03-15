@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using GraphRedactorApp;
 
 namespace GraphRedactor
 {
@@ -31,7 +31,7 @@ namespace GraphRedactor
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            redactor.CreateFigure((int)mouseCoords.X, (int)mouseCoords.Y, (int)mouseCoords.X, (int)mouseCoords.Y, Colors.Red);
+            redactor.CreateFigure((int)mouseCoords.X, (int)mouseCoords.Y, (int)mouseCoords.X, (int)mouseCoords.Y);
             RenderCanvas();
         }
         private void RenderCanvas()
@@ -39,10 +39,6 @@ namespace GraphRedactor
             canvas.Source = redactor.RenderCanvas();
         }
 
-        private void RectangleButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.CurrentFigure = new Rectangle(); // enum PossibleFigures ?? 
-        }
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
@@ -56,15 +52,17 @@ namespace GraphRedactor
             redactor.FinishStretching();
             RenderCanvas();
         }
-
+        private void RectangleButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.SetCurrentFigure(PossibleFigures.Rectangle);
+        }
         private void LineButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.CurrentFigure = new Line();
+            redactor.SetCurrentFigure(PossibleFigures.Line);
         }
-
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.CurrentFigure = new Ellipse();
+            redactor.SetCurrentFigure(PossibleFigures.Ellipse);
         }
     }
 

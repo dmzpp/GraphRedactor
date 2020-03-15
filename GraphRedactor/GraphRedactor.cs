@@ -13,31 +13,62 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GraphRedactor
+namespace GraphRedactorApp
 {
+    class PossibleFigures
+    {
+        public static Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle();
+            }
+        }
+        public static Line Line
+        {
+            get
+            {
+                return new Line();
+            }
+        }
+        public static Ellipse Ellipse
+        {
+            get
+            {
+                return new Ellipse();
+            }
+        }
+    }
     class GraphRedactorApplication
     {
         private WriteableBitmap canvas;
-        public Figure CurrentFigure { get; set; }
+        private Figure currentFigure;
         private Stack<Figure> figures;
+        private Color currentColor;
+
         private enum States
         {
             stretching,
             positioning // выбор места для установки фигуры
         }
         private States currentState;
+        public void SetCurrentFigure(Figure figure)
+        {
+            currentFigure = figure;
+        }
         public GraphRedactorApplication(WriteableBitmap canvas)
         {
+            currentColor = Colors.Red;
             this.canvas = canvas;
-            CurrentFigure = new Rectangle(); // установка фигуры по умолчанию
+            currentFigure = new Rectangle(); // установка фигуры по умолчанию
             figures = new Stack<Figure>();
             currentState = States.positioning;
         }
-        public void CreateFigure(int x1, int y1, int x2, int y2, Color color)
+        public void CreateFigure(int x1, int y1, int x2, int y2)
         {
             if (currentState == States.positioning)
             {
-                figures.Push(CurrentFigure.GetFigure(x1, y1, x2, y2, color));
+                figures.Push(currentFigure.GetFigure(x1, y1, x2, y2, currentColor));
                 currentState = States.stretching;
             }
         }
@@ -55,25 +86,24 @@ namespace GraphRedactor
             return canvas;
         }
 
-        public void StrechLastFigure(int x2, int y2)
+        public void StrechLastFigure(int x, int y)
         {
             if (currentState == States.stretching)
             {
                 Figure lastFigure = figures.Peek();
-                //lastFigure.x2 = x2;
-                //lastFigure.y2 = y2;
-                lastFigure.Stretch(x2, y2);
-                
+                lastFigure.Stretch(x, y);
                 figures.Push(lastFigure);
             }
         }
         
     }
+    
     abstract class Figure
     {
         public abstract void Draw(WriteableBitmap canvas);
         public abstract Figure GetFigure(int x1, int y1, int x2, int y2, Color color);
-        public int x1, x2, y1, y2;
+        protected int x1, x2, y1, y2;
+        protected int firstDrawingX, secondDrawingX, firstDrawingY, secondDrawingY;
         public Color color;
         public Figure(int x1, int y1, int x2, int y2, Color color)
         {
@@ -88,6 +118,30 @@ namespace GraphRedactor
 
         }
         public abstract void Stretch(int mouseX, int mouseY);
+        protected virtual void CalculateDrawingCoordinats()
+        {
+            if (x1 > x2)
+            {
+                firstDrawingX = x2;
+                secondDrawingX = x1;
+            }
+            else
+            {
+                firstDrawingX = x1;
+                secondDrawingX = x2;
+            }
+            if (y1 > y2)
+            {
+                firstDrawingY = y2;
+                secondDrawingY = y1;
+            }
+            else
+            {
+                firstDrawingY = y1;
+                secondDrawingY = y2;
+            }
+        }
+       
     }
     class Rectangle : Figure
     {
@@ -102,31 +156,8 @@ namespace GraphRedactor
         }
         public override void Draw(WriteableBitmap canvas)
         {
-            int firstCoordX;
-            int secondCoordX;
-            int firstCoordY;
-            int secondCoordY;
-            if (x1 > x2)
-            {
-                firstCoordX = x2;
-                secondCoordX = x1;
-            }
-            else
-            {
-                firstCoordX = x1;
-                secondCoordX = x2;
-            }
-            if (y1 > y2)
-            {
-                firstCoordY = y2;
-                secondCoordY = y1;
-            }
-            else
-            {
-                firstCoordY = y1;
-                secondCoordY = y2;
-            }
-            canvas.DrawRectangle(firstCoordX, firstCoordY, secondCoordX, secondCoordY, color);
+            CalculateDrawingCoordinats();
+            canvas.DrawRectangle(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color)
         {
@@ -150,33 +181,17 @@ namespace GraphRedactor
         {
 
         }
+        protected override void CalculateDrawingCoordinats()
+        {
+            int firstDrawingX = x1;
+            int secondDrawingX = x2;
+            int firstDrawingY = y1;
+            int secondDrawingY = y2;
+        }
         public override void Draw(WriteableBitmap canvas)
         {
-            int firstCoordX = x1;
-            int secondCoordX = x2;
-            int firstCoordY = y1;
-            int secondCoordY = y2;
-            /*if (x1 > x2)
-            {
-                firstCoordX = x2;
-                secondCoordX = x1;
-            }
-            else
-            {
-                firstCoordX = x1;
-                secondCoordX = x2;
-            }
-            if (y1 > y2)
-            {
-                firstCoordY = y2;
-                secondCoordY = y1;
-            }
-            else
-            {
-                firstCoordY = y1;
-                secondCoordY = y2;
-            }*/
-            canvas.DrawLine(firstCoordX, firstCoordY, secondCoordX, secondCoordY, color);
+            CalculateDrawingCoordinats();
+            canvas.DrawLine(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color)
         {
@@ -201,31 +216,8 @@ namespace GraphRedactor
         }
         public override void Draw(WriteableBitmap canvas)
         {
-            int firstCoordX = x1;
-            int secondCoordX = x2;
-            int firstCoordY = y1;
-            int secondCoordY = y2;
-            if (x1 > x2)
-            {
-                firstCoordX = x2;
-                secondCoordX = x1;
-            }
-            else
-            {
-                firstCoordX = x1;
-                secondCoordX = x2;
-            }
-            if (y1 > y2)
-            {
-                firstCoordY = y2;
-                secondCoordY = y1;
-            }
-            else
-            {
-                firstCoordY = y1;
-                secondCoordY = y2;
-            }
-            canvas.DrawEllipse(firstCoordX, firstCoordY, secondCoordX, secondCoordY, color);
+            CalculateDrawingCoordinats();
+            canvas.DrawEllipse(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color)
         {

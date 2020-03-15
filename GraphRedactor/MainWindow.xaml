@@ -31,6 +31,5 @@
             <Button Click="LineButton_Click" Grid.Column="0" Grid.Row="1">Линия</Button>
             <Button Click="EllipseButton_Click" Grid.Column="0" Grid.Row="2">Окружность</Button>
         </Grid>
-
     </Grid>
 </Window>

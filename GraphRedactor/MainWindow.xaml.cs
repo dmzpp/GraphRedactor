@@ -64,6 +64,10 @@ namespace GraphRedactor
         {
             redactor.SetCurrentFigure(PossibleFigures.Ellipse);
         }
+        private void DottedLine_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.SetCurrentFigure(PossibleFigures.DottedLine);
+        }
     }
 
 } 

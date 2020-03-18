@@ -42,25 +42,13 @@ namespace GraphRedactorApp
         private WriteableBitmap canvas;
         private Figure currentFigure;
         private Stack<IDrawable> figures;
-        private Color conturColor;
-        private Color fillColor;
+        private Color currentColor;
 
         private enum States
         {
             stretching,
             positioning // выбор места для установки фигуры
         }
-        public void SetFillColor(Color color)
-        {
-            this.fillColor = color;
-        }
-
-        public void SetConturColor(Color color)
-        {
-            this.conturColor = color;
-        }
-        
-
         private States currentState;
         public void SetCurrentFigure(Figure figure)
         {
@@ -68,10 +56,9 @@ namespace GraphRedactorApp
         }
         public GraphRedactorApplication(WriteableBitmap canvas)
         {
-            conturColor = Colors.Red;
-            fillColor = Colors.Green;
+            currentColor = Colors.Red;
             this.canvas = canvas;
-            currentFigure = new Rectangle(); 
+            currentFigure = new Rectangle(); // установка фигуры по умолчанию
             figures = new Stack<IDrawable>();
             currentState = States.positioning;
         }
@@ -79,7 +66,7 @@ namespace GraphRedactorApp
         {
             if (currentState == States.positioning)
             {
-                figures.Push(currentFigure.GetFigure(x1, y1, x2, y2, conturColor, fillColor));
+                figures.Push(currentFigure.GetFigure(x1, y1, x2, y2, currentColor));
                 currentState = States.stretching;
             }
         }
@@ -103,7 +90,7 @@ namespace GraphRedactorApp
             {
                 IDrawable lastFigure = figures.Peek();
                 lastFigure.Stretch(x, y);
-                //figures.Push(lastFigure);
+                figures.Push(lastFigure);
             }
         }
         
@@ -117,19 +104,17 @@ namespace GraphRedactorApp
     abstract class Figure : IDrawable
     {
         public abstract void Draw(WriteableBitmap canvas);
-        public abstract Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor);
+        public abstract Figure GetFigure(int x1, int y1, int x2, int y2, Color color);
         protected int x1, x2, y1, y2;
         protected int firstDrawingX, secondDrawingX, firstDrawingY, secondDrawingY;
         public Color color;
-        public Color fillColor;
-        public Figure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
+        public Figure(int x1, int y1, int x2, int y2, Color color)
         {
             this.x1 = x1;
             this.y1 = y1;
             this.x2= x2;
             this.y2 = y2;
             this.color = color;
-            this.fillColor = fillColor;
         }
         public Figure()
         {
@@ -167,8 +152,8 @@ namespace GraphRedactorApp
         {
 
         }
-        public Rectangle(int x1, int y1, int x2, int y2, Color color, Color fillColor) 
-            :base(x1, y1, x2, y2, color, fillColor)
+        public Rectangle(int x1, int y1, int x2, int y2, Color color) 
+            :base(x1, y1, x2, y2, color)
         {
 
         }
@@ -176,11 +161,10 @@ namespace GraphRedactorApp
         {
             CalculateDrawingCoordinats();
             canvas.DrawRectangle(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
-            canvas.FillRectangle(firstDrawingX + 1, firstDrawingY + 1, secondDrawingX, secondDrawingY, fillColor);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color)
         {
-            return new Rectangle(x1, y1, x2, y2, color, fillColor);   
+            return new Rectangle(x1, y1, x2, y2, color);   
         }
         public override void Stretch(int mouseX, int mouseY)
         {
@@ -188,14 +172,15 @@ namespace GraphRedactorApp
             y2 = mouseY;
         }
     }
+
     class Line : Figure
     {
         public Line()
         {
 
         }
-        public Line(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            : base(x1, y1, x2, y2, color, fillColor)
+        public Line(int x1, int y1, int x2, int y2, Color color)
+            : base(x1, y1, x2, y2, color)
         {
 
         }
@@ -211,9 +196,9 @@ namespace GraphRedactorApp
             CalculateDrawingCoordinats();
             canvas.DrawLine(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color)
         {
-            return new Line(x1, y1, x2, y2, color, fillColor);
+            return new Line(x1, y1, x2, y2, color);
         }
         public override void Stretch(int mouseX, int mouseY)
         {
@@ -228,12 +213,12 @@ namespace GraphRedactorApp
             CalculateDrawingCoordinats();
             canvas.DrawLineDotted(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, 10, 10, color);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color)
         {
-            return new DottedLine(x1, y1, x2, y2, color, fillColor);
+            return new DottedLine(x1, y1, x2, y2, color);
         }
-        public DottedLine(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            : base(x1, y1, x2, y2, color, fillColor)
+        public DottedLine(int x1, int y1, int x2, int y2, Color color)
+            : base(x1, y1, x2, y2, color)
         {
 
         }
@@ -249,8 +234,8 @@ namespace GraphRedactorApp
         {
 
         }
-        public Ellipse(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            : base(x1, y1, x2, y2, color, fillColor)
+        public Ellipse(int x1, int y1, int x2, int y2, Color color)
+            : base(x1, y1, x2, y2, color)
         {
 
         }
@@ -258,11 +243,10 @@ namespace GraphRedactorApp
         {
             CalculateDrawingCoordinats();
             canvas.DrawEllipse(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
-            canvas.FillEllipse(firstDrawingX + 1, firstDrawingY + 1, secondDrawingX, secondDrawingY, fillColor);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color)
         {
-            return new Ellipse(x1, y1, x2, y2, color, fillColor);
+            return new Ellipse(x1, y1, x2, y2, color);
         }
         public override void Stretch(int mouseX, int mouseY)
         {

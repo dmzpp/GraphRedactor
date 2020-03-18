@@ -23,6 +23,7 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -30,6 +31,7 @@
             <Button Click="RectangleButton_Click" Grid.Column="0" Grid.Row="0">Прямоугольник</Button>
             <Button Click="LineButton_Click" Grid.Column="0" Grid.Row="1">Линия</Button>
             <Button Click="EllipseButton_Click" Grid.Column="0" Grid.Row="2">Окружность</Button>
+            <Button Click="DottedLine_Click" Grid.Column="0" Grid.Row="3">Dotted line</Button>
         </Grid>
     </Grid>
 </Window>

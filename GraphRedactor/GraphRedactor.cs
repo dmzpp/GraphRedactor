@@ -41,7 +41,7 @@ namespace GraphRedactorApp
     {
         private WriteableBitmap canvas;
         private Figure currentFigure;
-        private Stack<IDrawable> figures;
+        private LinkedList<IDrawable> figures;
         private Color conturColor;
         private Color fillColor;
 
@@ -68,18 +68,20 @@ namespace GraphRedactorApp
         }
         public GraphRedactorApplication(WriteableBitmap canvas)
         {
+            LinkedList<string> test = new LinkedList<string>();
+
             conturColor = Colors.Red;
             fillColor = Colors.Green;
             this.canvas = canvas;
             currentFigure = new Rectangle(); 
-            figures = new Stack<IDrawable>();
+            figures = new LinkedList<IDrawable>();
             currentState = States.positioning;
         }
         public void CreateFigure(int x1, int y1, int x2, int y2)
         {
             if (currentState == States.positioning)
             {
-                figures.Push(currentFigure.GetFigure(x1, y1, x2, y2, conturColor, fillColor));
+                figures.AddLast(currentFigure.GetFigure(x1, y1, x2, y2, conturColor, fillColor));
                 currentState = States.stretching;
             }
         }
@@ -101,7 +103,7 @@ namespace GraphRedactorApp
         {
             if (currentState == States.stretching)
             {
-                IDrawable lastFigure = figures.Peek();
+                IDrawable lastFigure = figures.Last.Value;
                 lastFigure.Stretch(x, y);
                 //figures.Push(lastFigure);
             }

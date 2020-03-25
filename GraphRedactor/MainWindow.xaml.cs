@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using GraphRedactorApp;
 
 namespace GraphRedactor
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         GraphRedactorApplication redactor;
@@ -27,7 +15,6 @@ namespace GraphRedactor
             redactor = new GraphRedactorApplication(new WriteableBitmap(660, 350, 96, 96, PixelFormats.Bgra32, null));
             RenderCanvas();
         }
-
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
@@ -38,15 +25,12 @@ namespace GraphRedactor
         {
             canvas.Source = redactor.RenderCanvas();
         }
-
-
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
             redactor.StrechLastFigure((int)mouseCoords.X, (int)mouseCoords.Y);
             RenderCanvas();
         }
-
         private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             redactor.FinishStretching();
@@ -67,6 +51,20 @@ namespace GraphRedactor
         private void DottedLine_Click(object sender, RoutedEventArgs e)
         {
             redactor.SetCurrentFigure(PossibleFigures.DottedLine);
+        }
+        private void RenderColorsPanel()
+        {
+
+        }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            redactor.ChangeFillColor((Color)e.NewValue);
+        }
+
+        private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            redactor.ChangeConturColor((Color)e.NewValue);
         }
     }
 

@@ -4,19 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GraphRedactor"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="133*"></ColumnDefinition>
-            <ColumnDefinition Width="158*"></ColumnDefinition>
             <ColumnDefinition Width="509*"/>
         </Grid.ColumnDefinitions>
-
         <Image Grid.Column="1" Grid.Row="0" x:Name="canvas"  MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseMove="canvas_MouseMove" Grid.ColumnSpan="2" Margin="4,1,3,1"/>
         <Grid Grid.Row="0" Grid.Column="0" Margin="0,0,0,72" Grid.RowSpan="2">
             <Grid.RowDefinitions>
@@ -32,6 +31,21 @@
             <Button Click="LineButton_Click" Grid.Column="0" Grid.Row="1">Линия</Button>
             <Button Click="EllipseButton_Click" Grid.Column="0" Grid.Row="2">Окружность</Button>
             <Button Click="DottedLine_Click" Grid.Column="0" Grid.Row="3">Dotted line</Button>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0"> Цвет фона</Label>
+            <Label Grid.Row="1" Grid.Column="0"> Цвет контура</Label>
+            <xctk:ColorPicker Grid.Row="0" Grid.Column="1" Name="ColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged"></xctk:ColorPicker>
+            <xctk:ColorPicker Grid.Row="1" Grid.Column="1" Name="ConturColorPicker" SelectedColorChanged="ConturColorPicker_SelectedColorChanged"></xctk:ColorPicker>
         </Grid>
     </Grid>
 </Window>

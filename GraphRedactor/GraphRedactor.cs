@@ -9,7 +9,7 @@ namespace GraphRedactorApp
     class PossibleFigures
     {
         public static Rectangle Rectangle
-        {
+        {   
             get
             {
                 return new Rectangle();
@@ -45,6 +45,14 @@ namespace GraphRedactorApp
         private Color conturColor;
         private Color fillColor;
 
+        public void ChangeConturColor(Color color)
+        {
+            conturColor = color;
+        }
+        public void ChangeFillColor(Color color)
+        {
+            fillColor = color;
+        }
         private enum States
         {
             stretching,
@@ -71,7 +79,7 @@ namespace GraphRedactorApp
             LinkedList<string> test = new LinkedList<string>();
 
             conturColor = Colors.Red;
-            fillColor = Colors.Green;
+            fillColor = Colors.Transparent;
             this.canvas = canvas;
             currentFigure = new Rectangle(); 
             figures = new LinkedList<IDrawable>();

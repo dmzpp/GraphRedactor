@@ -149,7 +149,11 @@ namespace GraphRedactorApp
         {
 
         }
-        public abstract void Stretch(int mouseX, int mouseY);
+        public virtual void Stretch(int mouseX, int mouseY)
+        {
+            x2 = mouseX;
+            y2 = mouseY;
+        }
         protected virtual void CalculateDrawingCoordinats()
         {
             if (x1 > x2)
@@ -196,11 +200,6 @@ namespace GraphRedactorApp
         {
             return new Rectangle(x1, y1, x2, y2, color, fillColor);   
         }
-        public override void Stretch(int mouseX, int mouseY)
-        {
-            x2 = mouseX;
-            y2 = mouseY;
-        }
     }
     class Line : Figure
     {
@@ -228,11 +227,6 @@ namespace GraphRedactorApp
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
         {
             return new Line(x1, y1, x2, y2, color, fillColor);
-        }
-        public override void Stretch(int mouseX, int mouseY)
-        {
-            x2 = mouseX;
-            y2 = mouseY;
         }
     }
     class DottedLine : Line
@@ -277,11 +271,6 @@ namespace GraphRedactorApp
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
         {
             return new Ellipse(x1, y1, x2, y2, color, fillColor);
-        }
-        public override void Stretch(int mouseX, int mouseY)
-        {
-            x2 = mouseX;
-            y2 = mouseY;
         }
     }
 }

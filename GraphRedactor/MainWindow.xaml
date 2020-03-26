@@ -44,7 +44,7 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0">Цвет фона</Label>
             <Label Grid.Row="1" Grid.Column="0">Цвет контура</Label>
-            <xctk:ColorPicker Grid.Row="0" Grid.Column="1" Name="ColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged"></xctk:ColorPicker>
+            <xctk:ColorPicker Grid.Row="0" Grid.Column="1" Name="FillColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged"></xctk:ColorPicker>
             <xctk:ColorPicker Grid.Row="1" Grid.Column="1" Name="ConturColorPicker" SelectedColorChanged="ConturColorPicker_SelectedColorChanged"></xctk:ColorPicker>
         </Grid>
     </Grid>

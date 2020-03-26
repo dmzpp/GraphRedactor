@@ -44,7 +44,7 @@ namespace GraphRedactorApp
         private LinkedList<IDrawable> figures;
         private Color conturColor;
         private Color fillColor;
-
+        
         public void ChangeConturColor(Color color)
         {
             conturColor = color;

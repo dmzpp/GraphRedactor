@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GraphRedactorApp;
+using System;
 
 namespace GraphRedactor
 {
@@ -12,7 +13,7 @@ namespace GraphRedactor
         public MainWindow()
         {
             InitializeComponent();
-            redactor = new GraphRedactorApplication(new WriteableBitmap(660, 350, 96, 96, PixelFormats.Bgra32, null));
+            redactor = new GraphRedactorApplication(new WriteableBitmap(630, 400, 96, 96, PixelFormats.Pbgra32, null));
             RenderCanvas();
         }
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -52,19 +53,19 @@ namespace GraphRedactor
         {
             redactor.SetCurrentFigure(PossibleFigures.DottedLine);
         }
-        private void RenderColorsPanel()
-        {
-
-        }
-
         private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             redactor.ChangeFillColor((Color)e.NewValue);
         }
-
         private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             redactor.ChangeConturColor((Color)e.NewValue);
+        }
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            WriteableBitmap bitmap = (canvas.Source as WriteableBitmap).Resize((int)canvas.ActualWidth, (int)canvas.ActualHeight, WriteableBitmapExtensions.Interpolation.Bilinear);
+            redactor.BitmapUpdate(bitmap);
+            RenderCanvas();
         }
     }
 

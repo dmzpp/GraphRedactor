@@ -68,6 +68,10 @@ namespace GraphRedactorApp
             this.conturColor = color;
         }
         
+        public void BitmapUpdate(WriteableBitmap bitmap)
+        {
+            this.canvas = bitmap;
+        }
 
         private States currentState;
         public void SetCurrentFigure(Figure figure)
@@ -185,8 +189,8 @@ namespace GraphRedactorApp
         public override void Draw(WriteableBitmap canvas)
         {
             CalculateDrawingCoordinats();
-            canvas.DrawRectangle(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
-            canvas.FillRectangle(firstDrawingX + 1, firstDrawingY + 1, secondDrawingX, secondDrawingY, fillColor);
+            canvas.DrawRectangle(firstDrawingX - 1, firstDrawingY - 1, secondDrawingX, secondDrawingY, color);
+            canvas.FillRectangle(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fillColor);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
         {

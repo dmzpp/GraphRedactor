@@ -6,46 +6,81 @@
         xmlns:local="clr-namespace:GraphRedactor"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="800" SizeChanged="Window_SizeChanged">
-    <Grid>
+        Title="MainWindow" Height="550" Width="800">
+    <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="125"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="2" Grid.Row="0" x:Name="canvas" Stretch="Fill" MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseMove="canvas_MouseMove" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+        <Grid Grid.Row="0" ShowGridLines="True">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="0.2*"></RowDefinition> <!--Название понельки-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition> <!--Инструменты-->
+                <ColumnDefinition Width="200"></ColumnDefinition> <!--Фигуры-->
+                <ColumnDefinition Width="100"></ColumnDefinition> <!--Толщина-->
+                <ColumnDefinition Width="300"></ColumnDefinition> <!--Панель с выбором цвета-->
             </Grid.ColumnDefinitions>
-            <Button Click="RectangleButton_Click" Grid.Column="0" Grid.Row="0">Прямоугольник</Button>
-            <Button Click="LineButton_Click" Grid.Column="0" Grid.Row="1">Линия</Button>
-            <Button Click="EllipseButton_Click" Grid.Column="0" Grid.Row="2">Окружность</Button>
-            <Button Click="DottedLine_Click" Grid.Column="0" Grid.Row="3">Dotted line</Button>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0">Цвет фона</Label>
-            <Label Grid.Row="1" Grid.Column="0">Цвет контура</Label>
-            <xctk:ColorPicker Grid.Row="0" Grid.Column="1" Name="FillColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged"></xctk:ColorPicker>
-            <xctk:ColorPicker Grid.Row="1" Grid.Column="1" Name="ConturColorPicker" SelectedColorChanged="ConturColorPicker_SelectedColorChanged"></xctk:ColorPicker>
+            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Инструменты</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Фигуры</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Толщина</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">Цвет</TextBlock>
+            
+            <!--Инструментики-->
+            <WrapPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Width="25" Height="25" Margin="3" Background="White">
+                    <Image Source="/pen.jpg"></Image>
+                </Button>
+                <Button Content="2" Width="25" Height="25" Margin="3"></Button>
+                <Button Content="3" Width="25" Height="25" Margin="3"></Button>
+                <Button Content="4" Width="25" Height="25" Margin="3"></Button>
+                <Button Content="5" Width="25" Height="25" Margin="3"></Button>
+                <Button Content="6" Width="25" Height="25" Margin="3"></Button>
+            </WrapPanel>
+            
+            <!--Фигуры-->
+            <WrapPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Width="55" Height="25" Margin="3" Background="White">
+                    <Image Source="/rectangle.png"></Image>
+                </Button>
+                <Button Width="55" Height="25" Margin="3" Background="White">
+                    <Image Source="/Line.png"></Image>
+                </Button>
+                <Button Width="55" Height="25" Margin="3" Background="White">
+                    <Image Source="/dottedLine.png"></Image>
+                </Button>
+                <Button Width="55" Height="25" Margin="3" Background="White">
+                    <Image Source="/Ellipse.png"></Image>
+                </Button>
+                <Button Width="55" Height="25" Margin="3" Background="White"></Button>
+                <Button Width="55" Height="25" Margin="3" Background="White"></Button>
+            </WrapPanel>
+            
+            <!--Выбор толщины-->
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="0.3*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Slider Grid.Row="0" VerticalAlignment="Center"></Slider>
+                <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">0</TextBlock>
+            </Grid>
+            
+            <!--Выбор цвета-->
+            <Grid Grid.Row="0" Grid.Column="3" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                    <xctk:ColorPicker SelectedColor="Blue" Width="50" Height="40"></xctk:ColorPicker>
+                    <xctk:ColorPicker SelectedColor="Red" Width="50" Height="40"></xctk:ColorPicker>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
+    
 </Window>

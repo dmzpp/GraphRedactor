@@ -3,7 +3,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GraphRedactorApp;
-using System;
 
 namespace GraphRedactor
 {
@@ -13,13 +12,14 @@ namespace GraphRedactor
         public MainWindow()
         {
             InitializeComponent();
-            redactor = new GraphRedactorApplication(new WriteableBitmap(630, 400, 96, 96, PixelFormats.Pbgra32, null));
+           /* redactor = new GraphRedactorApplication(new WriteableBitmap(630, 400, 96, 96, PixelFormats.Pbgra32, null));
             redactor.SetConturColor(Colors.Yellow);
             ConturColorPicker.SelectedColor = Colors.Yellow;
             redactor.SetFillColor(Colors.White);
             FillColorPicker.SelectedColor = Colors.White;
-            RenderCanvas();
+            RenderCanvas();*/
         }
+        /*
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
@@ -60,12 +60,10 @@ namespace GraphRedactor
         private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             redactor.ChangeFillColor((Color)e.NewValue);
-            //redactor.fillColor = (Color)e.NewValue;
         }
         private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             redactor.ChangeConturColor((Color)e.NewValue);
-            //redactor.conturColor = (Color)e.NewValue;
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -73,6 +71,8 @@ namespace GraphRedactor
             redactor.BitmapUpdate(bitmap);
             RenderCanvas();
         }
+    */
     }
+    
 
 } 

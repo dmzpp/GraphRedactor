@@ -6,7 +6,17 @@ using System.Windows.Media.Imaging;
 
 namespace GraphRedactorApp
 {
-    class PossibleFigures
+    struct Point
+    {
+        public int X;
+        public int Y;
+        public Point(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+    public class PossibleFigures
     {
         public static Rectangle Rectangle
         {   
@@ -37,14 +47,15 @@ namespace GraphRedactorApp
             }
         }
     }
-    class GraphRedactorApplication
+    public class GraphRedactorApplication
     {
         private WriteableBitmap canvas;
         private Figure currentFigure;
         private LinkedList<IDrawable> figures;
         private Color conturColor;
         private Color fillColor;
-        
+        private States currentState;
+
         public void ChangeConturColor(Color color)
         {
             conturColor = color;
@@ -56,7 +67,8 @@ namespace GraphRedactorApp
         private enum States
         {
             stretching,
-            positioning // выбор места для установки фигуры
+            positioning, // выбор места для установки фигуры
+            painting
         }
         public void SetFillColor(Color color)
         {
@@ -73,15 +85,12 @@ namespace GraphRedactorApp
             this.canvas = bitmap;
         }
 
-        private States currentState;
         public void SetCurrentFigure(Figure figure)
         {
             currentFigure = figure;
         }
         public GraphRedactorApplication(WriteableBitmap canvas)
         {
-            LinkedList<string> test = new LinkedList<string>();
-
             conturColor = Colors.Red;
             fillColor = Colors.Transparent;
             this.canvas = canvas;
@@ -89,11 +98,11 @@ namespace GraphRedactorApp
             figures = new LinkedList<IDrawable>();
             currentState = States.positioning;
         }
-        public void CreateFigure(int x1, int y1, int x2, int y2)
+        public void CreateFigure(int x, int y)
         {
             if (currentState == States.positioning)
             {
-                figures.AddLast(currentFigure.GetFigure(x1, y1, x2, y2, conturColor, fillColor));
+                figures.AddLast(currentFigure.GetFigure(x, y, x, y, conturColor, fillColor));
                 currentState = States.stretching;
             }
         }
@@ -128,7 +137,7 @@ namespace GraphRedactorApp
         void Stretch(int mouseX, int mouseY);
 
     }
-    abstract class Figure : IDrawable
+    public abstract class Figure : IDrawable
     {
         public abstract void Draw(WriteableBitmap canvas);
         public abstract Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor);
@@ -179,7 +188,7 @@ namespace GraphRedactorApp
         }
        
     }
-    class Rectangle : Figure
+    public class Rectangle : Figure
     {
         public Rectangle()
         {
@@ -197,11 +206,9 @@ namespace GraphRedactorApp
             canvas.FillRectangle(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fillColor);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-        {
-            return new Rectangle(x1, y1, x2, y2, color, fillColor);   
-        }
+            => new Rectangle(x1, y1, x2, y2, color, fillColor);   
     }
-    class Line : Figure
+    public class Line : Figure
     {
         public Line()
         {
@@ -225,11 +232,10 @@ namespace GraphRedactorApp
             canvas.DrawLine(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-        {
-            return new Line(x1, y1, x2, y2, color, fillColor);
-        }
+            => new Line(x1, y1, x2, y2, color, fillColor);
+        
     }
-    class DottedLine : Line
+    public class DottedLine : Line
     {
         public override void Draw(WriteableBitmap canvas)
         {
@@ -237,9 +243,8 @@ namespace GraphRedactorApp
             canvas.DrawLineDotted(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, 10, 10, color);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-        {
-            return new DottedLine(x1, y1, x2, y2, color, fillColor);
-        }
+            => new DottedLine(x1, y1, x2, y2, color, fillColor);
+        
         public DottedLine(int x1, int y1, int x2, int y2, Color color, Color fillColor)
             : base(x1, y1, x2, y2, color, fillColor)
         {
@@ -251,7 +256,7 @@ namespace GraphRedactorApp
         }
 
     }
-    class Ellipse : Figure
+    public class Ellipse : Figure
     {
         public Ellipse()
         {
@@ -269,8 +274,35 @@ namespace GraphRedactorApp
             canvas.FillEllipse(firstDrawingX + 1, firstDrawingY + 1, secondDrawingX, secondDrawingY, fillColor);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
+            => new Ellipse(x1, y1, x2, y2, color, fillColor);
+    }
+    public class Pencil : IDrawable
+    {
+        private int width;
+        private Color color;
+
+        private List<Point> points;
+        public Pencil()
         {
-            return new Ellipse(x1, y1, x2, y2, color, fillColor);
+
+        }
+        public Pencil(int x, int y, Color color, int width)
+        {
+            this.width = 0;
+            this.color = color;
+            points = new List<Point>();
+            points.Add(new Point(x, y));
+        }
+        void IDrawable.Draw(WriteableBitmap canvas)
+        {
+            foreach(Point point in points)
+            {
+                canvas.SetPixel(point.X, point.Y, color);
+            }
+        }
+        void IDrawable.Stretch(int mouseX, int mouseY)
+        {
+            throw new NotImplementedException();
         }
     }
 }

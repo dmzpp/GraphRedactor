@@ -6,52 +6,13 @@ using System.Windows.Media.Imaging;
 
 namespace GraphRedactorApp
 {
-    struct Point
-    {
-        public int X;
-        public int Y;
-        public Point(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
-    public class PossibleFigures
-    {
-        public static Rectangle Rectangle
-        {   
-            get
-            {
-                return new Rectangle();
-            }
-        }
-        public static Line Line
-        {
-            get
-            {
-                return new Line();
-            }
-        }
-        public static Ellipse Ellipse
-        {
-            get
-            {
-                return new Ellipse();
-            }
-        }
-        public static DottedLine DottedLine
-        {
-            get
-            {
-                return new DottedLine();
-            }
-        }
-    }
+   
     public class GraphRedactorApplication
     {
         private WriteableBitmap canvas;
         private Figure currentFigure;
-        private LinkedList<IDrawable> figures;
+        private Instrument currentInstrument;
+        private LinkedList<IDrawable> graphicEntities;
         private Color conturColor;
         private Color fillColor;
         private States currentState;
@@ -66,9 +27,9 @@ namespace GraphRedactorApp
         }
         private enum States
         {
-            stretching,
-            positioning, // выбор места для установки фигуры
-            painting
+            instrumentSelected,
+            figureSelected,
+            changing
         }
         public void SetFillColor(Color color)
         {
@@ -88,45 +49,81 @@ namespace GraphRedactorApp
         public void SetCurrentFigure(Figure figure)
         {
             currentFigure = figure;
+            currentInstrument = null;
+            currentState = States.figureSelected;
         }
-        public GraphRedactorApplication(WriteableBitmap canvas)
+
+        public void SetCurrentInstrument(Instrument instrument)
+        {
+            currentFigure = null;
+            currentInstrument = instrument;
+            currentState = States.instrumentSelected;
+        }
+
+        private void SetDefault()
         {
             conturColor = Colors.Red;
             fillColor = Colors.Transparent;
+            currentFigure = null;
+            currentInstrument = new Pencil();
+            currentState = States.instrumentSelected;
+        }
+        public GraphRedactorApplication(WriteableBitmap canvas)
+        {
             this.canvas = canvas;
-            currentFigure = new Rectangle(); 
-            figures = new LinkedList<IDrawable>();
-            currentState = States.positioning;
+            graphicEntities = new LinkedList<IDrawable>();
+            SetDefault();
+        }
+
+        // будет вызываться при нажатии мышкой на холст
+        public void StartDrawing(int x, int y)
+        {
+            if(currentState == States.figureSelected)
+            {
+                CreateFigure(x, y);
+            }
+            else if(currentState == States.instrumentSelected)
+            {
+                StartUsingInstrument(x, y);
+            }
+            currentState = States.changing;
+        }
+
+        // будет вызываься при ведении мышкой
+        public void UpdateCurrentState(int x, int y)
+        {
+            ChangeLastEntity(x, y);
+        }
+
+        private void StartUsingInstrument(int x, int y)
+        {
+            graphicEntities.AddLast(currentInstrument.CreateInstrument(x, y, conturColor, 0));
         }
         public void CreateFigure(int x, int y)
         {
-            if (currentState == States.positioning)
-            {
-                figures.AddLast(currentFigure.GetFigure(x, y, x, y, conturColor, fillColor));
-                currentState = States.stretching;
-            }
+            graphicEntities.AddLast(currentFigure.GetFigure(x, y, x, y, conturColor, fillColor));
         }
-        public void FinishStretching()
+
+        public void FinishChanging()
         {
-            currentState = States.positioning;
+            currentState = (currentFigure == null) ? States.instrumentSelected : States.figureSelected;
         }
         public WriteableBitmap RenderCanvas()
         {
             canvas.Clear();
-            foreach(var figure in figures)
+            foreach(var figure in graphicEntities)
             {
                 figure.Draw(canvas);
             }
             return canvas;
         }
 
-        public void StrechLastFigure(int x, int y)
+        public void ChangeLastEntity(int x, int y)
         {
-            if (currentState == States.stretching)
+            if (currentState == States.changing)
             {
-                IDrawable lastFigure = figures.Last.Value;
-                lastFigure.Stretch(x, y);
-                //figures.Push(lastFigure);
+                IDrawable lastFigure = graphicEntities.Last.Value;
+                lastFigure.Change(x, y);
             }
         }
         
@@ -134,7 +131,7 @@ namespace GraphRedactorApp
     interface IDrawable
     {
         void Draw(WriteableBitmap canvas);
-        void Stretch(int mouseX, int mouseY);
+        void Change(int mouseX, int mouseY);
 
     }
     public abstract class Figure : IDrawable
@@ -158,7 +155,7 @@ namespace GraphRedactorApp
         {
 
         }
-        public virtual void Stretch(int mouseX, int mouseY)
+        public virtual void Change(int mouseX, int mouseY)
         {
             x2 = mouseX;
             y2 = mouseY;
@@ -276,7 +273,55 @@ namespace GraphRedactorApp
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
             => new Ellipse(x1, y1, x2, y2, color, fillColor);
     }
-    public class Pencil : IDrawable
+    public class PossibleFigures
+    {
+        public static Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle();
+            }
+        }
+        public static Line Line
+        {
+            get
+            {
+                return new Line();
+            }
+        }
+        public static Ellipse Ellipse
+        {
+            get
+            {
+                return new Ellipse();
+            }
+        }
+        public static DottedLine DottedLine
+        {
+            get
+            {
+                return new DottedLine();
+            }
+        }
+    }
+
+    struct Point
+    {
+        public int X;
+        public int Y;
+        public Point(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+    public abstract class Instrument : IDrawable
+    {
+        public abstract void Draw(WriteableBitmap canvas);
+        public abstract void Change(int mouseX, int mouseY);
+        public abstract Instrument CreateInstrument(int x, int y, Color color, int width);
+    }
+    public class Pencil : Instrument
     {
         private int width;
         private Color color;
@@ -293,16 +338,29 @@ namespace GraphRedactorApp
             points = new List<Point>();
             points.Add(new Point(x, y));
         }
-        void IDrawable.Draw(WriteableBitmap canvas)
+        public override Instrument CreateInstrument(int x, int y, Color color, int width)
+        {
+            return new Pencil(x,y,color,width);
+        }
+        public override void Draw(WriteableBitmap canvas)
         {
             foreach(Point point in points)
             {
                 canvas.SetPixel(point.X, point.Y, color);
             }
         }
-        void IDrawable.Stretch(int mouseX, int mouseY)
+        public override void Change(int mouseX, int mouseY)
         {
-            throw new NotImplementedException();
+            points.Add(new Point(mouseX, mouseY));
+        }
+    }
+    public class PossibleInstruments
+    {
+        public static Pencil Pencil
+        { 
+            get{
+                return new Pencil();
+            } 
         }
     }
 }

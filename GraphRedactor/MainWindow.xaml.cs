@@ -12,12 +12,8 @@ namespace GraphRedactor
         public MainWindow()
         {
             InitializeComponent();
-           /* redactor = new GraphRedactorApplication(new WriteableBitmap(630, 400, 96, 96, PixelFormats.Pbgra32, null));
-            redactor.SetConturColor(Colors.Yellow);
-            ConturColorPicker.SelectedColor = Colors.Yellow;
-            redactor.SetFillColor(Colors.White);
-            FillColorPicker.SelectedColor = Colors.White;
-            RenderCanvas();*/
+            redactor = new GraphRedactorApplication(new WriteableBitmap(630, 400, 125, 125, PixelFormats.Pbgra32, null));
+            RenderCanvas();
         }
         /*
         private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

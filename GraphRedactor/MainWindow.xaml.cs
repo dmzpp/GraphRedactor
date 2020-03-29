@@ -13,6 +13,11 @@ namespace GraphRedactor
         {
             InitializeComponent();
             redactor = new GraphRedactorApplication(new WriteableBitmap(800, 400, 125, 125, PixelFormats.Pbgra32, null));
+            ConturColorPicker.SelectedColor = Colors.Black;
+            redactor.SetConturColor(Colors.Black);
+            FillColorPicker.SelectedColor = Colors.White;
+            redactor.SetFillColor(Colors.White);
+
             RenderCanvas();
         }
         private void RenderCanvas()
@@ -39,13 +44,6 @@ namespace GraphRedactor
             redactor.FinishChanging();
             RenderCanvas();
         }
-
-        /*
-        private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            redactor.FinishStretching();
-            RenderCanvas();
-        }
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
             redactor.SetCurrentFigure(PossibleFigures.Rectangle);
@@ -62,21 +60,28 @@ namespace GraphRedactor
         {
             redactor.SetCurrentFigure(PossibleFigures.DottedLine);
         }
-        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ChangeFillColor((Color)e.NewValue);
+            redactor.SetCurrentInstrument(PossibleInstruments.Pencil);
         }
-        private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
-        {
-            redactor.ChangeConturColor((Color)e.NewValue);
-        }
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             WriteableBitmap bitmap = (canvas.Source as WriteableBitmap).Resize((int)canvas.ActualWidth, (int)canvas.ActualHeight, WriteableBitmapExtensions.Interpolation.Bilinear);
             redactor.BitmapUpdate(bitmap);
             RenderCanvas();
         }
-    */
+
+        private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            redactor.SetConturColor((Color)e.NewValue);
+        }
+
+        private void FillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            redactor.SetFillColor((Color)e.NewValue);
+        }
+
     }
 
 

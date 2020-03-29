@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System;
 using System.Windows.Media.Imaging;
 using GraphRedactorApp;
 
@@ -17,6 +18,9 @@ namespace GraphRedactor
             redactor.SetConturColor(Colors.Black);
             FillColorPicker.SelectedColor = Colors.White;
             redactor.SetFillColor(Colors.White);
+
+            WidthSlider.Value = 0;
+            WidthSlider.ValueChanged += WidthSlider_ValueChanged;
 
             RenderCanvas();
         }
@@ -82,6 +86,10 @@ namespace GraphRedactor
             redactor.SetFillColor((Color)e.NewValue);
         }
 
+        private void WidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SliderValueArea.Text = Math.Round(WidthSlider.Value).ToString();
+        }
     }
 
 

@@ -16,6 +16,7 @@ namespace GraphRedactorApp
         private Color conturColor;
         private Color fillColor;
         private States currentState;
+        private int currentWidth;
 
         public void ChangeConturColor(Color color)
         {

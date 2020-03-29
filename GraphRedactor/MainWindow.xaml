@@ -14,22 +14,27 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
+        <Image Name="canvas" Grid.Row="1" Stretch="Fill" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp"></Image>
         <Grid Grid.Row="0" ShowGridLines="True">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="0.2*"></RowDefinition> <!--Название понельки-->
+                <RowDefinition Height="0.2*"></RowDefinition>
+                <!--Название понельки-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"></ColumnDefinition> <!--Инструменты-->
-                <ColumnDefinition Width="200"></ColumnDefinition> <!--Фигуры-->
-                <ColumnDefinition Width="100"></ColumnDefinition> <!--Толщина-->
-                <ColumnDefinition Width="300"></ColumnDefinition> <!--Панель с выбором цвета-->
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <!--Инструменты-->
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <!--Фигуры-->
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <!--Толщина-->
+                <ColumnDefinition Width="300"></ColumnDefinition>
+                <!--Панель с выбором цвета-->
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Инструменты</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Фигуры</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Толщина</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">Цвет</TextBlock>
-            
             <!--Инструментики-->
             <WrapPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Width="25" Height="25" Margin="3" Background="White">
@@ -41,7 +46,6 @@
                 <Button Content="5" Width="25" Height="25" Margin="3"></Button>
                 <Button Content="6" Width="25" Height="25" Margin="3"></Button>
             </WrapPanel>
-            
             <!--Фигуры-->
             <WrapPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Width="55" Height="25" Margin="3" Background="White">
@@ -59,7 +63,6 @@
                 <Button Width="55" Height="25" Margin="3" Background="White"></Button>
                 <Button Width="55" Height="25" Margin="3" Background="White"></Button>
             </WrapPanel>
-            
             <!--Выбор толщины-->
             <Grid Grid.Row="0" Grid.Column="2">
                 <Grid.RowDefinitions>
@@ -69,7 +72,6 @@
                 <Slider Grid.Row="0" VerticalAlignment="Center"></Slider>
                 <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">0</TextBlock>
             </Grid>
-            
             <!--Выбор цвета-->
             <Grid Grid.Row="0" Grid.Column="3" ShowGridLines="True">
                 <Grid.ColumnDefinitions>
@@ -82,5 +84,5 @@
             </Grid>
         </Grid>
     </Grid>
-    
+
 </Window>

@@ -12,26 +12,35 @@ namespace GraphRedactor
         public MainWindow()
         {
             InitializeComponent();
-            redactor = new GraphRedactorApplication(new WriteableBitmap(630, 400, 125, 125, PixelFormats.Pbgra32, null));
-            RenderCanvas();
-        }
-        /*
-        private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Point mouseCoords = e.GetPosition(canvas);
-            redactor.CreateFigure((int)mouseCoords.X, (int)mouseCoords.Y, (int)mouseCoords.X, (int)mouseCoords.Y);
+            redactor = new GraphRedactorApplication(new WriteableBitmap(800, 400, 125, 125, PixelFormats.Pbgra32, null));
             RenderCanvas();
         }
         private void RenderCanvas()
         {
             canvas.Source = redactor.RenderCanvas();
         }
-        private void canvas_MouseMove(object sender, MouseEventArgs e)
+
+        private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point mouseCoords = e.GetPosition(canvas);
-            redactor.StrechLastFigure((int)mouseCoords.X, (int)mouseCoords.Y);
+            System.Windows.Point mouseCoords = e.GetPosition(canvas);
+            redactor.StartDrawing((int)mouseCoords.X, (int)mouseCoords.Y);
             RenderCanvas();
         }
+
+        private void canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            System.Windows.Point mouseCoords = e.GetPosition(canvas);
+            redactor.ChangeLastEntity((int)mouseCoords.X, (int)mouseCoords.Y);
+            RenderCanvas();
+        }
+
+        private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            redactor.FinishChanging();
+            RenderCanvas();
+        }
+
+        /*
         private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             redactor.FinishStretching();
@@ -69,6 +78,6 @@ namespace GraphRedactor
         }
     */
     }
-    
+
 
 } 

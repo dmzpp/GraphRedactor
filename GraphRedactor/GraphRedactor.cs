@@ -326,7 +326,8 @@ namespace GraphRedactorApp
         private int width;
         private Color color;
 
-        private List<Point> points;
+        //   private List<Point> points;
+        private List<int> points;
         public Pencil()
         {
 
@@ -335,8 +336,11 @@ namespace GraphRedactorApp
         {
             this.width = 0;
             this.color = color;
-            points = new List<Point>();
-            points.Add(new Point(x, y));
+            //points = new List<Point>();
+            //points.Add(new Point(x, y));
+            points = new List<int>();
+            points.Add(x);
+            points.Add(y);
         }
         public override Instrument CreateInstrument(int x, int y, Color color, int width)
         {
@@ -344,14 +348,13 @@ namespace GraphRedactorApp
         }
         public override void Draw(WriteableBitmap canvas)
         {
-            foreach(Point point in points)
-            {
-                canvas.SetPixel(point.X, point.Y, color);
-            }
+            int[] coords = points.ToArray();
+            canvas.DrawPolyline(coords, color);
         }
         public override void Change(int mouseX, int mouseY)
         {
-            points.Add(new Point(mouseX, mouseY));
+            points.Add(mouseX);
+            points.Add(mouseY);
         }
     }
     public class PossibleInstruments

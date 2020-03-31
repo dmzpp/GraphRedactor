@@ -13,7 +13,7 @@ namespace GraphRedactor
         public MainWindow()
         {
             InitializeComponent();
-            redactor = new GraphRedactorApplication(new WriteableBitmap(800, 400, 125, 125, PixelFormats.Pbgra32, null));
+            redactor = new GraphRedactorApplication(new WriteableBitmap(800, 400, 500, 500, PixelFormats.Bgra32, null));
             ConturColorPicker.SelectedColor = Colors.Black;
             redactor.SetConturColor(Colors.Black);
             FillColorPicker.SelectedColor = Colors.White;

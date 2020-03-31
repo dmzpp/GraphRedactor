@@ -387,9 +387,26 @@ namespace GraphRedactorApp
              }*/
             for (int i = 2; i < points.Count; i += 2)
             {
-                canvas.FillQuad(points[i - 2], points[i - 1], points[i - 2] + width, points[i - 1] + width,
-                    points[i] + width, points[i + 1] + width, points[i], points[i + 1], color);
+                 canvas.FillQuad(points[i - 2], points[i - 1], points[i - 2] + width, points[i - 1] + width,
+                      points[i] + width, points[i + 1] + width, points[i], points[i + 1], color);
+                /*canvas.FillQuad(points[i - 2] - width / 2, points[i - 1] + width / 2, points[i - 2] - width, points[i - 1] + width / 2,
+               points[i] + width / 2, points[i + 1] + width / 2, points[i] + width / 2, points[i + 1] + width / 2, color);*/
+
+                /* Rombiki
+                 *canvas.FillQuad(points[i - 2], points[i - 1] - width / 2, points[i], points[i + 1] - width / 2,
+                     points[i - 2], points[i - 1] + width / 2, points[i], points[i + 1] + width / 2, color); */
             }
+
+            /*
+             * 
+             * 1 2
+             * 3 4
+             * 
+             * 2 3
+             * 1 4
+             * 
+             * 
+             */
         }
         public override void Change(int mouseX, int mouseY)
         {

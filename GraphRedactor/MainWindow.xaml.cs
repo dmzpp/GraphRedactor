@@ -89,6 +89,7 @@ namespace GraphRedactor
         private void WidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SliderValueArea.Text = Math.Round(WidthSlider.Value).ToString();
+            redactor.currentWidth = (int)Math.Round(WidthSlider.Value);
         }
     }
 

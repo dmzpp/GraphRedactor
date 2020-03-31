@@ -14,9 +14,9 @@ namespace GraphRedactorApp
         private Instrument currentInstrument;
         private LinkedList<IDrawable> graphicEntities;
         private Color conturColor;
-        private Color fillColor;
+        private Color fillColor; 
         private States currentState;
-        private int currentWidth;
+        public int currentWidth { get; set; }
 
         public void ChangeConturColor(Color color)
         {
@@ -66,6 +66,7 @@ namespace GraphRedactorApp
             conturColor = Colors.Red;
             fillColor = Colors.Transparent;
             currentFigure = null;
+            currentWidth = 1;
             currentInstrument = new Pencil();
             currentState = States.instrumentSelected;
         }
@@ -98,11 +99,11 @@ namespace GraphRedactorApp
 
         private void StartUsingInstrument(int x, int y)
         {
-            graphicEntities.AddLast(currentInstrument.CreateInstrument(x, y, conturColor, 0));
+            graphicEntities.AddLast(currentInstrument.CreateInstrument(x, y, conturColor, currentWidth));
         }
         public void CreateFigure(int x, int y)
         {
-            graphicEntities.AddLast(currentFigure.GetFigure(x, y, x, y, conturColor, fillColor));
+            graphicEntities.AddLast(currentFigure.GetFigure(x, y, x, y, conturColor, fillColor, currentWidth));
         }
 
         public void FinishChanging()
@@ -138,12 +139,13 @@ namespace GraphRedactorApp
     public abstract class Figure : IDrawable
     {
         public abstract void Draw(WriteableBitmap canvas);
-        public abstract Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor);
+        public abstract Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width);
         protected int x1, x2, y1, y2;
         protected int firstDrawingX, secondDrawingX, firstDrawingY, secondDrawingY;
         public Color color;
         public Color fillColor;
-        public Figure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
+        private int width;
+        public Figure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
         {
             this.x1 = x1;
             this.y1 = y1;
@@ -151,6 +153,7 @@ namespace GraphRedactorApp
             this.y2 = y2;
             this.color = color;
             this.fillColor = fillColor;
+            this.width = width;
         }
         public Figure()
         {
@@ -192,8 +195,8 @@ namespace GraphRedactorApp
         {
 
         }
-        public Rectangle(int x1, int y1, int x2, int y2, Color color, Color fillColor) 
-            :base(x1, y1, x2, y2, color, fillColor)
+        public Rectangle(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width) 
+            :base(x1, y1, x2, y2, color, fillColor, width)
         {
 
         }
@@ -203,8 +206,8 @@ namespace GraphRedactorApp
             canvas.DrawRectangle(firstDrawingX - 1, firstDrawingY - 1, secondDrawingX, secondDrawingY, color);
             canvas.FillRectangle(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fillColor);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            => new Rectangle(x1, y1, x2, y2, color, fillColor);   
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
+            => new Rectangle(x1, y1, x2, y2, color, fillColor, width);   
     }
     public class Line : Figure
     {
@@ -212,8 +215,8 @@ namespace GraphRedactorApp
         {
 
         }
-        public Line(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            : base(x1, y1, x2, y2, color, fillColor)
+        public Line(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
+            : base(x1, y1, x2, y2, color, fillColor, width)
         {
 
         }
@@ -229,8 +232,8 @@ namespace GraphRedactorApp
             CalculateDrawingCoordinats();
             canvas.DrawLine(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            => new Line(x1, y1, x2, y2, color, fillColor);
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
+            => new Line(x1, y1, x2, y2, color, fillColor, width);
         
     }
     public class DottedLine : Line
@@ -240,11 +243,11 @@ namespace GraphRedactorApp
             CalculateDrawingCoordinats();
             canvas.DrawLineDotted(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, 10, 10, color);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            => new DottedLine(x1, y1, x2, y2, color, fillColor);
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
+            => new DottedLine(x1, y1, x2, y2, color, fillColor, width);
         
-        public DottedLine(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            : base(x1, y1, x2, y2, color, fillColor)
+        public DottedLine(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
+            : base(x1, y1, x2, y2, color, fillColor, width)
         {
 
         }
@@ -260,8 +263,8 @@ namespace GraphRedactorApp
         {
 
         }
-        public Ellipse(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            : base(x1, y1, x2, y2, color, fillColor)
+        public Ellipse(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
+            : base(x1, y1, x2, y2, color, fillColor, width)
         {
 
         }
@@ -271,8 +274,8 @@ namespace GraphRedactorApp
             canvas.DrawEllipse(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
             canvas.FillEllipse(firstDrawingX + 1, firstDrawingY + 1, secondDrawingX, secondDrawingY, fillColor);
         }
-        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor)
-            => new Ellipse(x1, y1, x2, y2, color, fillColor);
+        public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
+            => new Ellipse(x1, y1, x2, y2, color, fillColor, width);
     }
     public class PossibleFigures
     {
@@ -335,10 +338,8 @@ namespace GraphRedactorApp
         }
         public Pencil(int x, int y, Color color, int width)
         {
-            this.width = 0;
+            this.width = width;
             this.color = color;
-            //points = new List<Point>();
-            //points.Add(new Point(x, y));
             points = new List<int>();
             points.Add(x);
             points.Add(y);
@@ -349,8 +350,46 @@ namespace GraphRedactorApp
         }
         public override void Draw(WriteableBitmap canvas)
         {
-            int[] coords = points.ToArray();
+            /*int[] coords = points.ToArray();
             canvas.DrawPolyline(coords, color);
+            // int currentWidth = width;
+            int currentWidth = 10;
+            while(currentWidth >= 0)
+            {
+                int[] pointsCopy = points.ToArray();
+                for(int i = 1; i < pointsCopy.Length; i++)
+                {
+                    if(i % 2 == 0 && CheckBorder(canvas, pointsCopy[i - 1] + currentWidth, pointsCopy[i] + currentWidth))
+                    {
+                        pointsCopy[i]+=currentWidth;
+                        pointsCopy[i - 1]+=currentWidth;
+                    }
+                }
+                canvas.DrawPolyline(pointsCopy, color);
+                pointsCopy = points.ToArray();
+                for (int i = 1; i < pointsCopy.Length; i++)
+                {
+                    if (i % 2 == 0 && CheckBorder(canvas, pointsCopy[i - 1] - currentWidth, pointsCopy[i] - currentWidth))
+                    {
+                        pointsCopy[i]-=currentWidth;
+                        pointsCopy[i - 1]-=currentWidth;
+                    }
+                }
+                currentWidth-=2;
+                canvas.DrawPolyline(pointsCopy, color);
+            }*/
+            /* if (points.Count % 4 != 0)
+                 return;
+             for(int i = 0; i < points.Count; i+= 4)
+             {
+                 canvas.FillQuad(points[i], points[i + 1],
+                     points[i] + width, points[i + 1] + width, points[i + 2] + width, points[i + 3] + width, points[i + 2], points[i + 3], color);
+             }*/
+            for (int i = 2; i < points.Count; i += 2)
+            {
+                canvas.FillQuad(points[i - 2], points[i - 1], points[i - 2] + width, points[i - 1] + width,
+                    points[i] + width, points[i + 1] + width, points[i], points[i + 1], color);
+            }
         }
         public override void Change(int mouseX, int mouseY)
         {

@@ -77,7 +77,6 @@ namespace GraphRedactorApp
             SetDefault();
         }
 
-        // будет вызываться при нажатии мышкой на холст
         public void StartDrawing(int x, int y)
         {
             if(currentState == States.figureSelected)
@@ -91,7 +90,6 @@ namespace GraphRedactorApp
             currentState = States.changing;
         }
 
-        // будет вызываься при ведении мышкой
         public void UpdateCurrentState(int x, int y)
         {
             ChangeLastEntity(x, y);
@@ -207,7 +205,6 @@ namespace GraphRedactorApp
         public override void Draw(WriteableBitmap canvas)
         {
             CalculateDrawingCoordinats();
-            //canvas.DrawRectangle(firstDrawingX - 1, firstDrawingY - 1, secondDrawingX, secondDrawingY, color);
             int actualWidth = width;
             while(actualWidth >= 0)
             {
@@ -232,7 +229,7 @@ namespace GraphRedactorApp
         }
         protected int thirdDrawingX, thirdDrawingY;
         protected int fourthDrawingX, fourthDrawingY;
-        protected int fivethDrawingX, fivethDrawingY; // RENAME
+        protected int fifthDrawingX, fifthDrawingY; 
         protected int sixthDrawingX, sixthDrawingY;
         protected override void CalculateDrawingCoordinats()
         {
@@ -241,31 +238,37 @@ namespace GraphRedactorApp
             firstDrawingY = y1;
             secondDrawingY = y2;
 
-            int firstCatet = Math.Abs(firstDrawingX - secondDrawingX);
-            int secondCatet = Math.Abs(firstDrawingY - secondDrawingY);
+            int firstSide = Math.Abs(firstDrawingX - secondDrawingX);
+            int secondSide = Math.Abs(firstDrawingY - secondDrawingY);
 
-            int length = (int)Math.Sqrt(firstCatet * firstCatet + secondCatet * secondCatet);
+            int length = (int)Math.Sqrt(firstSide * firstSide + secondSide * secondSide);
 
             if (length != 0)
             {
-                if((firstDrawingY < secondDrawingY && firstDrawingX > secondDrawingX) || (firstDrawingX < secondDrawingX && secondDrawingY < firstDrawingY))
+                int additionalSecondSide = secondSide * width / length;
+
+                if((firstDrawingY < secondDrawingY && firstDrawingX > secondDrawingX) 
+                    || (firstDrawingX < secondDrawingX && secondDrawingY < firstDrawingY))
                 {
-                    thirdDrawingX = firstDrawingX + secondCatet * width / length;
-                    fourthDrawingX = secondDrawingX + secondCatet * width / length;
-                    fivethDrawingX = firstDrawingX - secondCatet * width / length;
-                    sixthDrawingX = secondDrawingX - secondCatet * width / length;
+                    thirdDrawingX = firstDrawingX + additionalSecondSide;
+                    fourthDrawingX = secondDrawingX + additionalSecondSide;
+                    fifthDrawingX = firstDrawingX - additionalSecondSide;
+                    sixthDrawingX = secondDrawingX - additionalSecondSide;
                 }
                 else
                 {
-                    thirdDrawingX = firstDrawingX - secondCatet * width / length;
-                    fourthDrawingX = secondDrawingX - secondCatet * width / length;
-                    fivethDrawingX = firstDrawingX + secondCatet * width / length;
-                    sixthDrawingX = secondDrawingX + secondCatet * width / length;
+                    thirdDrawingX = firstDrawingX - additionalSecondSide;
+                    fourthDrawingX = secondDrawingX - additionalSecondSide;
+                    fifthDrawingX = firstDrawingX + additionalSecondSide;
+                    sixthDrawingX = secondDrawingX + additionalSecondSide;
                 }
-                thirdDrawingY = firstDrawingY + firstCatet * width / length;
-                fourthDrawingY = secondDrawingY + firstCatet * width / length;
-                fivethDrawingY = firstDrawingY - firstCatet * width / length;
-                sixthDrawingY = secondDrawingY - firstCatet * width / length; 
+
+                int additionalFirstSide = firstSide * width / length;
+
+                thirdDrawingY = firstDrawingY + additionalFirstSide;
+                fourthDrawingY = secondDrawingY + additionalFirstSide;
+                fifthDrawingY = firstDrawingY - additionalFirstSide;
+                sixthDrawingY = secondDrawingY - additionalFirstSide; 
             }
             else
             {
@@ -275,16 +278,15 @@ namespace GraphRedactorApp
                 fourthDrawingX = secondDrawingX;
                 fourthDrawingY = secondDrawingY;
 
-                fivethDrawingY = thirdDrawingY;
+                fifthDrawingY = thirdDrawingY;
                 sixthDrawingY = fourthDrawingY;
             }
         }
         public override void Draw(WriteableBitmap canvas)
         {
             CalculateDrawingCoordinats();
-            // canvas.FillQuad(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fourthDrawingX, fourthDrawingY, thirdDrawingX, thirdDrawingY, color);
             canvas.FillQuad(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fourthDrawingX, fourthDrawingY, thirdDrawingX, thirdDrawingY, color);
-            canvas.FillQuad(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, sixthDrawingX, sixthDrawingY, fivethDrawingX, fivethDrawingY, color);
+            canvas.FillQuad(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, sixthDrawingX, sixthDrawingY, fifthDrawingX, fifthDrawingY, color);
 
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
@@ -385,8 +387,6 @@ namespace GraphRedactorApp
     {
         private int width;
         private Color color;
-
-        //   private List<Point> points;
         private List<int> points;
         public Pencil()
         {
@@ -430,3 +430,4 @@ namespace GraphRedactorApp
         }
     }
 }
+

@@ -140,11 +140,15 @@ namespace GraphRedactorApp
     {
         public abstract void Draw(WriteableBitmap canvas);
         public abstract Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width);
-        protected int x1, x2, y1, y2;
+        public int x1 { get; set; }
+        public int x2 { get; set; }
+        public int y1 { get; set; }
+        public int y2 { get; set; }
+
         protected int firstDrawingX, secondDrawingX, firstDrawingY, secondDrawingY;
         public Color color;
         public Color fillColor;
-        private int width;
+        protected int width;
         public Figure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
         {
             this.x1 = x1;
@@ -203,7 +207,13 @@ namespace GraphRedactorApp
         public override void Draw(WriteableBitmap canvas)
         {
             CalculateDrawingCoordinats();
-            canvas.DrawRectangle(firstDrawingX - 1, firstDrawingY - 1, secondDrawingX, secondDrawingY, color);
+            //canvas.DrawRectangle(firstDrawingX - 1, firstDrawingY - 1, secondDrawingX, secondDrawingY, color);
+            int actualWidth = width;
+            while(actualWidth >= 0)
+            {
+                canvas.DrawRectangle(firstDrawingX - actualWidth, firstDrawingY - actualWidth, secondDrawingX + actualWidth, secondDrawingY + actualWidth, color);
+                actualWidth--;
+            }
             canvas.FillRectangle(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fillColor);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
@@ -220,17 +230,62 @@ namespace GraphRedactorApp
         {
 
         }
+        protected int thirdDrawingX, thirdDrawingY;
+        protected int fourthDrawingX, fourthDrawingY;
+        protected int fivethDrawingX, fivethDrawingY; // RENAME
+        protected int sixthDrawingX, sixthDrawingY;
         protected override void CalculateDrawingCoordinats()
         {
             firstDrawingX = x1;
             secondDrawingX = x2;
             firstDrawingY = y1;
             secondDrawingY = y2;
+
+            int firstCatet = Math.Abs(firstDrawingX - secondDrawingX);
+            int secondCatet = Math.Abs(firstDrawingY - secondDrawingY);
+
+            int length = (int)Math.Sqrt(firstCatet * firstCatet + secondCatet * secondCatet);
+
+            if (length != 0)
+            {
+                if((firstDrawingY < secondDrawingY && firstDrawingX > secondDrawingX) || (firstDrawingX < secondDrawingX && secondDrawingY < firstDrawingY))
+                {
+                    thirdDrawingX = firstDrawingX + secondCatet * width / length;
+                    fourthDrawingX = secondDrawingX + secondCatet * width / length;
+                    fivethDrawingX = firstDrawingX - secondCatet * width / length;
+                    sixthDrawingX = secondDrawingX - secondCatet * width / length;
+                }
+                else
+                {
+                    thirdDrawingX = firstDrawingX - secondCatet * width / length;
+                    fourthDrawingX = secondDrawingX - secondCatet * width / length;
+                    fivethDrawingX = firstDrawingX + secondCatet * width / length;
+                    sixthDrawingX = secondDrawingX + secondCatet * width / length;
+                }
+                thirdDrawingY = firstDrawingY + firstCatet * width / length;
+                fourthDrawingY = secondDrawingY + firstCatet * width / length;
+                fivethDrawingY = firstDrawingY - firstCatet * width / length;
+                sixthDrawingY = secondDrawingY - firstCatet * width / length; 
+            }
+            else
+            {
+                thirdDrawingX = firstDrawingX;
+                thirdDrawingY = firstDrawingY;
+
+                fourthDrawingX = secondDrawingX;
+                fourthDrawingY = secondDrawingY;
+
+                fivethDrawingY = thirdDrawingY;
+                sixthDrawingY = fourthDrawingY;
+            }
         }
         public override void Draw(WriteableBitmap canvas)
         {
             CalculateDrawingCoordinats();
-            canvas.DrawLine(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
+            // canvas.FillQuad(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fourthDrawingX, fourthDrawingY, thirdDrawingX, thirdDrawingY, color);
+            canvas.FillQuad(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, fourthDrawingX, fourthDrawingY, thirdDrawingX, thirdDrawingY, color);
+            canvas.FillQuad(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, sixthDrawingX, sixthDrawingY, fivethDrawingX, fivethDrawingY, color);
+
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
             => new Line(x1, y1, x2, y2, color, fillColor, width);
@@ -325,6 +380,7 @@ namespace GraphRedactorApp
         public abstract void Change(int mouseX, int mouseY);
         public abstract Instrument CreateInstrument(int x, int y, Color color, int width);
     }
+    
     public class Pencil : Instrument
     {
         private int width;
@@ -350,63 +406,13 @@ namespace GraphRedactorApp
         }
         public override void Draw(WriteableBitmap canvas)
         {
-            /*int[] coords = points.ToArray();
-            canvas.DrawPolyline(coords, color);
-            // int currentWidth = width;
-            int currentWidth = 10;
-            while(currentWidth >= 0)
-            {
-                int[] pointsCopy = points.ToArray();
-                for(int i = 1; i < pointsCopy.Length; i++)
-                {
-                    if(i % 2 == 0 && CheckBorder(canvas, pointsCopy[i - 1] + currentWidth, pointsCopy[i] + currentWidth))
-                    {
-                        pointsCopy[i]+=currentWidth;
-                        pointsCopy[i - 1]+=currentWidth;
-                    }
-                }
-                canvas.DrawPolyline(pointsCopy, color);
-                pointsCopy = points.ToArray();
-                for (int i = 1; i < pointsCopy.Length; i++)
-                {
-                    if (i % 2 == 0 && CheckBorder(canvas, pointsCopy[i - 1] - currentWidth, pointsCopy[i] - currentWidth))
-                    {
-                        pointsCopy[i]-=currentWidth;
-                        pointsCopy[i - 1]-=currentWidth;
-                    }
-                }
-                currentWidth-=2;
-                canvas.DrawPolyline(pointsCopy, color);
-            }*/
-            /* if (points.Count % 4 != 0)
-                 return;
-             for(int i = 0; i < points.Count; i+= 4)
-             {
-                 canvas.FillQuad(points[i], points[i + 1],
-                     points[i] + width, points[i + 1] + width, points[i + 2] + width, points[i + 3] + width, points[i + 2], points[i + 3], color);
-             }*/
+         
             for (int i = 2; i < points.Count; i += 2)
             {
                  canvas.FillQuad(points[i - 2], points[i - 1], points[i - 2] + width, points[i - 1] + width,
                       points[i] + width, points[i + 1] + width, points[i], points[i + 1], color);
-                /*canvas.FillQuad(points[i - 2] - width / 2, points[i - 1] + width / 2, points[i - 2] - width, points[i - 1] + width / 2,
-               points[i] + width / 2, points[i + 1] + width / 2, points[i] + width / 2, points[i + 1] + width / 2, color);*/
-
-                /* Rombiki
-                 *canvas.FillQuad(points[i - 2], points[i - 1] - width / 2, points[i], points[i + 1] - width / 2,
-                     points[i - 2], points[i - 1] + width / 2, points[i], points[i + 1] + width / 2, color); */
             }
 
-            /*
-             * 
-             * 1 2
-             * 3 4
-             * 
-             * 2 3
-             * 1 4
-             * 
-             * 
-             */
         }
         public override void Change(int mouseX, int mouseY)
         {

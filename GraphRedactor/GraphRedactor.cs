@@ -332,7 +332,12 @@ namespace GraphRedactorApp
         public override void Draw(WriteableBitmap canvas)
         {
             CalculateDrawingCoordinats();
-            canvas.DrawEllipse(firstDrawingX, firstDrawingY, secondDrawingX, secondDrawingY, color);
+            int actualWidth = width;
+            while (actualWidth >= 0)
+            {
+                canvas.DrawEllipse(firstDrawingX - actualWidth, firstDrawingY - actualWidth, secondDrawingX + actualWidth, secondDrawingY + actualWidth, color);
+                actualWidth--;
+            }
             canvas.FillEllipse(firstDrawingX + 1, firstDrawingY + 1, secondDrawingX, secondDrawingY, fillColor);
         }
         public override Figure GetFigure(int x1, int y1, int x2, int y2, Color color, Color fillColor, int width)
@@ -436,21 +441,24 @@ namespace GraphRedactorApp
                     }
 
                 }*/
-                for(int i = 2; i < points.Count; i+=2) 
+                if(width < 4)
                 {
-                     canvas.FillEllipseCentered(points[i - 2], points[i - 1], width, width / 2, color);  
-                    //canvas.FillEllipse(points[i - 2], points[i - 1], points[i], points[i + 1], Colors.Red);
+                    canvas.DrawPolyline(points.ToArray(), color);
+                }
+                else {
+                    for (int i = 2; i < points.Count; i += 2)
+                    {
+                        canvas.FillEllipseCentered(points[i - 2], points[i - 1], width, width, color);
+                    }
                 }
             }
         }
         public override void Change(int mouseX, int mouseY)
         {
 
-            List<int> newPoints = Interpolate(points[points.Count - 2], points[points.Count - 1], mouseX, mouseY, 1)
-                .ConvertAll<int>(new Converter<double, int>((value) => (int)value));
+            List<int> newPoints =  Interpolate(points[points.Count - 2], points[points.Count - 1], mouseX, mouseY, width)
+                                                                .ConvertAll<int>(new Converter<double, int>((value) => (int)value));
             points.InsertRange(points.Count, newPoints);
-            /*    points.Add(mouseX);
-                points.Add(mouseY);*/
         }
 
 

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Windows.Media;
+using System.Threading;
+using System.Windows.Threading;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace GraphRedactorApp
@@ -382,7 +386,7 @@ namespace GraphRedactorApp
         public abstract void Change(int mouseX, int mouseY);
         public abstract Instrument CreateInstrument(int x, int y, Color color, int width);
     }
-    
+
     public class Pencil : Instrument
     {
         private int width;
@@ -402,23 +406,106 @@ namespace GraphRedactorApp
         }
         public override Instrument CreateInstrument(int x, int y, Color color, int width)
         {
-            return new Pencil(x,y,color,width);
+            return new Pencil(x, y, color, width);
         }
         public override void Draw(WriteableBitmap canvas)
         {
-         
-            for (int i = 2; i < points.Count; i += 2)
+            using (canvas.GetBitmapContext())
             {
-                 canvas.FillQuad(points[i - 2], points[i - 1], points[i - 2] + width, points[i - 1] + width,
-                      points[i] + width, points[i + 1] + width, points[i], points[i + 1], color);
-            }
+                /*  for (int i = 2; i < points.Count; i += 2)
+                  {
+                      canvas.FillQuad(points[i - 2], points[i - 1], points[i - 2] + width, points[i - 1] + width,
+                            points[i] + width, points[i + 1] + width, points[i], points[i + 1], color);
+                      //DrawPixelEllipse(canvas, points[i - 2], points[i - 1], 20, color);    
+                  }*/
 
+               /* List<double> newPoints;
+                for (int i = 2; i < points.Count; i += 2)
+                {
+                    newPoints = Interpolate(points[i], points[i + 1], points[i - 2], points[i - 1], 20);
+                    for (int j = 2; j < newPoints.Count; j += 2)
+                    {
+                        //Ellipse ellipse = new Ellipse((int)newPoints[j], (int)newPoints[j + 1], (int)newPoints[j - 2], (int)newPoints[j - 1], color, color, 1);
+                        //canvas.DrawLine((int)newPoints[j], (int)newPoints[j + 1], (int)newPoints[j - 2], (int)newPoints[j - 1], color);
+                        //ellipse.Draw(canvas);
+                        //DrawPixelEllipse(canvas, (int)newPoints[j - 2], (int)newPoints[j - 1], width, color);
+                     *//*   canvas.FillQuad(points[j - 2], points[j - 1], points[j - 2] + width, points[j - 1] + width,
+                          points[j] + width, points[j + 1] + width, points[j], points[j + 1], color);*/
+                       /* canvas.FillQuad((int)newPoints[j - 2], (int)newPoints[j - 1], (int)newPoints[j - 2] + width, (int)newPoints[j - 1],
+                            (int)newPoints[j] + width, (int)newPoints[j + 1], (int)newPoints[j], (int)newPoints[j + 1], color);*//*
+                    }
+
+                }*/
+                for(int i = 2; i < points.Count; i+=2) 
+                {
+                     canvas.FillEllipseCentered(points[i - 2], points[i - 1], width, width / 2, color);  
+                    //canvas.FillEllipse(points[i - 2], points[i - 1], points[i], points[i + 1], Colors.Red);
+                }
+            }
         }
         public override void Change(int mouseX, int mouseY)
         {
-            points.Add(mouseX);
-            points.Add(mouseY);
+
+            List<int> newPoints = Interpolate(points[points.Count - 2], points[points.Count - 1], mouseX, mouseY, 1)
+                .ConvertAll<int>(new Converter<double, int>((value) => (int)value));
+            points.InsertRange(points.Count, newPoints);
+            /*    points.Add(mouseX);
+                points.Add(mouseY);*/
         }
+
+
+        private List<double> Interpolate(int x1, int y1, int x2, int y2, int width)
+        {
+            List<double> result = new List<double>();
+            double firstSide = Math.Abs(x1 - x2);
+            double secondSide = Math.Abs(y1 - y2);
+
+            double length = Math.Sqrt(firstSide * firstSide + secondSide * secondSide);
+            double pointsCount = Math.Ceiling(2 * (double)length / (width));
+
+            firstSide = firstSide / pointsCount;
+            secondSide = secondSide / pointsCount;
+
+            result.Add(x1);
+            result.Add(y1);
+            double prevX = x1;
+            double prevY = y1;
+
+            for (int i = 0; i < pointsCount; i++)
+            {
+                // 1 четверть
+                if (x1 < x2 && y1 > y2)
+                {
+                    prevX = prevX + firstSide;
+                    prevY = prevY - secondSide;
+                }
+                // 2 четверть
+                else if (x1 > x2 && y1 > y2)
+                {
+                    prevX = prevX - firstSide;
+                    prevY = prevY - secondSide;
+                }
+                // 3 четверть
+                else if (x1 > x2 && y1 < y2)
+                {
+                    prevX = prevX - firstSide;
+                    prevY = prevY + secondSide;
+                }
+                // 4 четверть
+                else if (x1 < x2 && y1 < y2)
+                {
+                    prevX = prevX + firstSide;
+                    prevY = prevY + secondSide;
+                }
+                result.Add(prevX);
+                result.Add(prevY);
+            }
+            result.Add(x2);
+            result.Add(y2);
+
+            return result;
+        }
+
     }
     public class PossibleInstruments
     {

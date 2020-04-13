@@ -12,10 +12,6 @@ namespace GraphRedactorCore.Instruments
     internal class Pencil : Tool
     {
         private Polyline drawableArea = null;
-        private enum States
-        {
-
-        }
         public override void StopUsing(Point point)
         {
             drawableArea = null;
@@ -23,7 +19,7 @@ namespace GraphRedactorCore.Instruments
         
         public override IDrawable Use(Point point)
         {
-            (drawableArea ?? (drawableArea = new Polyline(Colors.Red, 1))).AddPoints(point);
+            (drawableArea ?? (drawableArea = new Polyline(Colors.Red, 1, true))).AddPoint(point);
             return drawableArea;
         }
     }

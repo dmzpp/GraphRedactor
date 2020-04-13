@@ -5,8 +5,8 @@ namespace GraphRedactorCore
 {
     public abstract class Tool 
     {
-        private Color contourColor;
-        private Color fillColor;
+        protected Color contourColor;
+        protected Color fillColor;
 
         /// <summary>
         /// Начинает использование выбранного инструмента

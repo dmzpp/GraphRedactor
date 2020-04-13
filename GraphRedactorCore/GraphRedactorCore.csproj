@@ -54,6 +54,7 @@
     <Compile Include="Figures\Rectangle.cs" />
     <Compile Include="GraphRedactor.cs" />
     <Compile Include="IDrawable.cs" />
+    <Compile Include="Instruments\FigurePlacer.cs" />
     <Compile Include="Instruments\Pencil.cs" />
     <Compile Include="Tool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

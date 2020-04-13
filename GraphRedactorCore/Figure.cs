@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows;
 
 namespace GraphRedactorCore
 {
@@ -9,5 +10,7 @@ namespace GraphRedactorCore
         protected Color fillColor;
         protected Color contourColor;
         public abstract void Draw(WriteableBitmap bitmap);
+        public abstract void AddPoint(Point point);
+
     }
 }

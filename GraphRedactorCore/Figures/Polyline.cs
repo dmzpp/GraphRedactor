@@ -12,31 +12,33 @@ namespace GraphRedactorCore.Figures
     internal class Polyline : Figure
     {
         private List<int> points;
+        private bool isPencil;
 
-        public Polyline(Color color, int width)
+        public Polyline(Color color, int width, bool isPencil = false)
         {
             this.contourColor = color;
             this.width = width;
+            this.isPencil = isPencil;
             points = new List<int>();
         }
         public override void Draw(WriteableBitmap bitmap)
         {
             using (bitmap.GetBitmapContext())
             {
-               /* if (width > 4)
-                {*/
+                if (isPencil)
+                {
                     for (int i = 2; i < points.Count; i += 2)
                     {
                         bitmap.FillEllipseCentered(points[i - 2], points[i - 1], width, width, contourColor);
                     }
-               /* }
+                }
                 else
                 {
-                    bitmap.DrawPolyline(points.ToArray(), contourColor);
-                }*/
+
+                }
             }
         }
-        public void AddPoints(Point point)
+        public override void AddPoint(Point point)
         {
             if(points.Count == 0)
             {

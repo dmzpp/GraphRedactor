@@ -40,7 +40,7 @@
             <!--Инструментики-->
             <WrapPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Width="25" Height="25" Margin="3" Background="White" Click="PencilButton_Click" Content="Pencil"></Button>
-                <Button Content="2" Width="25" Height="25" Margin="3"></Button>
+                <Button Content="FP" Width="25" Height="25" Margin="3" Click="FigurePlacerButton_Click"></Button>
                 <Button Content="3" Width="25" Height="25" Margin="3"></Button>
                 <Button Content="4" Width="25" Height="25" Margin="3"></Button>
                 <Button Content="5" Width="25" Height="25" Margin="3"></Button>

@@ -64,6 +64,11 @@ namespace Paint
         {
 
         }
+
+        private void FigurePlacerButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.ToolPicker.SetTool(Tools.FigurePlacer);
+        }
     }
 
 }

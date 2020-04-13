@@ -8,24 +8,23 @@ namespace GraphRedactorCore
 
     public enum Tools
     {
-        Pencil
+        Pencil,
+        FigurePlacer
     }
     public class ToolPicker
     {
         private Pencil pencil;
         private Pencil Pencil
         {
-            get {
-                if (pencil == null)
-                {
-                    pencil = new Pencil();
-                }
-                return pencil;
-            }
-            set
-            {
-                pencil = value;
-            }
+            get => pencil ?? (pencil = new Pencil());
+            set => pencil = value;
+        }
+
+        private FigurePlacer figurePlacer;
+        private FigurePlacer FigurePlacer
+        {
+            get => figurePlacer ?? (figurePlacer = new FigurePlacer());
+            set => figurePlacer = value;
         }
 
         private Tools toolType;
@@ -38,11 +37,14 @@ namespace GraphRedactorCore
                 {
                     case Tools.Pencil:
                         return Pencil;
+                    case Tools.FigurePlacer:
+                        return FigurePlacer;
                     default:
                         throw new Exception("Tool type is not selected");
                 }
             }
         }
+
 
         /// <summary>
         /// Устанавливает выбранный инструмент, который в дальнейшем может быть использован

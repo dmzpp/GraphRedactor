@@ -1,13 +1,14 @@
-﻿<Window x:Class="GraphRedactor.MainWindow"
+﻿<Window x:Class="Paint.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GraphRedactor"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:xctk ="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:Paint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="800"
-        SizeChanged="Window_SizeChanged">
+        Title="MainWindow" Height="450" Width="800"
+        SizeChanged="Window_SizeChanged"
+        >
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="125"></RowDefinition>
@@ -15,7 +16,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
-        <Image Name="canvas" Grid.Row="1" Stretch="Fill" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseMove="canvas_MouseMove" MouseLeftButtonUp="canvas_MouseLeftButtonUp"></Image>
+        <Image Name="canvas" Grid.Row="1" Stretch="Fill" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseLeftButtonUp="canvas_MouseLeftButtonUp"></Image>
         <Grid Grid.Row="0" ShowGridLines="True">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -38,9 +39,7 @@
             <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">Цвет</TextBlock>
             <!--Инструментики-->
             <WrapPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="PencilButton_Click">
-                    <Image Source="/pen.jpg"></Image>
-                </Button>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="PencilButton_Click" Content="Pencil"></Button>
                 <Button Content="2" Width="25" Height="25" Margin="3"></Button>
                 <Button Content="3" Width="25" Height="25" Margin="3"></Button>
                 <Button Content="4" Width="25" Height="25" Margin="3"></Button>
@@ -48,22 +47,23 @@
                 <Button Content="6" Width="25" Height="25" Margin="3"></Button>
             </WrapPanel>
             <!--Фигуры-->
+            
+           <!--
+            
             <WrapPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Width="55" Height="25" Margin="3" Background="White" Click="RectangleButton_Click">
-                    <Image Source="/rectangle.png"></Image>
                 </Button>
                 <Button Width="55" Height="25" Margin="3" Background="White" Click="LineButton_Click">
-                    <Image Source="/Line.png"></Image>
                 </Button>
                 <Button Width="55" Height="25" Margin="3" Background="White" Click="DottedLine_Click">
-                    <Image Source="/dottedLine.png"></Image>
                 </Button>
                 <Button Width="55" Height="25" Margin="3" Background="White" Click="EllipseButton_Click">
-                    <Image Source="/Ellipse.png"></Image>
                 </Button>
                 <Button Width="55" Height="25" Margin="3" Background="White"></Button>
                 <Button Width="55" Height="25" Margin="3" Background="White"></Button>
             </WrapPanel>
+            
+            -->
             <!--Выбор толщины-->
             <Grid Grid.Row="0" Grid.Column="2">
                 <Grid.RowDefinitions>
@@ -78,12 +78,15 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <!--
+                
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
                     <xctk:ColorPicker x:Name="ConturColorPicker" Width="50" Height="40" SelectedColorChanged="ConturColorPicker_SelectedColorChanged"></xctk:ColorPicker>
                     <xctk:ColorPicker x:Name="FillColorPicker" Width="50" Height="40" SelectedColorChanged="FillColorPicker_SelectedColorChanged"></xctk:ColorPicker>
                 </StackPanel>
+                
+                -->
             </Grid>
         </Grid>
     </Grid>
-
 </Window>

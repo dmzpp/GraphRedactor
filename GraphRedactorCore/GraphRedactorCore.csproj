@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Figure.cs" />
     <Compile Include="FigureDrawingTools.cs" />
+    <Compile Include="Figures\Ellipse.cs" />
+    <Compile Include="Figures\Line.cs" />
     <Compile Include="Figures\Polyline.cs" />
     <Compile Include="Figures\Rectangle.cs" />
     <Compile Include="GraphRedactor.cs" />

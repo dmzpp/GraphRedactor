@@ -19,7 +19,7 @@ namespace GraphRedactorCore.Instruments
         
         public override IDrawable Use(Point point)
         {
-            (drawableArea ?? (drawableArea = new Polyline(Colors.Red, 1, true))).AddPoint(point);
+            (drawableArea ?? (drawableArea = new Polyline(point,Colors.Red, 1, true))).AddPoint(point);
             return drawableArea;
         }
     }

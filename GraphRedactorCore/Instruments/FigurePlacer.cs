@@ -20,7 +20,9 @@ namespace GraphRedactorCore.Instruments
         /// </summary>
         public enum Figures
         {
-            Rectangle
+            Rectangle,
+            Ellipse,
+            Line
         }
         
         /// <summary>
@@ -33,9 +35,9 @@ namespace GraphRedactorCore.Instruments
 
         public FigurePlacer()
         {
-            SetFigureType(Figures.Rectangle);
+            SetFigureType(Figures.Line);
             // ВРЕМЕННО 
-            width = 1;
+            width = 5;
             contourColor = Colors.Red;
             fillColor = Colors.Orange;
             // ВРЕМЕННО
@@ -58,6 +60,10 @@ namespace GraphRedactorCore.Instruments
             {
                 case Figures.Rectangle:
                     return new Rectangle(initializePoint, fillColor, contourColor, width);
+                case Figures.Ellipse:
+                    return new Ellipse(initializePoint, contourColor, fillColor, width);
+                case Figures.Line:
+                    return new Line(initializePoint, fillColor, contourColor, width);
                 default:
                     throw new ApplicationException("Undefined behaviour of application");
             }

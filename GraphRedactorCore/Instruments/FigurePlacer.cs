@@ -18,19 +18,19 @@ namespace GraphRedactorCore.Instruments
         }
 
         /// <summary>
-        /// Устанавливает тип фигуры, которая в дальнейшем будет создана
+        /// Прекращяет использование данного инструмента
         /// </summary>
-
+        /// <param name="point">Точка, в которой происходит остановка работы</param>
+        /// <param name="toolParams">Установленные параметры для инструментов</param>
+        /// <param name="isCompletelyFinish">Указывает, нужно ли прекратить работу инструмента, несмотря ни на какие другие условия</param>
+        /// <returns>Указывает на то, была ли работа инструмента прекращена полностью</returns>
         public override bool StopUsing(Point point, ToolParams toolParams, bool isCompletlyFinish = true)
         {
             if (isCompletlyFinish)
             {
                 currentFigure = null;
             }
-            else
-            {
 
-            }
             return true;
         }
 

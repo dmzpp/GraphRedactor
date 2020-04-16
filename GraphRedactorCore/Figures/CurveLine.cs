@@ -6,10 +6,10 @@ using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Figures
 {
-    class CurveLine : Figure
+    internal class CurveLine : Figure
     {
-        private List<Line> lines;
-        private List<int> points;
+        private readonly List<Line> lines;
+        private readonly List<int> points;
 
         public CurveLine(Point initializePoint, Color contourColor, Color fillColor, int width)
         {
@@ -26,6 +26,10 @@ namespace GraphRedactorCore.Figures
             lines.Add(new Line(initializePoint, fillColor, contourColor, width));
         }
 
+        /// <summary>
+        /// Добавляет новую точку для отображения линии.
+        /// </summary>
+        /// <param name="point">Новая точка</param>
         public override void AddPoint(Point point)
         {
             points[points.Count - 2] = (int)point.X;
@@ -33,6 +37,10 @@ namespace GraphRedactorCore.Figures
             lines.Last<Line>().AddPoint(point);
         }
 
+        /// <summary>
+        /// Устанавливает конечную точку, начиная с которой будет создаваться следующая линия
+        /// </summary>
+        /// <param name="point">Конечная точка</param>
         public void NextLine(Point point)
         {
             points.Add((int)point.X);

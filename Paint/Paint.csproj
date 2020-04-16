@@ -119,5 +119,24 @@
       <Name>GraphRedactorCore</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\fugires.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\pen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\lines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\curve.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\ellipse.png" />
+    <Resource Include="icons\rectangle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

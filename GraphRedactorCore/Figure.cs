@@ -12,10 +12,5 @@ namespace GraphRedactorCore
 
         public abstract void Draw(WriteableBitmap bitmap);
         public abstract void AddPoint(Point point);
-        public virtual bool StopEditng()
-        {
-            return false;
-        }
-
     }
 }

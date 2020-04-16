@@ -14,7 +14,5 @@ namespace GraphRedactorCore
         /// </summary>
         /// <param name="point">Точка, в которой инструмент завершил работу</param>
         public abstract bool StopUsing(Point point, ToolParams toolParams, bool isCompletlyFinish = true);
-
     }
-
 }

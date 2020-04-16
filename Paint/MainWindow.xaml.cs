@@ -1,17 +1,14 @@
-﻿using System.Windows;
+﻿using GraphRedactorCore;
+using GraphRedactorCore.Instruments;
+using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using GraphRedactorCore;
-using GraphRedactorCore.Instruments;
-using GraphRedactorCore.Figures;
 namespace Paint
 {
     public partial class MainWindow : Window
     {
-
         private readonly GraphRedactor redactor;
         private void SetDefault()
         {
@@ -19,7 +16,7 @@ namespace Paint
             FillColorPicker.SelectedColor = Colors.AliceBlue;
             ConturColorPicker.SelectedColor = Colors.Red;
         }
-        
+
         public MainWindow()
         {
             redactor = new GraphRedactor(new WriteableBitmap(800, 400, 95, 95, PixelFormats.Bgra32, null));
@@ -33,7 +30,7 @@ namespace Paint
             canvas.Source = redactor.CurrentBitmap;
         }
 
-        private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
             if (e.ClickCount == 1)
@@ -46,7 +43,7 @@ namespace Paint
             }
         }
 
-        private void canvas_MouseMove(object sender, MouseEventArgs e)
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
             if (redactor.UseTool(mouseCoords))
@@ -55,14 +52,13 @@ namespace Paint
                 RenderCanvas();
             }
         }
-        private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            redactor.StopUsingTool( mouseCoords,
-                (redactor.ToolPicker.ToolType == Tools.LinePlacer && redactor.ToolParams.CurrentLineType == LinePlacer.Lines.CurveLine) ? false : true);
+            redactor.StopUsingTool(mouseCoords,
+                redactor.ToolPicker.ToolType != Tools.LinePlacer || redactor.ToolParams.CurrentLineType != LinePlacer.Lines.CurveLine);
             redactor.Render();
             RenderCanvas();
-            //canvas.RemoveHandler(Image.MouseMoveEvent, new MouseEventHandler(canvas_MouseMove));
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
@@ -77,7 +73,6 @@ namespace Paint
             RenderCanvas();
         }
 
-
         private void WidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             redactor.ToolParams.Width = (int)e.NewValue;
@@ -85,12 +80,12 @@ namespace Paint
         }
 
         /// <summary>
-        /// Скрывает все дополнительные панельки для инструментов, за исключением панельки для инструмента tool
+        /// Скрывает все дополнительные панельки для инструментов, за исключением панелькки для инструмента tool
         /// </summary>
         /// <param name="tool">Инструмент, для которого необходимо сохранить дополнительную панель</param>
         private void HidePanels(GraphRedactorCore.Tools tool = Tools.Pencil)
         {
-            if(tool == Tools.Pencil)
+            if (tool == Tools.Pencil)
             {
                 LinesTypes.Visibility = Visibility.Hidden;
                 FigureTypes.Visibility = Visibility.Hidden;
@@ -148,5 +143,4 @@ namespace Paint
             redactor.ToolParams.FillColor = (Color)e.NewValue;
         }
     }
-
 }

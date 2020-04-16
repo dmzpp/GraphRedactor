@@ -8,11 +8,11 @@ namespace GraphRedactorCore
 {
     public class GraphRedactor
     {
-        public ToolPicker ToolPicker { get; private set; }
-        public ToolParams ToolParams { get; private set; }
+        public ToolPicker ToolPicker { get; }
+        public ToolParams ToolParams { get; }
         public WriteableBitmap CurrentBitmap { get; set; }
 
-        private LinkedList<IDrawable> drawables;
+        private readonly LinkedList<IDrawable> drawables;
         private States currentState;
         private enum States
         {
@@ -20,6 +20,9 @@ namespace GraphRedactorCore
             editing
         }
 
+        /// <summary>
+        /// Установка всех значений графического редатора по умолчанию
+        /// </summary>
         private void SetDefaultOptions()
         {
             ToolPicker.SetTool(Tools.Pencil);
@@ -60,7 +63,6 @@ namespace GraphRedactorCore
             return false;
         }
 
-
         /// <summary>
         /// Отрисовывает все текущие элементы
         /// </summary>
@@ -83,20 +85,6 @@ namespace GraphRedactorCore
             {
                 currentState = States.creating;
             }
-        }
-
-        public void Test()
-        {
-            Point first = new Point(10, 10);
-            Point second = new Point(20, 20);
-            Point third = new Point(30, 30);
-            Point[] p = { first, second, third };
-
-            List<int> points = new List<int>();
-
-            points = FigureDrawingTools.InterpolateLagrange(first, second, third);
-
-            CurrentBitmap.DrawPolyline(points.ToArray(), Colors.Blue);
         }
     }
 }

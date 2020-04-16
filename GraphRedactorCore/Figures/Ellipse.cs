@@ -4,13 +4,15 @@ using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Figures
 {
-    class Ellipse : Figure
+    internal class Ellipse : Figure
     {
-        Point firstCoord;
-        Point secondCoord;
+        // изначально переданные координаты
+        private Point firstCoord;
+        private Point secondCoord;
 
-        Point firstDrawingCoord;
-        Point secondDrawingCoord;
+        // координаты, по которым происходит построение окружности
+        private Point firstDrawingCoord;
+        private Point secondDrawingCoord;
 
         public Ellipse(Point initializeCoord, Color contourColor, Color fillColor, int width)
         {
@@ -35,6 +37,9 @@ namespace GraphRedactorCore.Figures
             }
         }
 
+        /// <summary>
+        /// Определяет координаты, необходимые для рисования
+        /// </summary>
         private void CalculateDrawingCoordinats()
         {
             if (firstCoord.X > secondCoord.X)

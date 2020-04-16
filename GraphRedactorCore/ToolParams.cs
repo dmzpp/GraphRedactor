@@ -22,8 +22,5 @@ namespace GraphRedactorCore
         public int Width { get; set; }
         public Instruments.FigurePlacer.Figures CurrentFigureType { get; set; }
         public Instruments.LinePlacer.Lines CurrentLineType { get; set; }
-
-
-
     }
 }

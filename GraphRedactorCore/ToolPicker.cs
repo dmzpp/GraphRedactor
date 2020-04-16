@@ -3,7 +3,6 @@ using System;
 
 namespace GraphRedactorCore
 {
-
     public enum Tools
     {
         Pencil,
@@ -61,6 +60,5 @@ namespace GraphRedactorCore
         {
             ToolType = tool;
         }
-
     }
 }

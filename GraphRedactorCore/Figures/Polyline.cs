@@ -58,12 +58,13 @@ namespace GraphRedactorCore.Figures
         /// </summary>
         /// <param name="newPoint">Координаты, на которые необходимо заменить</param>
         /// <param name="IsLine">Указывает на то, вызывается ли данный метод для редактирования прямой линии</param>
-        public void ChangeLastPoint(Point newPoint, bool IsLine = false)
+        /// <param name="pointCount">Указывает на то, с какой точки, необходимо начать удаление</param>
+        public void ChangeLastPoint(Point newPoint, bool IsLine = false, int pointCount = 1)
         {
             if (IsLine)
             {
                 // удаляем все точки, кроме самой первой
-                points.RemoveRange(2, points.Count - 2);
+                points.RemoveRange(pointCount * 2, points.Count - pointCount * 2);
             }
             // находим промежуточные точки
             List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, width)

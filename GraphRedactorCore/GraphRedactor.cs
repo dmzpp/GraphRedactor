@@ -2,12 +2,14 @@
 using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace GraphRedactorCore
 {
     public class GraphRedactor
     {
         public ToolPicker ToolPicker { get; private set; }
+        public ToolParams ToolParams { get; private set; }
         public WriteableBitmap CurrentBitmap { get; set; }
 
         private LinkedList<IDrawable> drawables;
@@ -28,27 +30,34 @@ namespace GraphRedactorCore
         {
             CurrentBitmap = bitmap ?? throw new ArgumentNullException("Not initialized bitmap");
             ToolPicker = new ToolPicker();
+            ToolParams = new ToolParams(Colors.Black, Colors.Blue, 1, Instruments.FigurePlacer.Figures.Rectangle, Instruments.LinePlacer.Lines.SimpleLine);
             drawables = new LinkedList<IDrawable>();
             SetDefaultOptions();
         }
 
+        public void InitializeTool(Point initializePoint)
+        {
+            if(currentState == States.creating)
+            {
+                currentState = States.editing;
+                drawables.AddLast(ToolPicker.CurrentTool.Use(initializePoint, ToolParams));
+            }
+        }
 
         /// <summary>
         /// Запустить процесс использования инструмента
         /// </summary>
         /// <param name="cursor">Точка, в которой произошёл запуск инструмента</param>
-        public void UseTool(Point cursor)
+        public bool UseTool(Point cursor)
         {
-
-            if (currentState == States.creating)
-            {
-                currentState = States.editing;
-            }
-            else
+            if (currentState == States.editing)
             {
                 drawables.RemoveLast();
+                drawables.AddLast(ToolPicker.CurrentTool.Use(cursor, ToolParams));
+                return true;
             }
-            drawables.AddLast(ToolPicker.CurrentTool.Use(cursor));
+
+            return false;
         }
 
 
@@ -68,12 +77,26 @@ namespace GraphRedactorCore
         /// Остановить процесс использования инструмента
         /// </summary>
         /// <param name="cursor">Точка, в которой произошла остановка инструмента</param>
-        public void StopUsingTool(Point cursor)
+        public void StopUsingTool(Point cursor, bool isCompletelyFinish = false)
         {
-            ToolPicker.CurrentTool.StopUsing(cursor);
-            currentState = States.creating;
+            if(ToolPicker.CurrentTool.StopUsing(cursor, ToolParams, isCompletelyFinish))
+            {
+                currentState = States.creating;
+            }
         }
 
+        public void Test()
+        {
+            Point first = new Point(10, 10);
+            Point second = new Point(20, 20);
+            Point third = new Point(30, 30);
+            Point[] p = { first, second, third };
 
+            List<int> points = new List<int>();
+
+            points = FigureDrawingTools.InterpolateLagrange(first, second, third);
+
+            CurrentBitmap.DrawPolyline(points.ToArray(), Colors.Blue);
+        }
     }
 }

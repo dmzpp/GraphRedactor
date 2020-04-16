@@ -5,20 +5,21 @@ namespace GraphRedactorCore
 {
     public abstract class Tool 
     {
-        protected Color contourColor;
-        protected Color fillColor;
-
+        public Color ContourColor { get; set; }
+        public Color FillColor { get; set; }
+        public int Width { get; set; }
         /// <summary>
         /// Начинает использование выбранного инструмента
         /// </summary>
         /// <param name="point">Точка, в которой инструмент начал использоваться</param>
-        public abstract IDrawable Use(Point point);
+        public abstract IDrawable Use(Point point, ToolParams toolParams);
 
         /// <summary>
         /// Окончание использования инструмента
         /// </summary>
         /// <param name="point">Точка, в которой инструмент завершил работу</param>
-        public abstract void StopUsing(Point point);
+        public abstract bool StopUsing(Point point, ToolParams toolParams, bool isCompletlyFinish = true);
+
     }
 
 }

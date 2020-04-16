@@ -9,7 +9,8 @@ namespace GraphRedactorCore
     public enum Tools
     {
         Pencil,
-        FigurePlacer
+        FigurePlacer,
+        LinePlacer
     }
     public class ToolPicker
     {
@@ -27,6 +28,13 @@ namespace GraphRedactorCore
             set => figurePlacer = value;
         }
 
+        private LinePlacer linePlacer;
+        private LinePlacer LinePlacer
+        {
+            get => linePlacer ?? (linePlacer= new LinePlacer());
+            set => linePlacer = value;
+        }
+
         private Tools toolType;
 
         public Tool CurrentTool
@@ -39,12 +47,13 @@ namespace GraphRedactorCore
                         return Pencil;
                     case Tools.FigurePlacer:
                         return FigurePlacer;
+                    case Tools.LinePlacer:
+                        return LinePlacer;
                     default:
                         throw new Exception("Tool type is not selected");
                 }
             }
         }
-
 
         /// <summary>
         /// Устанавливает выбранный инструмент, который в дальнейшем может быть использован

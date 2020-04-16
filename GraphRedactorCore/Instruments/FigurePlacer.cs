@@ -11,9 +11,7 @@ namespace GraphRedactorCore.Instruments
 {
     public class FigurePlacer : Tool
     {
-        private Figures currentType;
         private Figure currentFigure = null;
-        private int width;
 
         /// <summary>
         /// Возможные для создания фигуры
@@ -22,48 +20,39 @@ namespace GraphRedactorCore.Instruments
         {
             Rectangle,
             Ellipse,
-            Line
         }
         
         /// <summary>
         /// Устанавливает тип фигуры, которая в дальнейшем будет создана
         /// </summary>
-        public void SetFigureType(Figures figureType)
+
+        public override bool StopUsing(Point point, ToolParams toolParams, bool isCompletlyFinish = true)
         {
-            currentType = figureType;
+            if (isCompletlyFinish)
+            {
+                currentFigure = null;
+            }
+            else
+            {
+
+            }
+            return true;
         }
 
-        public FigurePlacer()
+        public override IDrawable Use(Point point, ToolParams toolParams)
         {
-            SetFigureType(Figures.Line);
-            // ВРЕМЕННО 
-            width = 5;
-            contourColor = Colors.Red;
-            fillColor = Colors.Orange;
-            // ВРЕМЕННО
-        }
-
-        public override void StopUsing(Point point)
-        {
-            currentFigure = null;
-        }
-
-        public override IDrawable Use(Point point)
-        {
-            (currentFigure ?? (currentFigure = GetFigureInstance(point))).AddPoint(point);
+            (currentFigure ?? (currentFigure = GetFigureInstance(point, toolParams))).AddPoint(point);
             return currentFigure;
         }
 
-        private Figure GetFigureInstance(Point initializePoint)
+        private Figure GetFigureInstance(Point initializePoint, ToolParams toolParams)
         {
-            switch (currentType)
+            switch (toolParams.CurrentFigureType)
             {
                 case Figures.Rectangle:
-                    return new Rectangle(initializePoint, fillColor, contourColor, width);
+                    return new Rectangle(initializePoint, toolParams.FillColor, toolParams.ContourColor, toolParams.Width);
                 case Figures.Ellipse:
-                    return new Ellipse(initializePoint, contourColor, fillColor, width);
-                case Figures.Line:
-                    return new Line(initializePoint, fillColor, contourColor, width);
+                    return new Ellipse(initializePoint, toolParams.ContourColor, toolParams.FillColor, toolParams.Width);
                 default:
                     throw new ApplicationException("Undefined behaviour of application");
             }

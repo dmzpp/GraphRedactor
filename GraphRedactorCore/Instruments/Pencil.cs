@@ -12,15 +12,17 @@ namespace GraphRedactorCore.Instruments
     internal class Pencil : Tool
     {
         private Polyline drawableArea = null;
-        public override void StopUsing(Point point)
+        public override bool StopUsing(Point point, ToolParams toolParams, bool isCompletlyFinish = true)
         {
             drawableArea = null;
+            return true;
         }
         
-        public override IDrawable Use(Point point)
+        public override IDrawable Use(Point point, ToolParams toolParams)
         {
-            (drawableArea ?? (drawableArea = new Polyline(point,Colors.Red, 1, true))).AddPoint(point);
+            (drawableArea ?? (drawableArea = new Polyline(point, toolParams.ContourColor, toolParams.Width))).AddPoint(point);
             return drawableArea;
         }
     }
 }
+

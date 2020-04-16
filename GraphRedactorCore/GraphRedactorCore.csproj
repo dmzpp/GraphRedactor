@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Figure.cs" />
     <Compile Include="FigureDrawingTools.cs" />
+    <Compile Include="Figures\CurveLine.cs" />
     <Compile Include="Figures\Ellipse.cs" />
     <Compile Include="Figures\Line.cs" />
     <Compile Include="Figures\Polyline.cs" />
@@ -57,9 +58,11 @@
     <Compile Include="GraphRedactor.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Instruments\FigurePlacer.cs" />
+    <Compile Include="Instruments\LinePlacer.cs" />
     <Compile Include="Instruments\Pencil.cs" />
     <Compile Include="Tool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolParams.cs" />
     <Compile Include="ToolPicker.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GraphRedactorCore.Figures;
+using System;
 using System.Windows;
-using GraphRedactorCore.Figures;
-using System.Windows.Media;
 
 namespace GraphRedactorCore.Instruments
 {
@@ -21,7 +16,7 @@ namespace GraphRedactorCore.Instruments
             Rectangle,
             Ellipse,
         }
-        
+
         /// <summary>
         /// Устанавливает тип фигуры, которая в дальнейшем будет создана
         /// </summary>

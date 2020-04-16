@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Windows;
 using System.Collections.Generic;
-using System.Windows.Media.Imaging;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore
 {
@@ -37,7 +37,7 @@ namespace GraphRedactorCore
 
         public void InitializeTool(Point initializePoint)
         {
-            if(currentState == States.creating)
+            if (currentState == States.creating)
             {
                 currentState = States.editing;
                 drawables.AddLast(ToolPicker.CurrentTool.Use(initializePoint, ToolParams));
@@ -67,7 +67,7 @@ namespace GraphRedactorCore
         public void Render()
         {
             CurrentBitmap.Clear();
-            foreach(IDrawable drawable in drawables)
+            foreach (IDrawable drawable in drawables)
             {
                 drawable.Draw(CurrentBitmap);
             }
@@ -79,7 +79,7 @@ namespace GraphRedactorCore
         /// <param name="cursor">Точка, в которой произошла остановка инструмента</param>
         public void StopUsingTool(Point cursor, bool isCompletelyFinish = false)
         {
-            if(ToolPicker.CurrentTool.StopUsing(cursor, ToolParams, isCompletelyFinish))
+            if (ToolPicker.CurrentTool.StopUsing(cursor, ToolParams, isCompletelyFinish))
             {
                 currentState = States.creating;
             }

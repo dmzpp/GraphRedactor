@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GraphRedactorCore.Figures;
 using System.Windows;
-using System.Windows.Media;
-using GraphRedactorCore.Figures;
 
 namespace GraphRedactorCore.Instruments
 {
@@ -17,7 +11,7 @@ namespace GraphRedactorCore.Instruments
             drawableArea = null;
             return true;
         }
-        
+
         public override IDrawable Use(Point point, ToolParams toolParams)
         {
             (drawableArea ?? (drawableArea = new Polyline(point, toolParams.ContourColor, toolParams.Width))).AddPoint(point);

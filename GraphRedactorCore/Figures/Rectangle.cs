@@ -1,7 +1,6 @@
-﻿using System.Windows.Media.Imaging;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Collections.Generic;
+using System.Windows.Media.Imaging;
 
 
 namespace GraphRedactorCore.Figures

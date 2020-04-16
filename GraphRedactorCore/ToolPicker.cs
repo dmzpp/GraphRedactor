@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using GraphRedactorCore.Instruments;
+﻿using GraphRedactorCore.Instruments;
+using System;
 
 namespace GraphRedactorCore
 {
@@ -31,7 +29,7 @@ namespace GraphRedactorCore
         private LinePlacer linePlacer;
         private LinePlacer LinePlacer
         {
-            get => linePlacer ?? (linePlacer= new LinePlacer());
+            get => linePlacer ?? (linePlacer = new LinePlacer());
             set => linePlacer = value;
         }
 

@@ -1,6 +1,5 @@
-﻿using System.Windows.Media;
-using GraphRedactorCore.Figures;
-using GraphRedactorCore.Instruments;
+﻿using GraphRedactorCore.Instruments;
+using System.Windows.Media;
 
 namespace GraphRedactorCore
 {

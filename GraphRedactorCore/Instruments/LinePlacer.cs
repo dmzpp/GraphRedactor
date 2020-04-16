@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GraphRedactorCore.Figures;
+using System;
 using System.Windows;
-using GraphRedactorCore.Figures;
-using System.Windows.Media;
 
 namespace GraphRedactorCore.Instruments
 {
@@ -20,7 +15,7 @@ namespace GraphRedactorCore.Instruments
 
         public override bool StopUsing(Point point, ToolParams toolParams, bool isCompletelyFinish = true)
         {
-            if(toolParams.CurrentLineType == Lines.CurveLine && !isCompletelyFinish)
+            if (toolParams.CurrentLineType == Lines.CurveLine && !isCompletelyFinish)
             {
                 (currentLine as CurveLine)?.NextLine(point);
                 return false;

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Figures
 {
@@ -39,7 +36,7 @@ namespace GraphRedactorCore.Figures
         /// <param name="point">Точка для добавления</param>
         public override void AddPoint(Point point)
         {
-            if(points.Count == 0)
+            if (points.Count == 0)
             {
                 points.Add((int)point.X);
                 points.Add((int)point.Y);
@@ -67,7 +64,7 @@ namespace GraphRedactorCore.Figures
                 points.RemoveRange(pointCount * 2, points.Count - pointCount * 2);
             }
             // находим промежуточные точки
-            List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, width)
+            List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (width / 3) + 1)
                    .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
             points.AddRange(newPoints);
 

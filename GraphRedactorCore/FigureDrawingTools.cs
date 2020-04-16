@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace GraphRedactorCore
@@ -23,12 +20,12 @@ namespace GraphRedactorCore
             firstSide = firstSide / (pointsCount + 1);
             secondSide = secondSide / (pointsCount + 1);
 
-            for(var i = 1; i <= pointsCount; i++)
+            for (var i = 1; i <= pointsCount; i++)
             {
                 result.Add(x1 + firstSide * i);
                 result.Add(y1 + secondSide * i);
             }
-            
+
             return result;
         }
 
@@ -38,7 +35,7 @@ namespace GraphRedactorCore
             int firstX = 0;
             int secondX = 0;
 
-            if(first.X > third.X)
+            if (first.X > third.X)
             {
                 firstX = (int)third.X;
                 secondX = (int)first.X;
@@ -49,7 +46,7 @@ namespace GraphRedactorCore
                 secondX = (int)third.X;
             }
 
-            for(var i = firstX; i < secondX; i++)
+            for (var i = firstX; i < secondX; i++)
             {
                 points.Add(i);
                 points.Add((int)Interpolate(new Point[] { first, second, third }, i, 3));

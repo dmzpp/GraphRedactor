@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Figures
 {
@@ -48,7 +45,7 @@ namespace GraphRedactorCore.Figures
         {
             using (bitmap.GetBitmapContext())
             {
-                foreach(var line in lines)
+                foreach (var line in lines)
                 {
                     line.Draw(bitmap);
                 }

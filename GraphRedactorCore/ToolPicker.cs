@@ -35,13 +35,13 @@ namespace GraphRedactorCore
             set => linePlacer = value;
         }
 
-        private Tools toolType;
+        public Tools ToolType { get; private set; }
 
         public Tool CurrentTool
         {
             get
             {
-                switch (toolType)
+                switch (ToolType)
                 {
                     case Tools.Pencil:
                         return Pencil;
@@ -61,7 +61,8 @@ namespace GraphRedactorCore
         /// <param name="tool">Выбранный инструмент</param>
         public void SetTool(Tools tool)
         {
-            toolType = tool;
+            ToolType = tool;
         }
+
     }
 }

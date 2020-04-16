@@ -12,7 +12,7 @@ namespace Paint
     public partial class MainWindow : Window
     {
 
-        private GraphRedactor redactor;
+        private readonly GraphRedactor redactor;
         private void SetDefault()
         {
             HidePanels(Tools.Pencil);
@@ -38,7 +38,6 @@ namespace Paint
             Point mouseCoords = e.GetPosition(canvas);
             if (e.ClickCount == 1)
             {
-                // canvas.AddHandler(Image.MouseMoveEvent, new MouseEventHandler(canvas_MouseMove));
                 redactor.InitializeTool(mouseCoords);
             }
             else
@@ -59,7 +58,8 @@ namespace Paint
         private void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            redactor.StopUsingTool(mouseCoords);
+            redactor.StopUsingTool( mouseCoords,
+                (redactor.ToolPicker.ToolType == Tools.LinePlacer && redactor.ToolParams.CurrentLineType == LinePlacer.Lines.CurveLine) ? false : true);
             redactor.Render();
             RenderCanvas();
             //canvas.RemoveHandler(Image.MouseMoveEvent, new MouseEventHandler(canvas_MouseMove));

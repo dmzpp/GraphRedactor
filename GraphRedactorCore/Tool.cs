@@ -5,9 +5,6 @@ namespace GraphRedactorCore
 {
     public abstract class Tool 
     {
-        public Color ContourColor { get; set; }
-        public Color FillColor { get; set; }
-        public int Width { get; set; }
         /// <summary>
         /// Начинает использование выбранного инструмента
         /// </summary>

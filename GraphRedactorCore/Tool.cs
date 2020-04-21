@@ -1,18 +1,16 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace GraphRedactorCore
 {
-    public abstract class Tool
+    internal abstract class Tool
     {
-        /// <summary>
-        /// Начинает использование выбранного инструмента
-        /// </summary>
-        /// <param name="point">Точка, в которой инструмент начал использоваться</param>
-        public abstract IDrawable Use(Point point, ToolParams toolParams);
-
-        /// <summary>
-        /// Окончание использования инструмента
-        /// </summary>
-        /// <param name="point">Точка, в которой инструмент завершил работу</param>
-        public abstract bool StopUsing(Point point, ToolParams toolParams, bool isCompletlyFinish = true);
+        public abstract void Use(ToolUsingArgs args);
+        public abstract void StartUsing(ToolUsingArgs args);
+        public abstract void NextPhase(ToolUsingArgs args);
+        public abstract void StopUsing(ToolUsingArgs args);
     }
 }

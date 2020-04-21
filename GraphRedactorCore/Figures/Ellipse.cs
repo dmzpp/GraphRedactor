@@ -1,33 +1,34 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace GraphRedactorCore.Figures
 {
-    internal class Ellipse : Figure
+    internal class Ellipse : IDrawable
     {
-        // изначально переданные координаты
         private Point firstCoord;
         private Point secondCoord;
-
-        // координаты, по которым происходит построение окружности
         private Point firstDrawingCoord;
         private Point secondDrawingCoord;
 
-        public Ellipse(Point initializeCoord, Color contourColor, Color fillColor, int width)
+        private Color fillColor;
+        private Color contourColor;
+        private int width;
+
+        public Ellipse(Point initializePoint, Color contourColor, Color fillColor, int width)
         {
-            firstCoord = secondCoord = initializeCoord;
+            firstCoord = secondCoord = initializePoint;
             this.contourColor = contourColor;
             this.fillColor = fillColor;
             this.width = width;
         }
 
-        public override void AddPoint(Point point)
-        {
-            secondCoord = point;
-        }
-
-        public override void Draw(WriteableBitmap bitmap)
+        public void Draw(WriteableBitmap bitmap)
         {
             CalculateDrawingCoordinats();
             using (bitmap.GetBitmapContext())
@@ -37,9 +38,11 @@ namespace GraphRedactorCore.Figures
             }
         }
 
-        /// <summary>
-        /// Определяет координаты, необходимые для рисования
-        /// </summary>
+        public void ChangeLastPoint(Point newPoint)
+        {
+            secondCoord = newPoint;
+        }
+
         private void CalculateDrawingCoordinats()
         {
             if (firstCoord.X > secondCoord.X)

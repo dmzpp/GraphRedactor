@@ -1,64 +1,39 @@
-﻿using GraphRedactorCore.Instruments;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GraphRedactorCore.Instruments;
+using System.Text;
+using System.Threading.Tasks;
+using GraphRedactorCore.Figures;
 
 namespace GraphRedactorCore
 {
-    public enum Tools
-    {
-        Pencil,
-        FigurePlacer,
-        LinePlacer
-    }
     public class ToolPicker
     {
-        private Pencil pencil;
-        private Pencil Pencil
-        {
-            get => pencil ?? (pencil = new Pencil());
-            set => pencil = value;
+        private readonly Dictionary<Tools, Tool> tools;
+        public Tools CurrentToolType { get; set; }
+        internal Tool CurrentTool {
+            get => tools[CurrentToolType];
         }
 
-        private FigurePlacer figurePlacer;
-        private FigurePlacer FigurePlacer
+        public enum Tools
         {
-            get => figurePlacer ?? (figurePlacer = new FigurePlacer());
-            set => figurePlacer = value;
+            Rectangle,
+            Pencil,
+            Ellipse,
+            CurveLine
         }
 
-        private LinePlacer linePlacer;
-        private LinePlacer LinePlacer
+        public ToolPicker()
         {
-            get => linePlacer ?? (linePlacer = new LinePlacer());
-            set => linePlacer = value;
-        }
-
-        public Tools ToolType { get; private set; }
-
-        public Tool CurrentTool
-        {
-            get
+            tools = new Dictionary<Tools, Tool>()
             {
-                switch (ToolType)
-                {
-                    case Tools.Pencil:
-                        return Pencil;
-                    case Tools.FigurePlacer:
-                        return FigurePlacer;
-                    case Tools.LinePlacer:
-                        return LinePlacer;
-                    default:
-                        throw new Exception("Tool type is not selected");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Устанавливает выбранный инструмент, который в дальнейшем может быть использован
-        /// </summary>
-        /// <param name="tool">Выбранный инструмент</param>
-        public void SetTool(Tools tool)
-        {
-            ToolType = tool;
+                [Tools.Rectangle] = new RectangleTool(),
+                [Tools.Pencil] = new Pencil(),
+                [Tools.Ellipse] = new EllipseTool(),
+                [Tools.CurveLine] = new CurveLineTool()
+            };
+            CurrentToolType = Tools.Rectangle;
         }
     }
 }

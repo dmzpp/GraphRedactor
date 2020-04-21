@@ -9,10 +9,10 @@ namespace GraphRedactorCore
     public class GraphRedactor
     {
         public ToolPicker ToolPicker { get; }
-        public ToolParams ToolParams { get; }
-        public WriteableBitmap CurrentBitmap { get; set; }
+        public ToolsArgs ToolsArgs { get; }
+        public WriteableBitmap Bitmap { get; set; }
+        private readonly GraphGlobalData globalData;
 
-        private readonly LinkedList<IDrawable> drawables;
         private States currentState;
         private enum States
         {
@@ -20,70 +20,45 @@ namespace GraphRedactorCore
             editing
         }
 
-        /// <summary>
-        /// Установка всех значений графического редатора по умолчанию
-        /// </summary>
-        private void SetDefaultOptions()
+        public GraphRedactor(WriteableBitmap bitmap)
         {
-            ToolPicker.SetTool(Tools.Pencil);
+            Bitmap = bitmap;
+            ToolPicker = new ToolPicker();
+            ToolsArgs = new ToolsArgs();
+            globalData = new GraphGlobalData();
             currentState = States.creating;
         }
 
-        public GraphRedactor(WriteableBitmap bitmap)
+        public void StartUsingSelectedTool(Point point)
         {
-            CurrentBitmap = bitmap ?? throw new ArgumentNullException("Not initialized bitmap");
-            ToolPicker = new ToolPicker();
-            ToolParams = new ToolParams(Colors.Black, Colors.Blue, 1, Instruments.FigurePlacer.Figures.Rectangle, Instruments.LinePlacer.Lines.SimpleLine);
-            drawables = new LinkedList<IDrawable>();
-            SetDefaultOptions();
+            ToolPicker.CurrentTool.StartUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
+            currentState = States.editing;
         }
-
-        public void InitializeTool(Point initializePoint)
-        {
-            if (currentState == States.creating)
-            {
-                currentState = States.editing;
-                drawables.AddLast(ToolPicker.CurrentTool.Use(initializePoint, ToolParams));
-            }
-        }
-
-        /// <summary>
-        /// Запустить процесс использования инструмента
-        /// </summary>
-        /// <param name="cursor">Точка, в которой произошёл запуск инструмента</param>
-        public bool UseTool(Point cursor)
+        public void UseSelectedTool(Point point)
         {
             if (currentState == States.editing)
             {
-                drawables.RemoveLast();
-                drawables.AddLast(ToolPicker.CurrentTool.Use(cursor, ToolParams));
-                return true;
+                ToolPicker.CurrentTool.Use(new ToolUsingArgs(point, ToolsArgs, globalData));
             }
-
-            return false;
         }
 
-        /// <summary>
-        /// Отрисовывает все текущие элементы
-        /// </summary>
+        public void ChangeToolPhase(Point point)
+        {
+            ToolPicker.CurrentTool.NextPhase(new ToolUsingArgs(point, ToolsArgs, globalData));
+        }
+
+        public void StopUsingTool(Point point)
+        {
+            ToolPicker.CurrentTool.StopUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
+            currentState = States.creating;
+        }
+
         public void Render()
         {
-            CurrentBitmap.Clear();
-            foreach (IDrawable drawable in drawables)
+            Bitmap.Clear();
+            foreach(var draweable in globalData.Drawables)
             {
-                drawable.Draw(CurrentBitmap);
-            }
-        }
-
-        /// <summary>
-        /// Остановить процесс использования инструмента
-        /// </summary>
-        /// <param name="cursor">Точка, в которой произошла остановка инструмента</param>
-        public void StopUsingTool(Point cursor, bool isCompletelyFinish = false)
-        {
-            if (ToolPicker.CurrentTool.StopUsing(cursor, ToolParams, isCompletelyFinish))
-            {
-                currentState = States.creating;
+                draweable.Draw(Bitmap);
             }
         }
     }

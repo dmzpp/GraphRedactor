@@ -1,26 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Figures
 {
-    internal class Polyline : Figure
+    class PolyLine : IDrawable
     {
-        private List<int> points;
+        private readonly List<int> points;
 
-        public Polyline(Point inititializePoint, Color color, int width)
+        private Color contourColor;
+        private int width;
+
+        public PolyLine(Point initializePoint, Color contourColor, int width)
         {
             points = new List<int>();
-            points.Add((int)inititializePoint.X);
-            points.Add((int)inititializePoint.Y);
-            points.Add((int)inititializePoint.X);
-            points.Add((int)inititializePoint.Y);
-            this.contourColor = color;
+            points.Add((int)initializePoint.X);
+            points.Add((int)initializePoint.Y);
+            points.Add((int)initializePoint.X);
+            points.Add((int)initializePoint.Y);
+            this.contourColor = contourColor;
             this.width = width;
         }
-        public override void Draw(WriteableBitmap bitmap)
+
+        public void Draw(WriteableBitmap bitmap)
         {
             using (bitmap.GetBitmapContext())
             {
@@ -30,38 +37,28 @@ namespace GraphRedactorCore.Figures
                 }
             }
         }
-        /// <summary>
-        /// Добавляет новую точку, при этом еще и добавляет все промежуточные значения между двумя точками, если это необходимо
-        /// </summary>
-        /// <param name="point">Точка для добавления</param>
-        public override void AddPoint(Point point)
+
+        public void AddPoint(Point newPoint)
         {
             if (points.Count == 0)
             {
-                points.Add((int)point.X);
-                points.Add((int)point.Y);
+                points.Add((int)newPoint.X);
+                points.Add((int)newPoint.Y);
             }
             else
             {
-                List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)point.X, (int)point.Y, width)
+                List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, width)
                     .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
                 points.AddRange(newPoints);
             }
         }
 
-
-        /// <summary>
-        /// Заменяет последние координаты и, если это необходимо, добавляет промежуточные значения между двумя точками
-        /// </summary>
-        /// <param name="newPoint">Координаты, на которые необходимо заменить</param>
-        /// <param name="IsLine">Указывает на то, вызывается ли данный метод для редактирования прямой линии</param>
-        /// <param name="pointCount">Указывает на то, с какой точки, необходимо начать удаление</param>
-        public void ChangeLastPoint(Point newPoint, bool IsLine = false, int pointCount = 1)
+        public void ChangeLastPoint(Point newPoint, bool SaveFirstPoints = false, int pointsCount = 1)
         {
-            if (IsLine)
+            if (SaveFirstPoints && points.Count >= pointsCount * 2)
             {
                 // удаляем все точки, кроме самой первой
-                points.RemoveRange(pointCount * 2, points.Count - pointCount * 2);
+                points.RemoveRange(pointsCount * 2, points.Count - pointsCount * 2);
             }
             // находим промежуточные точки
             List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (width / 3) + 1)
@@ -75,5 +72,6 @@ namespace GraphRedactorCore.Figures
                 points.Add((int)newPoint.Y);
             }
         }
+
     }
 }

@@ -1,43 +1,35 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-
+using System.Windows;
+using System.Windows.Media;
 
 namespace GraphRedactorCore.Figures
 {
-    internal class Rectangle : Figure
+    internal class Rectangle : IDrawable
     {
         private Point firstCoord;
         private Point secondCoord;
         private Point firstDrawingCoord;
         private Point secondDrawingCoord;
 
+        private Color fillColor;
+        private Color contourColor;
+        private int width;
 
-        /// <summary>
-        /// Инициализирует экземпляр прямоугольника
-        /// </summary>
-        /// <param name="initializeCoord">Точка, в которой создается прямоугольник</param>
-        /// <param name="fillColor">Цвет заливки</param>
-        /// <param name="contourColor">Цвет контура</param>
-        /// <param name="width">Ширина контура</param>
-        public Rectangle(Point initializeCoord, Color fillColor, Color contourColor, int width)
+
+        public Rectangle(Point initializePoint, Color contourColor, Color fillColor, int width)
         {
-            firstCoord = secondCoord = initializeCoord;
+            firstCoord = secondCoord = initializePoint;
             this.fillColor = fillColor;
             this.contourColor = contourColor;
             this.width = width;
         }
 
-        /// <summary>
-        /// Заменяет вторую точку на ту, в которой происходит действие
-        /// </summary>
-        /// <param name="point">Точка, в которой произошёл вызов метода</param>
-        public override void AddPoint(Point point)
-        {
-            secondCoord = point;
-        }
-
-        public override void Draw(WriteableBitmap bitmap)
+        public void Draw(WriteableBitmap bitmap)
         {
             CalculateDrawingCoordinats();
             using (bitmap.GetBitmapContext())
@@ -46,10 +38,12 @@ namespace GraphRedactorCore.Figures
                 bitmap.FillRectangle((int)firstDrawingCoord.X, (int)firstDrawingCoord.Y, (int)secondDrawingCoord.X, (int)secondDrawingCoord.Y, fillColor);
             }
         }
+        
+        public void ChangeLastPoint(Point newPoint)
+        {
+            secondCoord = newPoint;
+        }
 
-        /// <summary>
-        /// Распределяет координаты двух точек так, чтобы они были корректны для рисования
-        /// </summary>
         private void CalculateDrawingCoordinats()
         {
             if (firstCoord.X > secondCoord.X)
@@ -73,6 +67,5 @@ namespace GraphRedactorCore.Figures
                 secondDrawingCoord.Y = secondCoord.Y;
             }
         }
-
     }
 }

@@ -12,7 +12,6 @@ namespace Paint
         private readonly GraphRedactor redactor;
         private void SetDefault()
         {
-            HidePanels(Tools.Pencil);
             FillColorPicker.SelectedColor = Colors.AliceBlue;
             ConturColorPicker.SelectedColor = Colors.Red;
         }
@@ -24,58 +23,61 @@ namespace Paint
             RenderCanvas();
             SetDefault();
             WidthSlider.ValueChanged += WidthSlider_ValueChanged;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.CurveLine;
         }
         private void RenderCanvas()
         {
-            canvas.Source = redactor.CurrentBitmap;
+            redactor.Render();
+            canvas.Source = redactor.Bitmap;
         }
 
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            if (e.ClickCount == 1)
+            if(e.ClickCount >= 2 && redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
             {
-                redactor.InitializeTool(mouseCoords);
+                redactor.StopUsingTool(mouseCoords);
             }
             else
             {
-                redactor.StopUsingTool(mouseCoords, true);
+                redactor.StartUsingSelectedTool(mouseCoords);
             }
+            RenderCanvas();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            if (redactor.UseTool(mouseCoords))
-            {
-                redactor.Render();
-                RenderCanvas();
-            }
+            redactor.UseSelectedTool(mouseCoords);
+            RenderCanvas();
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            redactor.StopUsingTool(mouseCoords,
-                redactor.ToolPicker.ToolType != Tools.LinePlacer || redactor.ToolParams.CurrentLineType != LinePlacer.Lines.CurveLine);
-            redactor.Render();
+            if(redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
+            {
+                redactor.ChangeToolPhase(mouseCoords);
+            }
+            else
+            {
+                redactor.StopUsingTool(mouseCoords);
+            }
             RenderCanvas();
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.SetTool(Tools.Pencil);
-            HidePanels(Tools.Pencil);
+
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var bitmap = (canvas.Source as WriteableBitmap).Resize((int)canvas.ActualWidth, (int)canvas.ActualHeight, WriteableBitmapExtensions.Interpolation.Bilinear);
-            redactor.CurrentBitmap = bitmap;
-            redactor.Render();
+            redactor.Bitmap = bitmap;
             RenderCanvas();
         }
 
         private void WidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            redactor.ToolParams.Width = (int)e.NewValue;
+            redactor.ToolsArgs.Width = (int)e.NewValue;
             SliderValueArea.Text = Convert.ToString((int)e.NewValue);
         }
 
@@ -83,64 +85,40 @@ namespace Paint
         /// Скрывает все дополнительные панельки для инструментов, за исключением панелькки для инструмента tool
         /// </summary>
         /// <param name="tool">Инструмент, для которого необходимо сохранить дополнительную панель</param>
-        private void HidePanels(GraphRedactorCore.Tools tool = Tools.Pencil)
+        private void HidePanels(GraphRedactorCore.ToolPicker.Tools tool)
         {
-            if (tool == Tools.Pencil)
-            {
-                LinesTypes.Visibility = Visibility.Hidden;
-                FigureTypes.Visibility = Visibility.Hidden;
-            }
-            else if (tool == Tools.LinePlacer)
-            {
-                LinesTypes.Visibility = Visibility.Visible;
-                FigureTypes.Visibility = Visibility.Hidden;
-            }
-            else if (tool == Tools.FigurePlacer)
-            {
-                FigureTypes.Visibility = Visibility.Visible;
-                LinesTypes.Visibility = Visibility.Hidden;
-            }
+
         }
         private void FigurePlacerButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.SetTool(Tools.FigurePlacer);
-            HidePanels(Tools.FigurePlacer);
         }
 
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolParams.CurrentFigureType = FigurePlacer.Figures.Rectangle;
         }
 
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolParams.CurrentFigureType = FigurePlacer.Figures.Ellipse;
         }
 
         private void LinesButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.SetTool(Tools.LinePlacer);
-            HidePanels(Tools.LinePlacer);
         }
 
         private void SimpeLineButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolParams.CurrentLineType = LinePlacer.Lines.SimpleLine;
         }
 
         private void CurveLineButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolParams.CurrentLineType = LinePlacer.Lines.CurveLine;
         }
 
         private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            redactor.ToolParams.ContourColor = (Color)e.NewValue;
         }
 
         private void FillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            redactor.ToolParams.FillColor = (Color)e.NewValue;
         }
     }
 }

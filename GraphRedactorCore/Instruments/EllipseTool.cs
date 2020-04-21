@@ -7,41 +7,41 @@ using System.Threading.Tasks;
 
 namespace GraphRedactorCore.Instruments
 {
-    internal class Pencil : Tool
+    internal class EllipseTool : Tool
     {
-        private PolyLine polyLine = null;
+        private Ellipse ellipse = null;
 
         public override void NextPhase(ToolUsingArgs args)
         {
-            throw new NotImplementedException("Этот инструмент пока не поддерживает данную фигню");
+            throw new NotImplementedException();
         }
 
         public override void StartUsing(ToolUsingArgs args)
         {
-            polyLine = new PolyLine(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.Width);
-            args.GraphGlobalData.Drawables.AddLast(polyLine);
+            ellipse = new Ellipse(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.SecondColor, args.ToolsArgs.Width);
+            args.GraphGlobalData.Drawables.AddLast(ellipse);
         }
 
         public override void StopUsing(ToolUsingArgs args)
         {
             Update(args.GraphGlobalData);
-            polyLine = null;
+            ellipse = null;
         }
 
         public override void Use(ToolUsingArgs args)
         {
-            if (polyLine == null)
+            if (ellipse == null)
             {
                 throw new NullReferenceException("Работа инструмента не начата");
             }
-            polyLine.AddPoint(args.Point);
+            ellipse.ChangeLastPoint(args.Point);
             Update(args.GraphGlobalData);
         }
 
         private void Update(GraphGlobalData graphGlobalData)
         {
             graphGlobalData.Drawables.RemoveLast();
-            graphGlobalData.Drawables.AddLast(polyLine);
+            graphGlobalData.Drawables.AddLast(ellipse);
         }
     }
 }

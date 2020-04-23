@@ -21,22 +21,24 @@ namespace GraphRedactorCore.Figures
         internal int width;
 
         private readonly ViewPort viewPort;
-        internal double Scale;
+        internal double ScaleX;
+        internal double ScaleY;
         private Point offset;
 
         public Rectangle(Point initializePoint, Color contourColor, Color fillColor, int width, ViewPort viewPort)
         {
             /*firstCoord = secondCoord = initializePoint;*/
-            firstCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.Scale);
-            firstCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.Scale);
-            secondCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.Scale);
-            secondCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.Scale);
+            firstCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.ScaleX);
+            firstCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.ScaleY);
+            secondCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.ScaleX);
+            secondCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.ScaleY);
 
             this.fillColor = fillColor;
             this.contourColor = contourColor;
             this.width = width;
             this.viewPort = viewPort;
-            Scale = viewPort.Scale;
+            ScaleX = viewPort.ScaleX;
+            ScaleY = viewPort.ScaleY;
             offset = viewPort.firstPoint;
         }
 
@@ -45,7 +47,7 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats();
             using (bitmap.GetBitmapContext())
             {
-                var actualWidth = width * viewPort.Scale / Scale;
+                var actualWidth = width * viewPort.Scale / ScaleX;
                 bitmap.FillRectangle((int)firstDrawingCoord.X - (int)(actualWidth), (int)firstDrawingCoord.Y - (int)(actualWidth), (int)secondDrawingCoord.X + (int)(actualWidth), (int)secondDrawingCoord.Y + (int)(actualWidth), contourColor);
                 bitmap.FillRectangle((int)firstDrawingCoord.X, (int)firstDrawingCoord.Y, (int)secondDrawingCoord.X, (int)secondDrawingCoord.Y, fillColor);
             }
@@ -54,8 +56,8 @@ namespace GraphRedactorCore.Figures
         public void ChangeLastPoint(Point newPoint)
         {
             // secondCoord = newPoint;
-            secondCoord.X = offset.X + (newPoint.X) / Scale;
-            secondCoord.Y = offset.Y + (newPoint.Y) / Scale;
+            secondCoord.X = offset.X + (newPoint.X) / ScaleX;
+            secondCoord.Y = offset.Y + (newPoint.Y) / ScaleY;
         }
 
         private void CalculateDrawingCoordinats()
@@ -81,10 +83,10 @@ namespace GraphRedactorCore.Figures
                 secondDrawingCoord.Y = secondCoord.Y;
             }
 
-            firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
-            secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+            firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.ScaleX;
+            firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.ScaleY;
+            secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.ScaleX;
+            secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.ScaleY;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Paint
             Point mouseCoords = e.GetPosition(canvas);
             if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
             {
-                if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine || redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.ZoomArea)
+                if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
                 {
                     redactor.ChangeToolPhase(mouseCoords);
                 }
@@ -127,7 +127,7 @@ namespace Paint
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            redactor.StopUsingTool(mouseCoords);
+            redactor.DefaultScale();
             RenderCanvas();
         }
     }

@@ -17,7 +17,6 @@ namespace GraphRedactorCore.Instruments
         public override void NextPhase(ToolUsingArgs args)
         {
             args.GraphGlobalData.Drawables.RemoveLast();
-
             args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord, rectangle.secondCoord);
             args.GraphGlobalData.Bitmap.Clear();
             foreach (var drawable in args.GraphGlobalData.Drawables)
@@ -25,17 +24,17 @@ namespace GraphRedactorCore.Instruments
                 drawable.Draw(args.GraphGlobalData.Bitmap);
             }
             bitmapCopy = args.GraphGlobalData.Bitmap.Clone();
-
+/*
             WriteableBitmap cropedBitmap = args.GraphGlobalData.Bitmap.Crop(
-                (int)args.GraphGlobalData.ViewPort.firstPoint.X,
-                (int)args.GraphGlobalData.ViewPort.firstPoint.Y,
-                (int)(args.GraphGlobalData.ViewPort.secondPoint.X - args.GraphGlobalData.ViewPort.firstPoint.X),
-                (int)(args.GraphGlobalData.ViewPort.secondPoint.Y - args.GraphGlobalData.ViewPort.firstPoint.Y));
+                (int)(args.GraphGlobalData.ViewPort.firstPoint.X / args.GraphGlobalData.ViewPort.ScaleX),
+                (int)(args.GraphGlobalData.ViewPort.firstPoint.Y / args.GraphGlobalData.ViewPort.ScaleY),
+                (int)(args.GraphGlobalData.ViewPort.secondPoint.X * args.GraphGlobalData.ViewPort.ScaleX - args.GraphGlobalData.ViewPort.firstPoint.X),
+                (int)(args.GraphGlobalData.ViewPort.secondPoint.Y * args.GraphGlobalData.ViewPort.ScaleY - args.GraphGlobalData.ViewPort.firstPoint.Y));
             args.GraphGlobalData.Bitmap.Clear();
             args.GraphGlobalData.Bitmap.Blit(
                 new System.Windows.Rect(0, 0, args.GraphGlobalData.Bitmap.Width, args.GraphGlobalData.Bitmap.Height),
                 cropedBitmap,
-                new System.Windows.Rect(0, 0, cropedBitmap.Width, cropedBitmap.Height));
+                new System.Windows.Rect(0, 0, cropedBitmap.Width, cropedBitmap.Height));*/
             rectangle = null;
         }
 
@@ -47,7 +46,9 @@ namespace GraphRedactorCore.Instruments
 
         public override void StopUsing(ToolUsingArgs args)
         {
-            args.GraphGlobalData.ViewPort.Scale = 1;
+            /*args.GraphGlobalData.ViewPort.Scale = 1;
+            args.GraphGlobalData.ViewPort.ScaleX = 1;
+            args.GraphGlobalData.ViewPort.ScaleY = 1;
             args.GraphGlobalData.Bitmap = bitmapCopy.Clone();
             args.GraphGlobalData.ViewPort.firstPoint.X = 0;
             args.GraphGlobalData.ViewPort.firstPoint.Y = 0;
@@ -59,20 +60,26 @@ namespace GraphRedactorCore.Instruments
             {
                 drawable.Draw(args.GraphGlobalData.Bitmap);
             }
-
-
-            if (rectangle == null)
+*/
+            args.GraphGlobalData.Drawables.RemoveLast();
+            args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord, rectangle.secondCoord);
+            args.GraphGlobalData.Bitmap.Clear();
+            foreach (var drawable in args.GraphGlobalData.Drawables)
             {
-               // args.GraphGlobalData.Drawables.RemoveLast();
+                drawable.Draw(args.GraphGlobalData.Bitmap);
             }
+            bitmapCopy = args.GraphGlobalData.Bitmap.Clone();
+
         }
+
 
         public override void Use(ToolUsingArgs args)
         {
 
             if (rectangle == null)
             {
-                throw new NullReferenceException("Работа инструмента не начата");
+                //throw new NullReferenceException("Работа инструмента не начата");
+                return;
             }
             rectangle.ChangeLastPoint(args.Point);
             Update(args.GraphGlobalData);

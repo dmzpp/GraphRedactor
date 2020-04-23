@@ -10,7 +10,7 @@ namespace GraphRedactorCore
     {
         public ToolPicker ToolPicker { get; }
         public ToolsArgs ToolsArgs { get; }
-        public WriteableBitmap Bitmap { get; set; }
+        public WriteableBitmap Bitmap { get => globalData.Bitmap; set => globalData.Bitmap = value; }
         private readonly GraphGlobalData globalData;
 
         private States currentState;
@@ -22,7 +22,6 @@ namespace GraphRedactorCore
 
         public GraphRedactor(WriteableBitmap bitmap)
         {
-            Bitmap = bitmap;
             ToolPicker = new ToolPicker();
             ToolsArgs = new ToolsArgs();
             globalData = new GraphGlobalData(bitmap);
@@ -63,6 +62,18 @@ namespace GraphRedactorCore
             {
                 draweable.Draw(Bitmap);
             }
+        }
+
+        public void DefaultScale()
+        {
+            globalData.ViewPort.Scale = 1;
+            globalData.ViewPort.ScaleX = 1;
+            globalData.ViewPort.ScaleY = 1;
+            globalData.ViewPort.firstPoint.X = 0;
+            globalData.ViewPort.firstPoint.Y = 0;
+            globalData.ViewPort.secondPoint.X = globalData.Bitmap.Width;
+            globalData.ViewPort.secondPoint.Y = globalData.Bitmap.Height;
+            Render();
         }
     }
 }

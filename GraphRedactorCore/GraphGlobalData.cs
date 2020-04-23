@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 
 namespace GraphRedactorCore
 {
@@ -28,6 +29,8 @@ namespace GraphRedactorCore
         public Point secondPoint;
 
         public double Scale { get; set; }
+        public double ScaleX { get; set; }
+        public double ScaleY { get; set; }
 
         public ViewPort(WriteableBitmap bitmap)
         {
@@ -36,6 +39,7 @@ namespace GraphRedactorCore
             secondPoint.X = bitmap.Width;
             secondPoint.Y = bitmap.Height;
             Scale = 1;
+            ScaleX = ScaleY = 1;
         }
 
         public void Calculate(Point point, int toolScale = 2)
@@ -53,10 +57,15 @@ namespace GraphRedactorCore
         {
             var newWidth = secondPoint.X - firstPoint.X;
             var newHeight = secondPoint.Y - firstPoint.Y;
-            var ScaleX = (this.secondPoint.X - this.firstPoint.X) / newWidth;
-            var ScaleY = (this.secondPoint.Y - this.firstPoint.Y) / newHeight;
-            Scale += Math.Max(ScaleX, ScaleY);
-
+            ScaleX = ((this.secondPoint.X - this.firstPoint.X) / newWidth) < 1
+                ? 0.5 + ((this.secondPoint.X - this.firstPoint.X) / newWidth)
+                : ((this.secondPoint.X - this.firstPoint.X) / newWidth);
+            ScaleY = ((this.secondPoint.Y - this.firstPoint.Y) / newHeight) < 1
+                ? 0.5 + ((this.secondPoint.Y - this.firstPoint.Y) / newHeight)
+                : ((this.secondPoint.Y - this.firstPoint.Y) / newHeight);
+            Scale = Math.Min(ScaleX, ScaleY) < 1 ? 0.5 + Math.Min(ScaleX, ScaleY) : Math.Min(ScaleX, ScaleY);
+            ScaleX = Scale;
+            ScaleY = Scale;
             this.firstPoint = firstPoint;
             this.secondPoint = secondPoint;
         }

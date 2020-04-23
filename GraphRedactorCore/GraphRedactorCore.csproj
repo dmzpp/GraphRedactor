@@ -58,6 +58,7 @@
     <Compile Include="IDrawable.cs" />
     <Compile Include="Instruments\CurveLineTool.cs" />
     <Compile Include="Instruments\EllipseTool.cs" />
+    <Compile Include="Instruments\HandTool.cs" />
     <Compile Include="Instruments\Pencil.cs" />
     <Compile Include="Instruments\RectangleTool.cs" />
     <Compile Include="Instruments\ZoomTool.cs" />

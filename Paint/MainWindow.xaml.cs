@@ -106,6 +106,7 @@ namespace Paint
 
         private void LinesButton_Click(object sender, RoutedEventArgs e)
         {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.HandTool;
         }
 
         private void SimpeLineButton_Click(object sender, RoutedEventArgs e)

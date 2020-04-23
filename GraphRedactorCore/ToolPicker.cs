@@ -22,7 +22,8 @@ namespace GraphRedactorCore
             Pencil,
             Ellipse,
             CurveLine,
-            Zoom
+            Zoom,
+            ZoomArea
         }
 
         public ToolPicker()
@@ -33,7 +34,8 @@ namespace GraphRedactorCore
                 [Tools.Pencil] = new Pencil(),
                 [Tools.Ellipse] = new EllipseTool(),
                 [Tools.CurveLine] = new CurveLineTool(),
-                [Tools.Zoom] = new ZoomTool()
+                [Tools.Zoom] = new ZoomTool(),
+                [Tools.ZoomArea] = new ZoomAreaTool()
             };
             CurrentToolType = Tools.Rectangle;
         }

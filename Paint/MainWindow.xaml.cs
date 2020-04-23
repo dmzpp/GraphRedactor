@@ -59,7 +59,7 @@ namespace Paint
             Point mouseCoords = e.GetPosition(canvas);
             if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
             {
-                if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
+                if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine || redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.ZoomArea)
                 {
                     redactor.ChangeToolPhase(mouseCoords);
                 }
@@ -87,17 +87,13 @@ namespace Paint
             SliderValueArea.Text = Convert.ToString((int)e.NewValue);
         }
 
-        /// <summary>
-        /// Скрывает все дополнительные панельки для инструментов, за исключением панелькки для инструмента tool
-        /// </summary>
-        /// <param name="tool">Инструмент, для которого необходимо сохранить дополнительную панель</param>
         private void HidePanels(GraphRedactorCore.ToolPicker.Tools tool)
         {
 
         }
         private void FigurePlacerButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Zoom;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.ZoomArea;
         }
 
         private void RectangleButton_Click(object sender, RoutedEventArgs e)

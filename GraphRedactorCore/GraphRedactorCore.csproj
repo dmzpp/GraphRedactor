@@ -61,6 +61,7 @@
     <Compile Include="Instruments\Pencil.cs" />
     <Compile Include="Instruments\RectangleTool.cs" />
     <Compile Include="Instruments\ZoomTool.cs" />
+    <Compile Include="Instruments\ZoomAreaTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tool.cs" />
     <Compile Include="ToolPicker.cs" />

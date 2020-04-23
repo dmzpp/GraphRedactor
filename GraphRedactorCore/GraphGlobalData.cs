@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,18 @@ namespace GraphRedactorCore
             firstPoint.Y = point.Y - (newHeight / 2);
             secondPoint.Y = point.Y + (newHeight / 2);
             secondPoint.X = point.X + (newWidth / 2);
+        }
+
+        public void Calculate(Point firstPoint, Point secondPoint)
+        {
+            var newWidth = secondPoint.X - firstPoint.X;
+            var newHeight = secondPoint.Y - firstPoint.Y;
+            var ScaleX = (this.secondPoint.X - this.firstPoint.X) / newWidth;
+            var ScaleY = (this.secondPoint.Y - this.firstPoint.Y) / newHeight;
+            Scale += Math.Max(ScaleX, ScaleY);
+
+            this.firstPoint = firstPoint;
+            this.secondPoint = secondPoint;
         }
     }
 }

@@ -11,17 +11,17 @@ namespace GraphRedactorCore.Figures
 {
     internal class Rectangle : IDrawable
     {
-        private Point firstCoord;
-        private Point secondCoord;
+        internal Point firstCoord;
+        internal Point secondCoord;
         private Point firstDrawingCoord;
         private Point secondDrawingCoord;
 
-        private Color fillColor;
-        private Color contourColor;
-        private int width;
+        internal Color fillColor;
+        internal Color contourColor;
+        internal int width;
 
-        private ViewPort viewPort;
-        private double Scale;
+        private readonly ViewPort viewPort;
+        internal double Scale;
         private Point offset;
 
         public Rectangle(Point initializePoint, Color contourColor, Color fillColor, int width, ViewPort viewPort)

@@ -25,14 +25,17 @@ namespace GraphRedactorCore
             Bitmap = bitmap;
             ToolPicker = new ToolPicker();
             ToolsArgs = new ToolsArgs();
-            globalData = new GraphGlobalData();
+            globalData = new GraphGlobalData(bitmap);
             currentState = States.creating;
         }
 
         public void StartUsingSelectedTool(Point point)
         {
             ToolPicker.CurrentTool.StartUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
-            currentState = States.editing;
+            if (ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
+            { 
+                currentState = States.editing; 
+            }
         }
         public void UseSelectedTool(Point point)
         {

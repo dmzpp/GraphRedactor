@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
-        <Image Name="canvas" Grid.Row="1" Stretch="Fill" MouseMove="Canvas_MouseMove" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseLeftButtonUp="Canvas_MouseLeftButtonUp"></Image>
+        <Image Name="canvas" Grid.Row="1" Stretch="Fill" MouseRightButtonDown="Canvas_MouseRightButtonDown" MouseMove="Canvas_MouseMove" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseLeftButtonUp="Canvas_MouseLeftButtonUp"></Image>
         <Grid Grid.Row="0" ShowGridLines="True">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>

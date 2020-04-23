@@ -23,7 +23,7 @@ namespace Paint
             RenderCanvas();
             SetDefault();
             WidthSlider.ValueChanged += WidthSlider_ValueChanged;
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.CurveLine;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Rectangle;
         }
         private void RenderCanvas()
         {
@@ -47,26 +47,32 @@ namespace Paint
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            Point mouseCoords = e.GetPosition(canvas);
-            redactor.UseSelectedTool(mouseCoords);
-            RenderCanvas();
+            if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
+            {
+                Point mouseCoords = e.GetPosition(canvas);
+                redactor.UseSelectedTool(mouseCoords);
+                RenderCanvas();
+            }
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            if(redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
+            if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
             {
-                redactor.ChangeToolPhase(mouseCoords);
+                if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
+                {
+                    redactor.ChangeToolPhase(mouseCoords);
+                }
+                else
+                {
+                    redactor.StopUsingTool(mouseCoords);
+                }
+                RenderCanvas();
             }
-            else
-            {
-                redactor.StopUsingTool(mouseCoords);
-            }
-            RenderCanvas();
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
-
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Rectangle;
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -91,6 +97,7 @@ namespace Paint
         }
         private void FigurePlacerButton_Click(object sender, RoutedEventArgs e)
         {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Zoom;
         }
 
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
@@ -119,6 +126,13 @@ namespace Paint
 
         private void FillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
+        }
+
+        private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point mouseCoords = e.GetPosition(canvas);
+            redactor.StopUsingTool(mouseCoords);
+            RenderCanvas();
         }
     }
 }

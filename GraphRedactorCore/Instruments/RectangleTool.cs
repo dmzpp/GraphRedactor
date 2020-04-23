@@ -19,7 +19,7 @@ namespace GraphRedactorCore.Instruments
 
         public override void StartUsing(ToolUsingArgs args)
         {
-            rectangle = new Rectangle(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.SecondColor, args.ToolsArgs.Width);
+            rectangle = new Rectangle(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.SecondColor, args.ToolsArgs.Width, args.GraphGlobalData.ViewPort);
             args.GraphGlobalData.Drawables.AddLast(rectangle);
         }
 

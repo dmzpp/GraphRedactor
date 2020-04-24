@@ -12,8 +12,8 @@ namespace Paint
         private readonly GraphRedactor redactor;
         private void SetDefault()
         {
-            FillColorPicker.SelectedColor = Colors.AliceBlue;
-            ConturColorPicker.SelectedColor = Colors.Red;
+            FillColorPicker.SelectedColor = redactor.ToolsArgs.FirstColor;
+            ConturColorPicker.SelectedColor = redactor.ToolsArgs.SecondColor;
         }
 
         public MainWindow()
@@ -82,42 +82,14 @@ namespace Paint
             SliderValueArea.Text = Convert.ToString((int)e.NewValue);
         }
 
-        private void HidePanels(GraphRedactorCore.ToolPicker.Tools tool)
-        {
-
-        }
-        private void FigurePlacerButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Zoom;
-        }
-
-        private void RectangleButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void EllipseButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void LinesButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Ellipse;
-        }
-
-        private void SimpeLineButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void CurveLineButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
+            redactor.ToolsArgs.FirstColor = (Color)e.NewValue;
         }
 
         private void FillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
+            redactor.ToolsArgs.SecondColor = (Color)e.NewValue;
         }
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -125,6 +97,41 @@ namespace Paint
             Point mouseCoords = e.GetPosition(canvas);
             redactor.DefaultScale();
             RenderCanvas();
+        }
+
+        private void PenButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Pencil;
+        }
+
+        private void RectangleButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Rectangle;
+        }
+
+        private void EllipseButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Ellipse;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Zoom;
+        }
+
+        private void HandButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.HandTool;
+        }
+
+        private void CurveLineButton_Click(object sender, RoutedEventArgs e)
+        {
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.CurveLine;
+        }
+
+        private void LineButton_Click(object sender, RoutedEventArgs e)
+        {
+            // redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Line;
         }
     }
 }

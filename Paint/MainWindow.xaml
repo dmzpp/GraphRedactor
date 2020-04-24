@@ -41,18 +41,27 @@
             
             <!--Инструментики-->
             <WrapPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="PencilButton_Click">
-                    <Image Source="icons/pen.png"></Image>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="PenButton_Click">
+                    <Image Source="icons/pen.png"/>
                 </Button>
-                <Button Width="25" Height="25" Margin="3" Click="FigurePlacerButton_Click" Background="White">
-                    <Image Source="icons/fugires.png"></Image>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="RectangleButton_Click">
+                    <Image Source="icons/rectangle.png"/>
                 </Button>
-                <Button Width="25" Height="25" Margin="3" Click="LinesButton_Click" Background="White">
-                    <Image Source="icons/lines.png"></Image>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="EllipseButton_Click">
+                    <Image Source="icons/ellipse.png"/>
                 </Button>
-                <Button Content="4" Width="25" Height="25" Margin="3"></Button>
-                <Button Content="5" Width="25" Height="25" Margin="3"></Button>
-                <Button Content="6" Width="25" Height="25" Margin="3"></Button>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="SearchButton_Click">
+                    <Image Source="icons/search.png"/>
+                </Button>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="HandButton_Click">
+                    <Image Source="icons/hand.png"/>
+                </Button>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="CurveLineButton_Click">
+                    <Image Source="icons/curve.png"/>
+                </Button>
+                <Button Width="25" Height="25" Margin="3" Background="White" Click="LineButton_Click">
+                    <Image Source="icons/line.png"/>
+                </Button>
             </WrapPanel>
 
             <!--Выбор толщины-->
@@ -92,16 +101,6 @@
                 <Button Width="55" Height="25" Margin="3" Background="White">
                 </Button>
                 <Button Width="55" Height="25" Margin="3" Background="White">
-                </Button>
-            </WrapPanel>
-
-            <!--Выбор типа линии-->
-            <WrapPanel x:Name="LinesTypes" Grid.Column="3" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Width="55" Height="25" Margin="3" Background="White" Click="SimpeLineButton_Click">
-                    <Image Source="icons/line.png"></Image>
-                </Button>
-                <Button Width="55" Height="25" Margin="3" Background="White" Click="CurveLineButton_Click">
-                    <Image Source="icons/curve.png"></Image>
                 </Button>
             </WrapPanel>
         </Grid>

@@ -138,5 +138,9 @@
     <Resource Include="icons\ellipse.png" />
     <Resource Include="icons\rectangle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\hand.png" />
+    <Resource Include="icons\search.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

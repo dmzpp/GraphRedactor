@@ -72,7 +72,7 @@ namespace Paint
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Pencil;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.CurveLine;
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -106,7 +106,7 @@ namespace Paint
 
         private void LinesButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.HandTool;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Ellipse;
         }
 
         private void SimpeLineButton_Click(object sender, RoutedEventArgs e)

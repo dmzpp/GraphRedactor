@@ -91,21 +91,17 @@ namespace GraphRedactorCore.Figures
                 // удаляем все точки, кроме самой первой
                 points.RemoveRange(pointsCount * 2, points.Count - pointsCount * 2);
             }
-
-            int pointX = (int)(viewPort.firstPoint.X + newPoint.X / viewPort.ScaleX);
-            int pointY = (int)(viewPort.firstPoint.Y + newPoint.Y / viewPort.Scale);
             // находим промежуточные точки
-            List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], pointX, pointY, (width / 3) + 1)
+            List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (width / 3) + 1)
                    .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
             points.AddRange(newPoints);
 
             // если промежуточных точек нет, то добавляем вторую точку
             if (newPoints == null)
             {
-                points.Add((int)(viewPort.firstPoint.X + newPoint.X / viewPort.ScaleX));
-                points.Add((int)(viewPort.firstPoint.Y + newPoint.Y / viewPort.ScaleY));
+                points.Add((int)newPoint.X);
+                points.Add((int)newPoint.Y);
             }
-        
         }
 
     }

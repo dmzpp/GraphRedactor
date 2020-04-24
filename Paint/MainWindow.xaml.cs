@@ -47,28 +47,23 @@ namespace Paint
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
-            {
-                Point mouseCoords = e.GetPosition(canvas);
-                redactor.UseSelectedTool(mouseCoords);
-                RenderCanvas();
-            }
+            Point mouseCoords = e.GetPosition(canvas);
+            redactor.UseSelectedTool(mouseCoords);
+            RenderCanvas();
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
+            
+            if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
             {
-                if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
-                {
-                    redactor.ChangeToolPhase(mouseCoords);
-                }
-                else
-                {
-                    redactor.StopUsingTool(mouseCoords);
-                }
-                RenderCanvas();
+                redactor.ChangeToolPhase(mouseCoords);
             }
+            else
+            {
+                redactor.StopUsingTool(mouseCoords);
+            }
+            RenderCanvas();
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
@@ -93,7 +88,7 @@ namespace Paint
         }
         private void FigurePlacerButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.ZoomArea;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Zoom;
         }
 
         private void RectangleButton_Click(object sender, RoutedEventArgs e)

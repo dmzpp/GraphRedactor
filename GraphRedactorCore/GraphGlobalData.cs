@@ -46,11 +46,22 @@ namespace GraphRedactorCore
         {
             var newWidth = (secondPoint.X - firstPoint.X) / toolScale;
             var newHeight = (secondPoint.Y - firstPoint.Y) / toolScale;
-            Scale = toolScale;
-            firstPoint.X = point.X - (newWidth / 2);
-            firstPoint.Y = point.Y - (newHeight / 2);
-            secondPoint.Y = point.Y + (newHeight / 2);
-            secondPoint.X = point.X + (newWidth / 2);
+
+            ScaleX = ((secondPoint.X - firstPoint.X) / newWidth) < 1
+                ? 0.5 + ((secondPoint.X - firstPoint.X) / newWidth)
+                : ((secondPoint.X - firstPoint.X) / newWidth);
+            ScaleY = ((secondPoint.Y - firstPoint.Y) / newHeight) < 1
+                ? 0.5 + ((secondPoint.Y - firstPoint.Y) / newHeight)
+                : ((secondPoint.Y - firstPoint.Y) / newHeight);
+            Scale = Math.Min(ScaleX, ScaleY) < 1 ? 0.5 + Math.Min(ScaleX, ScaleY) : Math.Min(ScaleX, ScaleY);
+            ScaleX = Scale;
+            ScaleY = Scale;
+
+            firstPoint.X = (point.X - newWidth / 2) < 0 ? 0 : point.X - newWidth / 2;
+            firstPoint.Y = (point.X - newHeight / 2) < 0 ? 0 : point.Y - newHeight / 2;
+            secondPoint.X = point.X + newWidth / 2;
+            secondPoint.Y = point.Y + newHeight / 2;
+
         }
 
         public void Calculate(Point firstPoint, Point secondPoint)

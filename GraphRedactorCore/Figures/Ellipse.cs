@@ -21,7 +21,7 @@ namespace GraphRedactorCore.Figures
         private int width;
         internal double scale;
         private Point offset;
-        private ViewPort viewPort;
+        private readonly ViewPort viewPort;
 
         public Ellipse(Point initializePoint, Color contourColor, Color fillColor, int width, ViewPort viewPort)
         {
@@ -31,7 +31,6 @@ namespace GraphRedactorCore.Figures
             secondCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.Scale);
             secondCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.Scale);
 
-            firstCoord = secondCoord = initializePoint;
             this.contourColor = contourColor;
             this.fillColor = fillColor;
             this.width = width;

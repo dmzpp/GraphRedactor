@@ -31,10 +31,7 @@ namespace GraphRedactorCore
         public void StartUsingSelectedTool(Point point)
         {
             ToolPicker.CurrentTool.StartUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
-            if (ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
-            { 
-                currentState = States.editing; 
-            }
+            currentState = States.editing; 
         }
         public void UseSelectedTool(Point point)
         {

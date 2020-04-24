@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Figures
 {
@@ -59,8 +54,8 @@ namespace GraphRedactorCore.Figures
 
         public void ChangeLastPoint(Point newPoint)
         {
-            secondCoord.X = offset.X + (newPoint.X) / scale;
-            secondCoord.Y = offset.Y + (newPoint.Y) / scale;
+            secondCoord.X = offset.X + ((newPoint.X) / scale);
+            secondCoord.Y = offset.Y + ((newPoint.Y) / scale);
         }
 
         private void CalculateDrawingCoordinats()

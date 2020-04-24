@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Imaging;
+﻿using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Figures
 {
@@ -25,8 +20,8 @@ namespace GraphRedactorCore.Figures
 
         public Ellipse(Point initializePoint, Color contourColor, Color fillColor, int width, ViewPort viewPort)
         {
-            firstCoord.X = (viewPort.firstPoint.X  + (initializePoint.X / viewPort.Scale));
-            firstCoord.Y = (viewPort.firstPoint.Y  + (initializePoint.Y / viewPort.Scale));
+            firstCoord.X = (viewPort.firstPoint.X + (initializePoint.X / viewPort.Scale));
+            firstCoord.Y = (viewPort.firstPoint.Y + (initializePoint.Y / viewPort.Scale));
             secondCoord.X = (viewPort.firstPoint.X + (initializePoint.X / viewPort.Scale));
             secondCoord.Y = (viewPort.firstPoint.Y + (initializePoint.Y / viewPort.Scale));
 

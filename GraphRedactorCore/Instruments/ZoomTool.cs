@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GraphRedactorCore.Figures;
-using System.Threading.Tasks;
+﻿using GraphRedactorCore.Figures;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -40,7 +35,7 @@ namespace GraphRedactorCore.Instruments
 
         public override void StopUsing(ToolUsingArgs args)
         {
-            if(rectangle == null)
+            if (rectangle == null)
             {
                 return;
             }

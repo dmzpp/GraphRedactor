@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -34,7 +30,6 @@ namespace GraphRedactorCore
             firstPoint.Y = (point.Y - (newHeight / 2)) < 0 ? 0 : point.Y - (newHeight / 2);
             secondPoint.X = point.X + (newWidth / 2);
             secondPoint.Y = point.Y + (newHeight / 2);
-
         }
 
         public void Calculate(Point firstPoint, Point secondPoint)

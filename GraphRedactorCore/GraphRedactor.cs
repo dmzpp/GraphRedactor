@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore
@@ -31,7 +28,7 @@ namespace GraphRedactorCore
         public void StartUsingSelectedTool(Point point)
         {
             ToolPicker.CurrentTool.StartUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
-            currentState = States.editing; 
+            currentState = States.editing;
         }
         public void UseSelectedTool(Point point)
         {
@@ -55,7 +52,7 @@ namespace GraphRedactorCore
         public void Render()
         {
             Bitmap.Clear();
-            foreach(var draweable in globalData.Drawables)
+            foreach (var draweable in globalData.Drawables)
             {
                 draweable?.Draw(Bitmap);
             }

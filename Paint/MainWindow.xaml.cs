@@ -94,7 +94,6 @@ namespace Paint
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point mouseCoords = e.GetPosition(canvas);
             redactor.DefaultScale();
             RenderCanvas();
         }

@@ -1,9 +1,5 @@
 ﻿using GraphRedactorCore.Figures;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphRedactorCore.Instruments
 {
@@ -32,7 +28,7 @@ namespace GraphRedactorCore.Instruments
         {
             if (ellipse == null)
             {
-                throw new NullReferenceException("Работа инструмента не начата");
+                return;
             }
             ellipse.ChangeLastPoint(args.Point);
             Update(args.GraphGlobalData);

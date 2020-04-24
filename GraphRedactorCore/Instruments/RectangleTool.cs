@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using GraphRedactorCore.Figures;
+﻿using GraphRedactorCore.Figures;
+using System;
 
 namespace GraphRedactorCore.Instruments
 {
@@ -31,7 +26,7 @@ namespace GraphRedactorCore.Instruments
 
         public override void Use(ToolUsingArgs args)
         {
-            if(rectangle == null)
+            if (rectangle == null)
             {
                 throw new NullReferenceException("Работа инструмента не начата");
             }

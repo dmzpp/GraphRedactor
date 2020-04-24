@@ -1,10 +1,5 @@
-﻿using System;
+﻿using GraphRedactorCore.Instruments;
 using System.Collections.Generic;
-using System.Linq;
-using GraphRedactorCore.Instruments;
-using System.Text;
-using System.Threading.Tasks;
-using GraphRedactorCore.Figures;
 
 namespace GraphRedactorCore
 {
@@ -12,7 +7,8 @@ namespace GraphRedactorCore
     {
         private readonly Dictionary<Tools, Tool> tools;
         public Tools CurrentToolType { get; set; }
-        internal Tool CurrentTool {
+        internal Tool CurrentTool
+        {
             get => tools[CurrentToolType];
         }
 

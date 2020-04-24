@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace GraphRedactorCore.Instruments
 {
-    internal class Pencil : Tool
+    internal class LineTool : Tool
     {
         private PolyLine polyLine = null;
-
         public override void NextPhase(ToolUsingArgs args)
         {
-            throw new NotImplementedException("Этот инструмент пока не поддерживает это");
+            throw new NotImplementedException();
         }
 
         public override void StartUsing(ToolUsingArgs args)
@@ -30,14 +29,9 @@ namespace GraphRedactorCore.Instruments
 
         public override void Use(ToolUsingArgs args)
         {
-            if (polyLine == null)
-            {
-                throw new NullReferenceException("Работа инструмента не начата");
-            }
-            polyLine.AddPoint(args.Point);
+            polyLine.ChangeLastPoint(args.Point, true);
             Update(args.GraphGlobalData);
         }
-
         private void Update(GraphGlobalData graphGlobalData)
         {
             graphGlobalData.Drawables.RemoveLast();

@@ -25,11 +25,10 @@ namespace GraphRedactorCore.Figures
 
         public Ellipse(Point initializePoint, Color contourColor, Color fillColor, int width, ViewPort viewPort)
         {
-
-            firstCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.Scale);
-            firstCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.Scale);
-            secondCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.Scale);
-            secondCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.Scale);
+            firstCoord.X = (viewPort.firstPoint.X  + (initializePoint.X / viewPort.Scale));
+            firstCoord.Y = (viewPort.firstPoint.Y  + (initializePoint.Y / viewPort.Scale));
+            secondCoord.X = (viewPort.firstPoint.X + (initializePoint.X / viewPort.Scale));
+            secondCoord.Y = (viewPort.firstPoint.Y + (initializePoint.Y / viewPort.Scale));
 
             this.contourColor = contourColor;
             this.fillColor = fillColor;
@@ -53,8 +52,8 @@ namespace GraphRedactorCore.Figures
 
         public void ChangeLastPoint(Point newPoint)
         {
-            secondCoord.X = offset.X + (newPoint.X) / scale;
-            secondCoord.Y = offset.Y + (newPoint.Y) / scale;
+            secondCoord.X = offset.X + ((newPoint.X) / scale);
+            secondCoord.Y = offset.Y + ((newPoint.Y) / scale);
         }
 
         private void CalculateDrawingCoordinats()
@@ -80,10 +79,10 @@ namespace GraphRedactorCore.Figures
                 secondDrawingCoord.Y = secondCoord.Y;
             }
 
-            firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.ScaleX;
-            firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.ScaleY;
-            secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.ScaleX;
-            secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.ScaleY;
+            firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
+            firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+            secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
+            secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
         }
     }
 }

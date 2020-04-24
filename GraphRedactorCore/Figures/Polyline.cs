@@ -14,31 +14,26 @@ namespace GraphRedactorCore.Figures
     {
         private readonly List<int> points;
 
-        internal Color contourColor;
-        internal int width;
+        internal Color ContourColor { get; set; }
+        internal int Width { get; set; }
 
-        private ViewPort viewPort;
+        private readonly ViewPort viewPort;
         private double scale;
         private double offsetX;
         private double offsetY;
 
         public PolyLine(Point initializePoint, Color contourColor, int width, ViewPort viewPort)
         {
-            points = new List<int>();
+            points = new List<int>
+            {
+                (int)initializePoint.X,
+                (int)initializePoint.Y,
+                (int)initializePoint.X,
+                (int)initializePoint.Y
+            };
 
-            points.Add((int)initializePoint.X);
-            points.Add((int)initializePoint.Y);
-            points.Add((int)initializePoint.X);
-            points.Add((int)initializePoint.Y);
-
-           /* points.Add((int)(viewPort.firstPoint.X + initializePoint.X / viewPort.ScaleX));
-            points.Add((int)(viewPort.firstPoint.Y + initializePoint.Y / viewPort.ScaleY));
-            points.Add((int)(viewPort.firstPoint.X + initializePoint.X / viewPort.ScaleX));
-            points.Add((int)(viewPort.firstPoint.Y + initializePoint.Y / viewPort.ScaleY));*/
-
-
-            this.contourColor = contourColor;
-            this.width = width;
+            ContourColor = contourColor;
+            Width = width;
 
             this.viewPort = viewPort;
             scale = viewPort.Scale;
@@ -53,18 +48,18 @@ namespace GraphRedactorCore.Figures
                 for (int i = 2; i < points.Count; i += 2)
                 {
                     int firstCoord, secondCoord;
-                    int actualWidth = (int)(width * viewPort.Scale / scale) + 1;
+                    int actualWidth = (int)(Width * viewPort.Scale / scale) + 1;
                     if (scale != viewPort.Scale)
                     {
-                        firstCoord = (int)((offsetX + points[i - 2] / scale - viewPort.firstPoint.X) * viewPort.Scale);
-                        secondCoord = (int)((offsetY + points[i - 1] / scale - viewPort.firstPoint.Y) * viewPort.Scale);
+                        firstCoord = (int)((offsetX + (points[i - 2] / scale - viewPort.firstPoint.X)) * viewPort.Scale);
+                        secondCoord = (int)((offsetY + (points[i - 1] / scale - viewPort.firstPoint.Y)) * viewPort.Scale);
                     }
                     else
                     {
                         firstCoord = points[i - 2];
                         secondCoord = points[i - 1];
                     }
-                    bitmap.FillEllipseCentered(firstCoord, secondCoord, actualWidth, actualWidth, contourColor);
+                    bitmap.FillEllipseCentered(firstCoord, secondCoord, actualWidth, actualWidth, ContourColor);
                 }
             }
         }
@@ -78,7 +73,7 @@ namespace GraphRedactorCore.Figures
             }
             else
             {
-                List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, width)
+                List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, Width)
                     .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
                 points.AddRange(newPoints);
             }
@@ -92,7 +87,7 @@ namespace GraphRedactorCore.Figures
                 points.RemoveRange(pointsCount * 2, points.Count - pointsCount * 2);
             }
             // находим промежуточные точки
-            List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (width / 3) + 1)
+            List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (Width / 3) + 1)
                    .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
             points.AddRange(newPoints);
 

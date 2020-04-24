@@ -57,15 +57,13 @@ namespace GraphRedactorCore
             Bitmap.Clear();
             foreach(var draweable in globalData.Drawables)
             {
-                draweable.Draw(Bitmap);
+                draweable?.Draw(Bitmap);
             }
         }
 
         public void DefaultScale()
         {
             globalData.ViewPort.Scale = 1;
-            globalData.ViewPort.ScaleX = 1;
-            globalData.ViewPort.ScaleY = 1;
             globalData.ViewPort.firstPoint.X = 0;
             globalData.ViewPort.firstPoint.Y = 0;
             globalData.ViewPort.secondPoint.X = globalData.Bitmap.Width;

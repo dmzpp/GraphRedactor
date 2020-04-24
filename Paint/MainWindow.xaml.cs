@@ -34,7 +34,7 @@ namespace Paint
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            if(e.ClickCount >= 2 && redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
+            if (e.ClickCount >= 2 && redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
             {
                 redactor.StopUsingTool(mouseCoords);
             }
@@ -54,7 +54,7 @@ namespace Paint
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(canvas);
-            
+
             if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
             {
                 redactor.ChangeToolPhase(mouseCoords);
@@ -131,7 +131,7 @@ namespace Paint
 
         private void LineButton_Click(object sender, RoutedEventArgs e)
         {
-            // redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Line;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Line;
         }
     }
 }

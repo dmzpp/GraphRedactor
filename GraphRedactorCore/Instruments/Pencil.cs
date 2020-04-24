@@ -18,7 +18,7 @@ namespace GraphRedactorCore.Instruments
 
         public override void StartUsing(ToolUsingArgs args)
         {
-            polyLine = new PolyLine(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.Width);
+            polyLine = new PolyLine(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.Width, args.GraphGlobalData.ViewPort);
             args.GraphGlobalData.Drawables.AddLast(polyLine);
         }
 

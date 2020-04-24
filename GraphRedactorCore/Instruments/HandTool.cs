@@ -21,9 +21,9 @@ namespace GraphRedactorCore.Instruments
             coursorPoint = args.Point; 
         }
 
-        public override void StopUsing(ToolUsingArgs args)
+        public override void StopUsing(ToolUsingArgs args) 
         {
-            // 
+            return;
         }
 
         public override void Use(ToolUsingArgs args)
@@ -32,17 +32,18 @@ namespace GraphRedactorCore.Instruments
             var distanceY = coursorPoint.Y - args.Point.Y;
 
 
-            if (args.GraphGlobalData.ViewPort.firstPoint.X + distanceX > 0 && args.GraphGlobalData.ViewPort.secondPoint.X + distanceX < args.GraphGlobalData.Bitmap.Width)
+            if (args.GraphGlobalData.ViewPort.firstPoint.X + distanceX > 0 &&
+                args.GraphGlobalData.ViewPort.secondPoint.X + distanceX < args.GraphGlobalData.Bitmap.Width)
             {
                 args.GraphGlobalData.ViewPort.firstPoint.X += distanceX;
                 args.GraphGlobalData.ViewPort.secondPoint.X += distanceX;
             }
-            if (args.GraphGlobalData.ViewPort.firstPoint.Y + distanceY > 0 && args.GraphGlobalData.ViewPort.secondPoint.Y + distanceX < args.GraphGlobalData.Bitmap.Height)
+            if (args.GraphGlobalData.ViewPort.firstPoint.Y + distanceY > 0 &&
+                args.GraphGlobalData.ViewPort.secondPoint.Y + distanceX < args.GraphGlobalData.Bitmap.Height)
             {
                 args.GraphGlobalData.ViewPort.firstPoint.Y += distanceY;
                 args.GraphGlobalData.ViewPort.secondPoint.Y += distanceY;
             }
-
 
             coursorPoint = args.Point;
         }

@@ -72,7 +72,7 @@ namespace Paint
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Rectangle;
+            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Pencil;
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {

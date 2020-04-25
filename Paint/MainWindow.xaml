@@ -35,7 +35,6 @@
             </Grid.ColumnDefinitions>
             
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Инструменты</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">Фигуры</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Толщина</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Цвет</TextBlock>
             

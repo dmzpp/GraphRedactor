@@ -1,4 +1,5 @@
 ﻿using GraphRedactorCore.Figures;
+using System.Windows;
 using System.Windows.Media;
 
 namespace GraphRedactorCore.Instruments
@@ -42,15 +43,38 @@ namespace GraphRedactorCore.Instruments
             if (rectangle.firstCoord.X == rectangle.secondCoord.X && rectangle.firstCoord.Y == rectangle.secondCoord.Y)
             {
                 ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord);
-                if (newViewPort.Scale < 10)
+                if (newViewPort.Scale < 40)
                 {
                     args.GraphGlobalData.PushViewPort(newViewPort);
                 }
             }
             else
             {
-                ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstDrawingCoord, rectangle.secondDrawingCoord);
-                if (newViewPort.Scale < 10)
+                Point firstDrawingCoord = new Point();
+                Point secondDrawingCoord = new Point();
+                if (rectangle.firstCoord.X > rectangle.secondCoord.X)
+                {
+                    firstDrawingCoord.X = rectangle.secondCoord.X;
+                    secondDrawingCoord.X = rectangle.firstCoord.X;
+                }
+                else
+                {
+                    firstDrawingCoord.X = rectangle.firstCoord.X;
+                    secondDrawingCoord.X = rectangle.secondCoord.X;
+                }
+                if (rectangle.firstCoord.Y > rectangle.secondCoord.Y)
+                {
+                    firstDrawingCoord.Y = rectangle.secondCoord.Y;
+                    secondDrawingCoord.Y = rectangle.firstCoord.Y;
+                }
+                else
+                {
+                    firstDrawingCoord.Y = rectangle.firstCoord.Y;
+                    secondDrawingCoord.Y = rectangle.secondCoord.Y;
+                }
+
+                ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(firstDrawingCoord, secondDrawingCoord);
+                if (newViewPort.Scale < 40)
                 {
                     args.GraphGlobalData.PushViewPort(newViewPort);
                 }

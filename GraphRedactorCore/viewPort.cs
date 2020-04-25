@@ -48,6 +48,7 @@ namespace GraphRedactorCore
 
         public ViewPort Calculate(Point firstPoint, Point secondPoint)
         {
+
             var newWidth = secondPoint.X - firstPoint.X;
             var newHeight = secondPoint.Y - firstPoint.Y;
             double scale = CalculateScale(newWidth, newHeight);

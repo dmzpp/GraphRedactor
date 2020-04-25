@@ -63,6 +63,7 @@ namespace Paint
             {
                 redactor.StopUsingTool(mouseCoords);
             }
+            if(redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
             RenderCanvas();
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
@@ -71,8 +72,7 @@ namespace Paint
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var bitmap = (canvas.Source as WriteableBitmap).Resize((int)canvas.ActualWidth, (int)canvas.ActualHeight, WriteableBitmapExtensions.Interpolation.Bilinear);
-            redactor.Bitmap = bitmap;
+            redactor.ResizeBitmap((int)canvas.ActualWidth, (int)canvas.ActualHeight);
             RenderCanvas();
         }
 
@@ -94,7 +94,7 @@ namespace Paint
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            redactor.DefaultScale();
+            redactor.PreviousScale();
             RenderCanvas();
         }
 

@@ -13,12 +13,12 @@ namespace GraphRedactorCore.Figures
         internal Color ContourColor { get; set; }
         internal int Width { get; set; }
 
-        private readonly ViewPort viewPort;
+        private readonly GraphGlobalData globalData;
         private double scale;
         private double offsetX;
         private double offsetY;
 
-        public PolyLine(Point initializePoint, Color contourColor, int width, ViewPort viewPort)
+        public PolyLine(Point initializePoint, Color contourColor, int width, GraphGlobalData globalData)
         {
             points = new List<int>
             {
@@ -31,10 +31,10 @@ namespace GraphRedactorCore.Figures
             ContourColor = contourColor;
             Width = width;
 
-            this.viewPort = viewPort;
-            scale = viewPort.Scale;
-            offsetX = viewPort.firstPoint.X;
-            offsetY = viewPort.firstPoint.Y;
+            this.globalData = globalData;
+            scale = globalData.ViewPort.Scale;
+            offsetX = globalData.ViewPort.firstPoint.X;
+            offsetY = globalData.ViewPort.firstPoint.Y;
         }
 
         public void Draw(WriteableBitmap bitmap)
@@ -44,9 +44,9 @@ namespace GraphRedactorCore.Figures
                 for (int i = 2; i < points.Count; i += 2)
                 {
                     int firstCoord, secondCoord;
-                    int actualWidth = (int)(Width * viewPort.Scale / scale) + 1;
-                    firstCoord = (int)(((offsetX + (points[i - 2]) / scale - viewPort.firstPoint.X)) * viewPort.Scale);
-                    secondCoord = (int)(((offsetY + (points[i - 1]) / scale - viewPort.firstPoint.Y)) * viewPort.Scale);
+                    int actualWidth = (int)(Width * globalData.ViewPort.Scale / scale) + 1;
+                    firstCoord = (int)(((offsetX + (points[i - 2]) / scale - globalData.ViewPort.firstPoint.X)) * globalData.ViewPort.Scale);
+                    secondCoord = (int)(((offsetY + (points[i - 1]) / scale - globalData.ViewPort.firstPoint.Y)) * globalData.ViewPort.Scale);
 
                     bitmap.FillEllipseCentered(firstCoord, secondCoord, actualWidth, actualWidth, ContourColor);
                 }

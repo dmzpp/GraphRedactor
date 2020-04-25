@@ -25,9 +25,9 @@ namespace GraphRedactorCore.Instruments
 
         public override void StartUsing(ToolUsingArgs args)
         {
-            if (currentState != States.stretching && args.GraphGlobalData.ViewPort.Scale == 1)
+            if (currentState != States.stretching)
             {
-                rectangle = new Rectangle(args.Point, Colors.DarkOrange, Colors.Transparent, 2, args.GraphGlobalData.ViewPort);
+                rectangle = new Rectangle(args.Point, Colors.DarkOrange, Colors.Transparent, 2, args.GraphGlobalData);
                 args.GraphGlobalData.Drawables.AddLast(rectangle);
                 currentState = States.stretching;
             }
@@ -42,17 +42,24 @@ namespace GraphRedactorCore.Instruments
             args.GraphGlobalData.Drawables.RemoveLast();
             if (rectangle.firstCoord.X == rectangle.secondCoord.X && rectangle.firstCoord.Y == rectangle.secondCoord.Y)
             {
-                args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord);
+                args.GraphGlobalData.PushViewPort(args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord));
             }
             else
             {
                 args.GraphGlobalData.ViewPort.Calculate(rectangle.firstDrawingCoord, rectangle.secondDrawingCoord);
             }
             args.GraphGlobalData.Bitmap.Clear();
+            args.GraphGlobalData.Bitmap.DrawRectangle(
+                   (int)args.GraphGlobalData.ViewPort.firstPoint.X,
+                   (int)args.GraphGlobalData.ViewPort.firstPoint.Y,
+                   (int)args.GraphGlobalData.ViewPort.secondPoint.X,
+                   (int)args.GraphGlobalData.ViewPort.secondPoint.Y,
+                   Colors.Red);
             foreach (var drawable in args.GraphGlobalData.Drawables)
             {
                 drawable.Draw(args.GraphGlobalData.Bitmap);
             }
+            
             rectangle = null;
             currentState = States.none;
         }

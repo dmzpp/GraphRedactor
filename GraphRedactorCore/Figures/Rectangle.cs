@@ -15,23 +15,23 @@ namespace GraphRedactorCore.Figures
         internal Color contourColor;
         internal int width;
 
-        private readonly ViewPort viewPort;
+        private readonly GraphGlobalData globalData;
         internal double scale;
         private Point offset;
 
-        public Rectangle(Point initializePoint, Color contourColor, Color fillColor, int width, ViewPort viewPort)
+        public Rectangle(Point initializePoint, Color contourColor, Color fillColor, int width, GraphGlobalData globalData)
         {
-            firstCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.Scale);
-            firstCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.Scale);
-            secondCoord.X = (viewPort.firstPoint.X + initializePoint.X / viewPort.Scale);
-            secondCoord.Y = (viewPort.firstPoint.Y + initializePoint.Y / viewPort.Scale);
+            firstCoord.X = (globalData.ViewPort.firstPoint.X + initializePoint.X / globalData.ViewPort.Scale);
+            firstCoord.Y = (globalData.ViewPort.firstPoint.Y + initializePoint.Y / globalData.ViewPort.Scale);
+            secondCoord.X = (globalData.ViewPort.firstPoint.X + initializePoint.X / globalData.ViewPort.Scale);
+            secondCoord.Y = (globalData.ViewPort.firstPoint.Y + initializePoint.Y / globalData.ViewPort.Scale);
 
             this.fillColor = fillColor;
             this.contourColor = contourColor;
             this.width = width;
-            this.viewPort = viewPort;
-            scale = viewPort.Scale;
-            offset = viewPort.firstPoint;
+            scale = globalData.ViewPort.Scale;
+            offset = globalData.ViewPort.firstPoint;
+            this.globalData = globalData;
         }
 
         public void Draw(WriteableBitmap bitmap)
@@ -39,7 +39,7 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats();
             using (bitmap.GetBitmapContext())
             {
-                var actualWidth = width * viewPort.Scale / scale;
+                var actualWidth = width * globalData.ViewPort.Scale / scale;
                 if (fillColor != Colors.Transparent)
                 {
                     bitmap.FillRectangle((int)firstDrawingCoord.X - (int)(actualWidth), (int)firstDrawingCoord.Y - (int)(actualWidth), (int)secondDrawingCoord.X + (int)(actualWidth), (int)secondDrawingCoord.Y + (int)(actualWidth), contourColor);
@@ -81,10 +81,10 @@ namespace GraphRedactorCore.Figures
                 secondDrawingCoord.Y = secondCoord.Y;
             }
 
-            firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
-            secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+            firstDrawingCoord.X = (firstDrawingCoord.X - globalData.ViewPort.firstPoint.X) * globalData.ViewPort.Scale;
+            firstDrawingCoord.Y = (firstDrawingCoord.Y - globalData.ViewPort.firstPoint.Y) * globalData.ViewPort.Scale;
+            secondDrawingCoord.X = (secondDrawingCoord.X - globalData.ViewPort.firstPoint.X) * globalData.ViewPort.Scale;
+            secondDrawingCoord.Y = (secondDrawingCoord.Y - globalData.ViewPort.firstPoint.Y) * globalData.ViewPort.Scale;
         }
     }
 }

@@ -25,6 +25,13 @@ namespace GraphRedactorCore
             currentState = States.creating;
         }
 
+        public void ResizeBitmap(int actualWidth, int actualHeight)
+        {
+            globalData.Bitmap = globalData.Bitmap.Resize(actualWidth, actualHeight, WriteableBitmapExtensions.Interpolation.Bilinear);
+            globalData.FirstViewPort.secondPoint.X = actualWidth;
+            globalData.FirstViewPort.secondPoint.Y = actualHeight;
+        }
+
         public void StartUsingSelectedTool(Point point)
         {
             ToolPicker.CurrentTool.StartUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
@@ -58,13 +65,9 @@ namespace GraphRedactorCore
             }
         }
 
-        public void DefaultScale()
+        public void PreviousScale()
         {
-            globalData.ViewPort.Scale = 1;
-            globalData.ViewPort.firstPoint.X = 0;
-            globalData.ViewPort.firstPoint.Y = 0;
-            globalData.ViewPort.secondPoint.X = globalData.Bitmap.Width;
-            globalData.ViewPort.secondPoint.Y = globalData.Bitmap.Height;
+            globalData.PopViewPort();
             Render();
         }
     }

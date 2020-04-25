@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -78,6 +79,7 @@ namespace GraphRedactorCore.Figures
             firstDrawingCoord.Y = (firstDrawingCoord.Y - globalData.ViewPort.firstPoint.Y) * globalData.ViewPort.Scale;
             secondDrawingCoord.X = (secondDrawingCoord.X - globalData.ViewPort.firstPoint.X) * globalData.ViewPort.Scale;
             secondDrawingCoord.Y = (secondDrawingCoord.Y - globalData.ViewPort.firstPoint.Y) * globalData.ViewPort.Scale;
+
         }
     }
 }

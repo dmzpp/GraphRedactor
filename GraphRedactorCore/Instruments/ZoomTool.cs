@@ -42,7 +42,7 @@ namespace GraphRedactorCore.Instruments
             if (rectangle.firstCoord.X == rectangle.secondCoord.X && rectangle.firstCoord.Y == rectangle.secondCoord.Y)
             {
                 ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord);
-                if (newViewPort.Scale < 100)
+                if (newViewPort.Scale < 10)
                 {
                     args.GraphGlobalData.PushViewPort(newViewPort);
                 }
@@ -50,7 +50,7 @@ namespace GraphRedactorCore.Instruments
             else
             {
                 ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstDrawingCoord, rectangle.secondDrawingCoord);
-                if (newViewPort.Scale < 100)
+                if (newViewPort.Scale < 10)
                 {
                     args.GraphGlobalData.PushViewPort(newViewPort);
                 }

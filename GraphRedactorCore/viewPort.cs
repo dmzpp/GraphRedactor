@@ -39,22 +39,17 @@ namespace GraphRedactorCore
             double scale = CalculateScale(newWidth, newHeight);
             Point fPoint = new Point( (point.X - (newWidth / 2)) < 0 ? 0 : point.X - (newWidth / 2), (point.Y - (newHeight / 2)) < 0 ? 0 : point.Y - (newHeight / 2));
             Point sPoint = new Point( point.X + (newWidth / 2),point.Y + (newHeight / 2));
-            // var scale = Scale * 2;
-            /* Point fPoint = new Point(firstPoint.X + (point.X - newWidth / 2) / Scale, firstPoint.Y + (point.Y - newWidth / 2) / 2);
-             Point sPoint = new Point(firstPoint.X + (point.X + newWidth / 2) / Scale, firstPoint.Y + (point.Y + newHeight / 2) / 2);
- */
 
             return new ViewPort(fPoint, sPoint, scale, globalData);
         }
 
-        public void Calculate(Point firstPoint, Point secondPoint)
+        public ViewPort Calculate(Point firstPoint, Point secondPoint)
         {
             var newWidth = secondPoint.X - firstPoint.X;
             var newHeight = secondPoint.Y - firstPoint.Y;
-            CalculateScale(newWidth, newHeight);
+            double scale = CalculateScale(newWidth, newHeight);
 
-            this.firstPoint = firstPoint;
-            this.secondPoint = secondPoint;
+            return new ViewPort(firstPoint, secondPoint, scale, globalData);
         }
 
         private double CalculateScale(double newWidth, double newHeight)

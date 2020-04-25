@@ -14,7 +14,7 @@ namespace GraphRedactorCore.Instruments
 
         public override void StartUsing(ToolUsingArgs args)
         {
-            ellipse = new Ellipse(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.SecondColor, args.ToolsArgs.Width, args.GraphGlobalData.ViewPort);
+            ellipse = new Ellipse(args.Point, args.ToolsArgs.FirstColor, args.ToolsArgs.SecondColor, args.ToolsArgs.Width, args.GraphGlobalData);
             args.GraphGlobalData.Drawables.AddLast(ellipse);
         }
 

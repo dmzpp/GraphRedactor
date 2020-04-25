@@ -16,22 +16,22 @@ namespace GraphRedactorCore.Figures
         private int width;
         internal double scale;
         private Point offset;
-        private readonly ViewPort viewPort;
+        private readonly GraphGlobalData globalData;
 
-        public Ellipse(Point initializePoint, Color contourColor, Color fillColor, int width, ViewPort viewPort)
+        public Ellipse(Point initializePoint, Color contourColor, Color fillColor, int width, GraphGlobalData globalData)
         {
-            firstCoord.X = (viewPort.firstPoint.X + (initializePoint.X / viewPort.Scale));
-            firstCoord.Y = (viewPort.firstPoint.Y + (initializePoint.Y / viewPort.Scale));
-            secondCoord.X = (viewPort.firstPoint.X + (initializePoint.X / viewPort.Scale));
-            secondCoord.Y = (viewPort.firstPoint.Y + (initializePoint.Y / viewPort.Scale));
+            firstCoord.X = (globalData.ViewPort.firstPoint.X + (initializePoint.X / globalData.ViewPort.Scale));
+            firstCoord.Y = (globalData.ViewPort.firstPoint.Y + (initializePoint.Y / globalData.ViewPort.Scale));
+            secondCoord.X = (globalData.ViewPort.firstPoint.X + (initializePoint.X / globalData.ViewPort.Scale));
+            secondCoord.Y = (globalData.ViewPort.firstPoint.Y + (initializePoint.Y / globalData.ViewPort.Scale));
 
             this.contourColor = contourColor;
             this.fillColor = fillColor;
             this.width = width;
 
-            scale = viewPort.Scale;
-            offset = viewPort.firstPoint;
-            this.viewPort = viewPort;
+            scale = globalData.ViewPort.Scale;
+            offset = globalData.ViewPort.firstPoint;
+            this.globalData = globalData;
         }
 
         public void Draw(WriteableBitmap bitmap)
@@ -39,7 +39,7 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats();
             using (bitmap.GetBitmapContext())
             {
-                var actualWidth = (int)(width * viewPort.Scale / scale) + 1;
+                var actualWidth = (int)(width * globalData.ViewPort.Scale / scale) + 1;
                 bitmap.FillEllipse((int)firstDrawingCoord.X - actualWidth, (int)firstDrawingCoord.Y - actualWidth, (int)secondDrawingCoord.X + actualWidth, (int)secondDrawingCoord.Y + actualWidth, contourColor);
                 bitmap.FillEllipse((int)firstDrawingCoord.X, (int)firstDrawingCoord.Y, (int)secondDrawingCoord.X, (int)secondDrawingCoord.Y, fillColor);
             }
@@ -74,10 +74,10 @@ namespace GraphRedactorCore.Figures
                 secondDrawingCoord.Y = secondCoord.Y;
             }
 
-            firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
-            secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+            firstDrawingCoord.X = (firstDrawingCoord.X - globalData.ViewPort.firstPoint.X) * globalData.ViewPort.Scale;
+            firstDrawingCoord.Y = (firstDrawingCoord.Y - globalData.ViewPort.firstPoint.Y) * globalData.ViewPort.Scale;
+            secondDrawingCoord.X = (secondDrawingCoord.X - globalData.ViewPort.firstPoint.X) * globalData.ViewPort.Scale;
+            secondDrawingCoord.Y = (secondDrawingCoord.Y - globalData.ViewPort.firstPoint.Y) * globalData.ViewPort.Scale;
         }
     }
 }

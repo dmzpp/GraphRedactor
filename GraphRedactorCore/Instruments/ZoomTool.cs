@@ -42,19 +42,21 @@ namespace GraphRedactorCore.Instruments
             args.GraphGlobalData.Drawables.RemoveLast();
             if (rectangle.firstCoord.X == rectangle.secondCoord.X && rectangle.firstCoord.Y == rectangle.secondCoord.Y)
             {
-                args.GraphGlobalData.PushViewPort(args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord));
+                ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord);
+                if (newViewPort.Scale < 100)
+                {
+                    args.GraphGlobalData.PushViewPort(newViewPort);
+                }
             }
             else
             {
-                args.GraphGlobalData.ViewPort.Calculate(rectangle.firstDrawingCoord, rectangle.secondDrawingCoord);
+                ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord, rectangle.secondCoord);
+                if(newViewPort.Scale < 100)
+                {
+                    args.GraphGlobalData.PushViewPort(newViewPort);
+                }
             }
             args.GraphGlobalData.Bitmap.Clear();
-            args.GraphGlobalData.Bitmap.DrawRectangle(
-                   (int)args.GraphGlobalData.ViewPort.firstPoint.X,
-                   (int)args.GraphGlobalData.ViewPort.firstPoint.Y,
-                   (int)args.GraphGlobalData.ViewPort.secondPoint.X,
-                   (int)args.GraphGlobalData.ViewPort.secondPoint.Y,
-                   Colors.Red);
             foreach (var drawable in args.GraphGlobalData.Drawables)
             {
                 drawable.Draw(args.GraphGlobalData.Bitmap);

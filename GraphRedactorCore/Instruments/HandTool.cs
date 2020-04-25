@@ -26,6 +26,11 @@ namespace GraphRedactorCore.Instruments
         {
             var distanceX = coursorPoint.X - args.Point.X;
             var distanceY = coursorPoint.Y - args.Point.Y;
+            
+            if(args.GraphGlobalData.ViewPort == args.GraphGlobalData.FirstViewPort)
+            {
+                return;
+            }
 
             if (args.GraphGlobalData.ViewPort.firstPoint.X + distanceX > 0)
             {

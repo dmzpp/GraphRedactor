@@ -37,7 +37,9 @@ namespace GraphRedactorCore.Instruments
         private void Update(GraphGlobalData graphGlobalData)
         {
             if (graphGlobalData.Drawables.Count == 0)
+            {
                 return;
+            }
             graphGlobalData.Drawables.RemoveLast();
             graphGlobalData.Drawables.AddLast(rectangle);
         }

@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapExtensions.cs" />
     <Compile Include="FigureDrawingTools.cs" />
     <Compile Include="Figures\Ellipse.cs" />
     <Compile Include="Figures\PolyLine.cs" />

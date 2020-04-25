@@ -13,7 +13,7 @@ namespace GraphRedactorCore
         {
             FirstColor = Colors.Black;
             SecondColor = Colors.Gray;
-            Width = 10;
+            Width = 1;
         }
     }
 }

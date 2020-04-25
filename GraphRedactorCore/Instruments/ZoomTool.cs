@@ -56,12 +56,7 @@ namespace GraphRedactorCore.Instruments
                     args.GraphGlobalData.PushViewPort(newViewPort);
                 }
             }
-            args.GraphGlobalData.Bitmap.Clear();
-            foreach (var drawable in args.GraphGlobalData.Drawables)
-            {
-                drawable.Draw(args.GraphGlobalData.Bitmap);
-            }
-            
+            args.GraphGlobalData.Bitmap.Render(args.GraphGlobalData.Drawables);
             rectangle = null;
             currentState = States.none;
         }

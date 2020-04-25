@@ -7,9 +7,18 @@ namespace GraphRedactorCore
     {
         internal LinkedList<IDrawable> Drawables { get; set; }
         internal WriteableBitmap Bitmap { get; set; }
-        internal ViewPort ViewPort { get => previousViewPorts.Last.Value; }
-
         private readonly LinkedList<ViewPort> previousViewPorts;
+        internal ViewPort ViewPort { get => previousViewPorts.Last.Value; }
+        internal ViewPort FirstViewPort { get => previousViewPorts.First.Value; }
+
+        public GraphGlobalData(WriteableBitmap bitmap)
+        {
+            Drawables = new LinkedList<IDrawable>();
+            Bitmap = bitmap;
+            previousViewPorts = new LinkedList<ViewPort>();
+            previousViewPorts.AddLast(new ViewPort(bitmap, this));
+        }
+
         internal ViewPort PopViewPort()
         {
             GraphRedactorCore.ViewPort viewPort = previousViewPorts.Last.Value;
@@ -19,20 +28,10 @@ namespace GraphRedactorCore
             }
             return viewPort;
         }
+
         internal void PushViewPort(ViewPort viewPort)
         {
             previousViewPorts.AddLast(viewPort);
         }
-        internal ViewPort FirstViewPort { get => previousViewPorts.First.Value; }
-
-
-        public GraphGlobalData(WriteableBitmap bitmap)
-        {
-            Drawables = new LinkedList<IDrawable>();
-            Bitmap = bitmap;
-            previousViewPorts = new LinkedList<ViewPort>();
-            previousViewPorts.AddLast(new ViewPort(bitmap, this));
-        }
     }
-
 }

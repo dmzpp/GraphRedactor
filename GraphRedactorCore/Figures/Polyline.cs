@@ -72,15 +72,12 @@ namespace GraphRedactorCore.Figures
         {
             if (SaveFirstPoints && points.Count >= pointsCount * 2)
             {
-                // удаляем все точки, кроме самой первой
                 points.RemoveRange(pointsCount * 2, points.Count - pointsCount * 2);
             }
-            // находим промежуточные точки
             List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (Width / 3) + 1)
                    .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
             points.AddRange(newPoints);
 
-            // если промежуточных точек нет, то добавляем вторую точку
             if (newPoints == null)
             {
                 points.Add((int)newPoint.X);

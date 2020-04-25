@@ -14,6 +14,7 @@ namespace Paint
         {
             FillColorPicker.SelectedColor = redactor.ToolsArgs.FirstColor;
             ConturColorPicker.SelectedColor = redactor.ToolsArgs.SecondColor;
+            WidthSlider.Value = redactor.ToolsArgs.Width;
         }
 
         public MainWindow()

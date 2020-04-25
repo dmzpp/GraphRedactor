@@ -58,11 +58,7 @@ namespace GraphRedactorCore
 
         public void Render()
         {
-            Bitmap.Clear();
-            foreach (var draweable in globalData.Drawables)
-            {
-                draweable?.Draw(Bitmap);
-            }
+            Bitmap.Render(globalData.Drawables);
         }
 
         public void PreviousScale()

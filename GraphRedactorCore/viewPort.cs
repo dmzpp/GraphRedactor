@@ -12,7 +12,6 @@ namespace GraphRedactorCore
         public double Scale { get; set; }
         private GraphGlobalData globalData;
 
-
         public ViewPort(WriteableBitmap bitmap, GraphGlobalData globalData)
         {
             firstPoint.X = 0;

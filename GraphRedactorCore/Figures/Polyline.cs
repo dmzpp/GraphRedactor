@@ -45,16 +45,9 @@ namespace GraphRedactorCore.Figures
                 {
                     int firstCoord, secondCoord;
                     int actualWidth = (int)(Width * viewPort.Scale / scale) + 1;
-                    if (scale != viewPort.Scale)
-                    {
-                        firstCoord = (int)((offsetX + (points[i - 2] / scale - viewPort.firstPoint.X)) * viewPort.Scale);
-                        secondCoord = (int)((offsetY + (points[i - 1] / scale - viewPort.firstPoint.Y)) * viewPort.Scale);
-                    }
-                    else
-                    {
-                        firstCoord = points[i - 2];
-                        secondCoord = points[i - 1];
-                    }
+                    firstCoord = (int)(((offsetX + (points[i - 2]) / scale - viewPort.firstPoint.X)) * viewPort.Scale);
+                    secondCoord = (int)(((offsetY + (points[i - 1]) / scale - viewPort.firstPoint.Y)) * viewPort.Scale);
+
                     bitmap.FillEllipseCentered(firstCoord, secondCoord, actualWidth, actualWidth, ContourColor);
                 }
             }

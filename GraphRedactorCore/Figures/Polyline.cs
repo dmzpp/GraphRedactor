@@ -9,7 +9,6 @@ namespace GraphRedactorCore.Figures
     internal class PolyLine : IDrawable
     {
         private readonly List<int> points;
-
         internal Color ContourColor { get; set; }
         internal int Width { get; set; }
 

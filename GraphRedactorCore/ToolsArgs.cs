@@ -8,12 +8,11 @@ namespace GraphRedactorCore
         public Color SecondColor { get; set; }
         public int Width { get; set; }
 
-
         public ToolsArgs()
         {
             FirstColor = Colors.Black;
             SecondColor = Colors.Gray;
-            Width = 1;
+            Width = 10;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using GraphRedactorCore.Figures;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace GraphRedactorCore.Instruments
 {
@@ -50,8 +49,8 @@ namespace GraphRedactorCore.Instruments
             }
             else
             {
-                ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord, rectangle.secondCoord);
-                if(newViewPort.Scale < 100)
+                ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstDrawingCoord, rectangle.secondDrawingCoord);
+                if (newViewPort.Scale < 100)
                 {
                     args.GraphGlobalData.PushViewPort(newViewPort);
                 }

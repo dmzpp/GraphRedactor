@@ -10,7 +10,7 @@ namespace GraphRedactorCore
         public Point secondPoint;
 
         public double Scale { get; set; }
-        private GraphGlobalData globalData;
+        private readonly GraphGlobalData globalData;
 
         public ViewPort(WriteableBitmap bitmap, GraphGlobalData globalData)
         {
@@ -28,16 +28,20 @@ namespace GraphRedactorCore
             this.Scale = scale;
             this.globalData = globalData;
         }
-        // 226 87
-        public ViewPort Calculate(Point point, int toolScale = 2)
-        {
 
+        public ViewPort Calculate(Point point)
+        {
             var newWidth = (globalData.FirstViewPort.secondPoint.X - globalData.FirstViewPort.firstPoint.X) / (Scale * 2);
             var newHeight = (globalData.FirstViewPort.secondPoint.Y - globalData.FirstViewPort.firstPoint.Y) / (Scale * 2);
 
-            double scale = CalculateScale(newWidth, newHeight);
-            Point fPoint = new Point( (point.X - (newWidth / 2)) < 0 ? 0 : point.X - (newWidth / 2), (point.Y - (newHeight / 2)) < 0 ? 0 : point.Y - (newHeight / 2));
-            Point sPoint = new Point( point.X + (newWidth / 2),point.Y + (newHeight / 2));
+            var scale = CalculateScale(newWidth, newHeight);
+            Point fPoint = new Point();
+            Point sPoint = new Point();
+
+            fPoint.X = (point.X - (newWidth / 2)) < 0 ? 0 : point.X - (newWidth / 2);
+            fPoint.Y = (point.Y - (newHeight / 2)) < 0 ? 0 : point.Y - (newHeight / 2);
+            sPoint.X = point.X + (newWidth / 2);
+            sPoint.Y = point.Y + (newHeight / 2);
 
             return new ViewPort(fPoint, sPoint, scale, globalData);
         }

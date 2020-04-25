@@ -1,5 +1,4 @@
 ﻿using GraphRedactorCore;
-using GraphRedactorCore.Instruments;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -15,6 +14,7 @@ namespace Paint
             FillColorPicker.SelectedColor = redactor.ToolsArgs.FirstColor;
             ConturColorPicker.SelectedColor = redactor.ToolsArgs.SecondColor;
             WidthSlider.Value = redactor.ToolsArgs.Width;
+            SliderValueArea.Text = Convert.ToString(redactor.ToolsArgs.Width);
         }
 
         public MainWindow()
@@ -64,8 +64,8 @@ namespace Paint
             {
                 redactor.StopUsingTool(mouseCoords);
             }
-            if(redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
-            RenderCanvas();
+            if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
+                RenderCanvas();
         }
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {

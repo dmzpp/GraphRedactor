@@ -43,10 +43,7 @@ namespace GraphRedactorCore.Instruments
             if (rectangle.firstCoord.X == rectangle.secondCoord.X && rectangle.firstCoord.Y == rectangle.secondCoord.Y)
             {
                 ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(rectangle.firstCoord);
-                if (newViewPort.Scale < 40)
-                {
                     args.GraphGlobalData.PushViewPort(newViewPort);
-                }
             }
             else
             {
@@ -74,10 +71,7 @@ namespace GraphRedactorCore.Instruments
                 }
 
                 ViewPort newViewPort = args.GraphGlobalData.ViewPort.Calculate(firstDrawingCoord, secondDrawingCoord);
-                if (newViewPort.Scale < 40)
-                {
                     args.GraphGlobalData.PushViewPort(newViewPort);
-                }
             }
             args.GraphGlobalData.Bitmap.Render(args.GraphGlobalData.Drawables);
             rectangle = null;

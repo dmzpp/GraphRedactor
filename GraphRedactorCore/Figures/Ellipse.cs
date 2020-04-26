@@ -38,12 +38,17 @@ namespace GraphRedactorCore.Figures
         public void Draw(WriteableBitmap bitmap)
         {
             CalculateDrawingCoordinats();
-            using (bitmap.GetBitmapContext())
-            {
-                var actualWidth = (int)(width * globalData.ViewPort.Scale / scale) + 1;
-                bitmap.FillEllipse((int)firstDrawingCoord.X - actualWidth, (int)firstDrawingCoord.Y - actualWidth, (int)secondDrawingCoord.X + actualWidth, (int)secondDrawingCoord.Y + actualWidth, contourColor);
-                bitmap.FillEllipse((int)firstDrawingCoord.X, (int)firstDrawingCoord.Y, (int)secondDrawingCoord.X, (int)secondDrawingCoord.Y, fillColor);
-            }
+            /*            using (bitmap.GetBitmapContext())
+                        {
+                            var actualWidth = (int)(width * globalData.ViewPort.Scale / scale) + 1;
+                            bitmap.FillEllipse((int)firstDrawingCoord.X - actualWidth, (int)firstDrawingCoord.Y - actualWidth, (int)secondDrawingCoord.X + actualWidth, (int)secondDrawingCoord.Y + actualWidth, contourColor);
+                            bitmap.FillEllipse((int)firstDrawingCoord.X, (int)firstDrawingCoord.Y, (int)secondDrawingCoord.X, (int)secondDrawingCoord.Y, fillColor);
+                        }*/
+
+            var actualWidth = (int)(width * globalData.ViewPort.Scale / scale) + 1;
+            bitmap.FillEllipse((int)firstDrawingCoord.X - actualWidth, (int)firstDrawingCoord.Y - actualWidth, (int)secondDrawingCoord.X + actualWidth, (int)secondDrawingCoord.Y + actualWidth, contourColor);
+            bitmap.FillEllipse((int)firstDrawingCoord.X, (int)firstDrawingCoord.Y, (int)secondDrawingCoord.X, (int)secondDrawingCoord.Y, fillColor);
+
         }
 
         public void ChangeLastPoint(Point newPoint)

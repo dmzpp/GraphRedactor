@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{73294FBC-13A9-49A1-ABAE-2303C424D468}</ProjectGuid>
+    <ProjectGuid>{1FFDC72F-CAEF-41F4-9A78-1BE75DEB2123}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Paint</RootNamespace>
     <AssemblyName>Paint</AssemblyName>
@@ -49,23 +49,20 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WriteableBitmapEx.Wpf, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\WriteableBitmapEx.1.6.5\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
-    </Reference>
-	<Reference Include="Xceed.Wpf.AvalonDock, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\GraphRedactorCore\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\GraphRedactorCore\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\GraphRedactorCore\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\GraphRedactorCore\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\GraphRedactorCore\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -115,31 +112,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphRedactorCore\GraphRedactorCore.csproj">
-      <Project>{6d1ab411-56d4-4bae-9021-670cf94d29d6}</Project>
+      <Project>{ef6b6011-6e3f-4810-8978-aa254db5ce06}</Project>
       <Name>GraphRedactorCore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\fugires.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\pen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\lines.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icons\curve.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\line.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icons\ellipse.png" />
-    <Resource Include="icons\rectangle.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="icons\fugires.png" />
     <Resource Include="icons\hand.png" />
+    <Resource Include="icons\line.png" />
+    <Resource Include="icons\lines.png" />
+    <Resource Include="icons\pen.png" />
+    <Resource Include="icons\rectangle.png" />
     <Resource Include="icons\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

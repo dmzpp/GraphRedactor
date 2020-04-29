@@ -1,8 +1,10 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System;
+using System.Windows.Media;
+
 namespace GraphRedactorCore
 {
     internal interface IDrawable
     {
-        void Draw(WriteableBitmap bitmap);
+        void Draw(DrawingContext context, ViewPort veiwPort);
     }
 }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6D1AB411-56D4-4BAE-9021-670CF94D29D6}</ProjectGuid>
+    <ProjectGuid>{EF6B6011-6E3F-4810-8978-AA254DB5CE06}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GraphRedactorCore</RootNamespace>
@@ -32,48 +32,40 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\WindowsBase.4.6.1055.0\lib\WindowsBase.dll</HintPath>
-    </Reference>
-    <Reference Include="WriteableBitmapEx.Wpf, Version=1.6.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\WriteableBitmapEx.1.6.5\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
-    </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapExtensions.cs" />
-    <Compile Include="FigureDrawingTools.cs" />
+    <Compile Include="DrawingCanvas.cs" />
     <Compile Include="Figures\Ellipse.cs" />
     <Compile Include="Figures\PolyLine.cs" />
     <Compile Include="Figures\Rectangle.cs" />
-    <Compile Include="GraphGlobalData.cs" />
+    <Compile Include="GraphData.cs" />
     <Compile Include="GraphRedactor.cs" />
     <Compile Include="IDrawable.cs" />
-    <Compile Include="Instruments\CurveLineTool.cs" />
-    <Compile Include="Instruments\EllipseTool.cs" />
-    <Compile Include="Instruments\HandTool.cs" />
-    <Compile Include="Instruments\LineTool.cs" />
-    <Compile Include="Instruments\Pencil.cs" />
-    <Compile Include="Instruments\RectangleTool.cs" />
-    <Compile Include="Instruments\ZoomTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tool.cs" />
     <Compile Include="ToolPicker.cs" />
-    <Compile Include="ToolsArgs.cs" />
-    <Compile Include="ToolUsingArgs.cs" />
+    <Compile Include="ToolsParams\BorderColorParam.cs" />
+    <Compile Include="ToolsParams\FillColorParam.cs" />
+    <Compile Include="ToolsParams\ToolParam.cs" />
+    <Compile Include="ToolsParams\WidthParam.cs" />
+    <Compile Include="Tools\EllipseTool.cs" />
+    <Compile Include="Tools\HandTool.cs" />
+    <Compile Include="Tools\ITool.cs" />
+    <Compile Include="Tools\PencilTool.cs" />
+    <Compile Include="Tools\RectangleTool.cs" />
+    <Compile Include="Tools\ZoomTool.cs" />
     <Compile Include="ViewPort.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="editorconfig" />
-    <None Include="packages.config" />
+    <Compile Include="ViewPortCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29926.136
+VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paint", "Paint.csproj", "{73294FBC-13A9-49A1-ABAE-2303C424D468}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paint", "Paint.csproj", "{1FFDC72F-CAEF-41F4-9A78-1BE75DEB2123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphRedactorCore", "..\GraphRedactorCore\GraphRedactorCore.csproj", "{EF6B6011-6E3F-4810-8978-AA254DB5CE06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{73294FBC-13A9-49A1-ABAE-2303C424D468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73294FBC-13A9-49A1-ABAE-2303C424D468}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73294FBC-13A9-49A1-ABAE-2303C424D468}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73294FBC-13A9-49A1-ABAE-2303C424D468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FFDC72F-CAEF-41F4-9A78-1BE75DEB2123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FFDC72F-CAEF-41F4-9A78-1BE75DEB2123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFDC72F-CAEF-41F4-9A78-1BE75DEB2123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FFDC72F-CAEF-41F4-9A78-1BE75DEB2123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF6B6011-6E3F-4810-8978-AA254DB5CE06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6B6011-6E3F-4810-8978-AA254DB5CE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6B6011-6E3F-4810-8978-AA254DB5CE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6B6011-6E3F-4810-8978-AA254DB5CE06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1C5603C7-6910-49AA-9DBB-5377772C7408}
+		SolutionGuid = {E42C60D1-8A8E-4C7D-97FA-3EB95BDB185E}
 	EndGlobalSection
 EndGlobal

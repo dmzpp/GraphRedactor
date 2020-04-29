@@ -1,41 +1,45 @@
-﻿using GraphRedactorCore.Instruments;
+﻿using System;
 using System.Collections.Generic;
+using GraphRedactorCore.Tools;
 
 namespace GraphRedactorCore
 {
     public class ToolPicker
     {
-        private readonly Dictionary<Tools, Tool> tools;
-        public Tools CurrentToolType { get; set; }
-        internal Tool CurrentTool
-        {
-            get => tools[CurrentToolType];
-        }
-
-        public enum Tools
-        {
-            Rectangle,
-            Pencil,
-            Ellipse,
-            CurveLine,
-            Zoom,
-            HandTool,
-            Line
-        }
-
+        private readonly Dictionary<Type, ITool> tools;
+        private Type currentTool;
         public ToolPicker()
         {
-            tools = new Dictionary<Tools, Tool>()
+            tools = new Dictionary<Type, ITool>();
+            currentTool = typeof(RectangleTool);
+        }
+
+        public Type CurrentType()
+        {
+            return currentTool;
+        }
+        internal void AddTool(ITool tool)
+        {
+            tools.Add(tool.GetType(), tool);
+        }
+
+        internal void RemoveTool(ITool tool)
+        {
+            tools.Remove(tool.GetType());
+        }
+
+        public void SetTool(Type toolType)
+        {
+            currentTool = toolType;
+        }
+
+        public ITool GetTool()
+        {
+            if (!tools.ContainsKey(currentTool))
             {
-                [Tools.Rectangle] = new RectangleTool(),
-                [Tools.Pencil] = new Pencil(),
-                [Tools.Ellipse] = new EllipseTool(),
-                [Tools.CurveLine] = new CurveLineTool(),
-                [Tools.Zoom] = new ZoomTool(),
-                [Tools.HandTool] = new HandTool(),
-                [Tools.Line] = new LineTool()
-            };
-            CurrentToolType = Tools.Rectangle;
+                throw new Exception($"{currentTool.Name} is not exist in that collection");
+            }
+            return tools[currentTool];
         }
     }
 }

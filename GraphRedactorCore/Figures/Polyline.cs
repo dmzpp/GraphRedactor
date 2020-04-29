@@ -1,87 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.Windows;
+using GraphRedactorCore;
+using System.Net.Http.Headers;
 
 namespace GraphRedactorCore.Figures
 {
     internal class PolyLine : IDrawable
     {
-        private readonly List<int> points;
-        internal Color ContourColor { get; set; }
-        internal int Width { get; set; }
+        private readonly List<Point> _points;
+        private double _width;
+        private Pen _pen;
+        private double _scale;
 
-        private readonly GraphGlobalData globalData;
-        private double scale;
-        private double offsetX;
-        private double offsetY;
-
-        public PolyLine(Point initializePoint, Color contourColor, int width, GraphGlobalData globalData)
+        public PolyLine(Point initializePoint, Color contourColor, double width, double scale)
         {
-            points = new List<int>
+            _points = new List<Point>
             {
-                (int)initializePoint.X,
-                (int)initializePoint.Y,
-                (int)initializePoint.X,
-                (int)initializePoint.Y
+                initializePoint,
+                initializePoint
             };
-
-            ContourColor = contourColor;
-            Width = width;
-
-            this.globalData = globalData;
-            scale = globalData.ViewPort.Scale;
-            offsetX = globalData.ViewPort.firstPoint.X;
-            offsetY = globalData.ViewPort.firstPoint.Y;
+            _pen = new Pen(new SolidColorBrush(contourColor), width);
+            _width = width;
+            _scale = scale;
         }
 
-        public void Draw(WriteableBitmap bitmap)
+        public void Draw(DrawingContext context, ViewPort viewPort)
         {
-            using (bitmap.GetBitmapContext())
+            var geometry = new StreamGeometry();
+            using (var geometryContext = geometry.Open())
             {
-                for (int i = 2; i < points.Count; i += 2)
-                {
-                    int firstCoord, secondCoord;
-                    int actualWidth = (int)(Width * globalData.ViewPort.Scale / scale) + 1;
-                    firstCoord = (int)(((offsetX + (points[i - 2]) / scale - globalData.ViewPort.firstPoint.X)) * globalData.ViewPort.Scale);
-                    secondCoord = (int)(((offsetY + (points[i - 1]) / scale - globalData.ViewPort.firstPoint.Y)) * globalData.ViewPort.Scale);
+                geometryContext.BeginFigure(
+                    new Point(((_points[0].X - viewPort.firstPoint.X) * viewPort.Scale),
+                                (_points[0].Y - viewPort.firstPoint.Y) * viewPort.Scale), true, false);
 
-                    bitmap.FillEllipseCentered(firstCoord, secondCoord, actualWidth, actualWidth, ContourColor);
+                for (int i = 1; i < _points.Count; i++)
+                {
+                    Point newPoint = new Point(
+                        (_points[i].X- viewPort.firstPoint.X) * viewPort.Scale,
+                        (_points[i].Y- viewPort.firstPoint.Y) * viewPort.Scale);
+                    geometryContext.LineTo(newPoint, true, true);
                 }
             }
+            double actualWidth = _width * viewPort.Scale / _scale;
+            _pen.Thickness = actualWidth;
+            context.DrawGeometry(null, _pen, geometry);
         }
 
         public void AddPoint(Point newPoint)
         {
-            if (points.Count == 0)
-            {
-                points.Add((int)newPoint.X);
-                points.Add((int)newPoint.Y);
-            }
-            else
-            {
-                List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (Width / 3) + 1)
-                    .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
-                points.AddRange(newPoints);
-            }
+            _points.Add(newPoint);
         }
 
-        public void ChangeLastPoint(Point newPoint, bool SaveFirstPoints = false, int pointsCount = 1)
+        public void ChangeLastPoint(Point newPoint)
         {
-            if (SaveFirstPoints && points.Count >= pointsCount * 2)
-            {
-                points.RemoveRange(pointsCount * 2, points.Count - pointsCount * 2);
-            }
-            List<int> newPoints = (FigureDrawingTools.Interpolate(points[points.Count - 2], points[points.Count - 1], (int)newPoint.X, (int)newPoint.Y, (Width / 3) + 1)
-                   .ConvertAll<int>(new Converter<double, int>((value) => (int)value)));
-            points.AddRange(newPoints);
-
-            if (newPoints == null)
-            {
-                points.Add((int)newPoint.X);
-                points.Add((int)newPoint.Y);
-            }
+            _points[_points.Count - 1] = newPoint;
         }
 
     }

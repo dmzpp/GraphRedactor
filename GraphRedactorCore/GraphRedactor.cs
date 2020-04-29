@@ -1,70 +1,76 @@
-﻿using System.Windows;
-using System.Windows.Media.Imaging;
+﻿using GraphRedactorCore.Tools;
+using System;
+using System.Reflection;
+using System.Windows;
 
 namespace GraphRedactorCore
 {
     public class GraphRedactor
     {
+        private readonly GraphData graphData;
         public ToolPicker ToolPicker { get; }
-        public ToolsArgs ToolsArgs { get; }
-        public WriteableBitmap Bitmap { get => globalData.Bitmap; set => globalData.Bitmap = value; }
-        private readonly GraphGlobalData globalData;
-
         private States currentState;
         private enum States
         {
             creating,
-            editing
+            editing,
+            nothing
         }
 
-        public GraphRedactor(WriteableBitmap bitmap)
+        public GraphRedactor(int width, int height, DrawingCanvas drawingCanvas)
         {
+            graphData = new GraphData(width, height, drawingCanvas);
             ToolPicker = new ToolPicker();
-            ToolsArgs = new ToolsArgs();
-            globalData = new GraphGlobalData(bitmap);
-            currentState = States.creating;
+            ToolPicker.AddTool(new RectangleTool());
+            ToolPicker.AddTool(new ZoomTool());
+            ToolPicker.AddTool(new EllipseTool());
+            ToolPicker.AddTool(new PencilTool());
+            ToolPicker.AddTool(new HandTool());
+            currentState = States.nothing;
         }
 
-        public void ResizeBitmap(int actualWidth, int actualHeight)
-        {
-            globalData.Bitmap = globalData.Bitmap.Resize(actualWidth, actualHeight, WriteableBitmapExtensions.Interpolation.Bilinear);
-            globalData.FirstViewPort.secondPoint.X = actualWidth;
-            globalData.FirstViewPort.secondPoint.Y = actualHeight;
-        }
 
         public void StartUsingSelectedTool(Point point)
         {
-            ToolPicker.CurrentTool.StartUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
-            currentState = States.editing;
+            if (currentState == States.nothing)
+            {
+                ToolPicker.GetTool().StartUsing(point, graphData);
+                currentState = States.editing;
+            }
         }
         public void UseSelectedTool(Point point)
         {
             if (currentState == States.editing)
             {
-                ToolPicker.CurrentTool.Use(new ToolUsingArgs(point, ToolsArgs, globalData));
+                ToolPicker.GetTool().Use(point, graphData);
             }
         }
 
         public void ChangeToolPhase(Point point)
         {
-            ToolPicker.CurrentTool.NextPhase(new ToolUsingArgs(point, ToolsArgs, globalData));
+            ToolPicker.GetTool().NextPhase(point, graphData);
         }
 
         public void StopUsingTool(Point point)
         {
-            ToolPicker.CurrentTool.StopUsing(new ToolUsingArgs(point, ToolsArgs, globalData));
-            currentState = States.creating;
+            ToolPicker.GetTool().StopUsing(point, graphData);
+            currentState = States.nothing;
         }
 
         public void Render()
         {
-            Bitmap.Render(globalData.Drawables);
+            graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
         }
 
         public void PreviousScale()
         {
-            globalData.PopViewPort();
-            Render();
+            graphData.viewPorts.RemoveLast();
+        }
+
+        public void Resize(double width, double height)
+        {
+            graphData.viewPorts.First().secondPoint.X = width;
+            graphData.viewPorts.First().secondPoint.Y = height;
         }
     }
 }

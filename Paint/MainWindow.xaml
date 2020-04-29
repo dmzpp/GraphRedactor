@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk ="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:p ="clr-namespace:GraphRedactorCore;assembly=GraphRedactorCore"
         xmlns:local="clr-namespace:Paint"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
@@ -12,11 +13,14 @@
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="125"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition x:Name="Row" Height="0.8*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="Column" MinWidth="800"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Image Name="canvas" Grid.Row="1" Stretch="Fill" MouseRightButtonDown="Canvas_MouseRightButtonDown" MouseMove="Canvas_MouseMove" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseLeftButtonUp="Canvas_MouseLeftButtonUp"></Image>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" MouseRightButtonDown="Canvas_MouseRightButtonDown" x:Name="ViewBox" MouseMove="Canvas_MouseMove" MouseLeftButtonUp="Canvas_MouseLeftButtonUp">
+            <p:DrawingCanvas x:Name="Canvas"></p:DrawingCanvas>
+        </ScrollViewer>
         <Grid Grid.Row="0" ShowGridLines="True">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -33,11 +37,11 @@
                 <!--Фигуры-->
                 <ColumnDefinition Width="300"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
+
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Инструменты</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Толщина</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Цвет</TextBlock>
-            
+
             <!--Инструментики-->
             <WrapPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Width="25" Height="25" Margin="3" Background="White" Click="PenButton_Click">
@@ -82,9 +86,9 @@
                     <xctk:ColorPicker x:Name="ConturColorPicker" Width="50" Height="40" SelectedColorChanged="ConturColorPicker_SelectedColorChanged"></xctk:ColorPicker>
                     <xctk:ColorPicker x:Name="FillColorPicker" Width="50" Height="40" SelectedColorChanged="FillColorPicker_SelectedColorChanged"></xctk:ColorPicker>
                 </StackPanel>
-                
+
             </Grid>
-            
+
             <!--Фигуры-->
             <WrapPanel x:Name="FigureTypes" Visibility="Hidden" Grid.Column="3" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Width="55" Height="25" Margin="3" Background="White" Click="RectangleButton_Click">

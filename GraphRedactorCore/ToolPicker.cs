@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows;
-using System.Windows.Navigation;
-using GraphRedactorCore.Tools;
+﻿using GraphRedactorCore.Tools;
 using GraphRedactorCore.ToolsParams;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace GraphRedactorCore
 {
@@ -56,14 +54,15 @@ namespace GraphRedactorCore
         public void RenderTools(Panel toolPanel, Panel toolArgs)
         {
             toolPanel.Children.Clear();
-            foreach(var tool in _tools)
+            foreach (var tool in _tools)
             {
                 var toolView = tool.Value.ToolView;
                 if (toolView != null)
                 {
-                    (toolView as Button).AddHandler(Button.ClickEvent, new RoutedEventHandler((o, e) => {
+                    (toolView as Button)?.AddHandler(Button.ClickEvent, new RoutedEventHandler((o, e) =>
+                    {
                         _currentTool = tool.Key;
-                        RenderToolArgs(toolArgs); 
+                        RenderToolArgs(toolArgs);
                     }));
                     toolPanel.Children.Add(toolView);
                 }
@@ -78,7 +77,7 @@ namespace GraphRedactorCore
             {
                 if (arg.PropertyType.IsSubclassOf(typeof(ToolParam)))
                 {
-                    var view = ((arg.GetValue(GetTool())) as ToolParam).ArgView;
+                    var view = ((arg.GetValue(GetTool())) as ToolParam)?.ArgView;
                     if (view != null)
                     {
                         panel.Children.Add(view);

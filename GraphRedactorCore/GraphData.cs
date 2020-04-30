@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GraphRedactorCore
 {
@@ -14,8 +10,10 @@ namespace GraphRedactorCore
 
         public GraphData(int windowWidth, int windowHeight, DrawingCanvas drawingCanvas)
         {
-            viewPorts = new ViewPortCollection();
-            viewPorts.Add(new ViewPort(windowWidth, windowHeight));
+            viewPorts = new ViewPortCollection
+            {
+                new ViewPort(windowWidth, windowHeight)
+            };
             drawables = new LinkedList<IDrawable>();
             canvas = drawingCanvas;
         }

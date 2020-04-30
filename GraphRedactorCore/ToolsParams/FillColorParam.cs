@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
-using System.Windows;
 
 namespace GraphRedactorCore.ToolsParams
 {
@@ -15,7 +10,7 @@ namespace GraphRedactorCore.ToolsParams
         public FillColorParam(Color color)
         {
             Color = color;
-            ArgView = new ColorPicker() { SelectedColor = color, Width = 50, Height = 50, Margin = new Thickness(10)};
+            ArgView = new ColorPicker() { SelectedColor = color, Width = 50, Height = 50, Margin = new Thickness(10) };
             (ArgView as ColorPicker).SelectedColorChanged += FillColorParam_SelectedColorChanged;
         }
 

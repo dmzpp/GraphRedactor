@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Collections.Generic;
 using System.Windows;
-using GraphRedactorCore;
-using System.Net.Http.Headers;
+using System.Windows.Media;
 
 namespace GraphRedactorCore.Figures
 {
     internal class PolyLine : IDrawable
     {
         private readonly List<Point> _points;
+        private readonly Pen _pen;
         private double _width;
-        private Pen _pen;
         private double _scale;
 
         public PolyLine(Point initializePoint, Color contourColor, double width, double scale)
@@ -35,18 +29,18 @@ namespace GraphRedactorCore.Figures
             using (var geometryContext = geometry.Open())
             {
                 geometryContext.BeginFigure(
-                    new Point(((_points[0].X - viewPort.firstPoint.X) * viewPort.Scale),
+                    new Point((_points[0].X - viewPort.firstPoint.X) * viewPort.Scale,
                                 (_points[0].Y - viewPort.firstPoint.Y) * viewPort.Scale), true, false);
 
                 for (int i = 1; i < _points.Count; i++)
                 {
                     Point newPoint = new Point(
-                        (_points[i].X- viewPort.firstPoint.X) * viewPort.Scale,
-                        (_points[i].Y- viewPort.firstPoint.Y) * viewPort.Scale);
+                        (_points[i].X - viewPort.firstPoint.X) * viewPort.Scale,
+                        (_points[i].Y - viewPort.firstPoint.Y) * viewPort.Scale);
                     geometryContext.LineTo(newPoint, true, true);
                 }
             }
-            double actualWidth = _width * viewPort.Scale / _scale;
+            var actualWidth = _width * viewPort.Scale / _scale;
             _pen.Thickness = actualWidth;
             context.DrawGeometry(null, _pen, geometry);
         }
@@ -58,7 +52,10 @@ namespace GraphRedactorCore.Figures
 
         public void ChangeLastPoint(Point newPoint)
         {
-            _points[_points.Count - 1] = newPoint;
+            if (_points.Count > 1)
+            {
+                _points[_points.Count - 1] = newPoint;
+            }
         }
 
     }

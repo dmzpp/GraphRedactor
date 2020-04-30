@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphRedactorCore
 {
@@ -32,7 +28,7 @@ namespace GraphRedactorCore
 
         public ViewPort Previous()
         {
-            if(viewPorts.Count == 1)
+            if (viewPorts.Count == 1)
             {
                 return viewPorts.First.Value;
             }
@@ -49,7 +45,7 @@ namespace GraphRedactorCore
 
         public void RemoveLast()
         {
-            if(Count > 1)
+            if (Count > 1)
             {
                 viewPorts.RemoveLast();
             }

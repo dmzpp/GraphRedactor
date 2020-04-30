@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace GraphRedactorCore.ToolsParams
@@ -15,7 +10,7 @@ namespace GraphRedactorCore.ToolsParams
         public WidthParam(double width)
         {
             Value = width;
-            ArgView = new Slider() { Value = width, Maximum = 50, Minimum = 1, Width=80, Height=20, Margin = new Thickness(10)};
+            ArgView = new Slider() { Value = width, Maximum = 50, Minimum = 1, Width = 80, Height = 20, Margin = new Thickness(10) };
             (ArgView as Slider).ValueChanged += WidthParam_ValueChanged;
         }
 

@@ -1,9 +1,4 @@
-﻿using GraphRedactorCore.Tools;
-using GraphRedactorCore.ToolsParams;
-using System;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 
 namespace GraphRedactorCore
 {

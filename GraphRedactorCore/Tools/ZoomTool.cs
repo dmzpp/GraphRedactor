@@ -1,10 +1,7 @@
-﻿using System;
+﻿using GraphRedactorCore.Figures;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using GraphRedactorCore.Figures;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -71,27 +68,11 @@ namespace GraphRedactorCore.Tools
             {
                 Point firstDrawingCoord = new Point();
                 Point secondDrawingCoord = new Point();
-                if (rectangle.firstCoord.X > rectangle.secondCoord.X)
-                {
-                    firstDrawingCoord.X = rectangle.secondCoord.X;
-                    secondDrawingCoord.X = rectangle.firstCoord.X;
-                }
-                else
-                {
-                    firstDrawingCoord.X = rectangle.firstCoord.X;
-                    secondDrawingCoord.X = rectangle.secondCoord.X;
-                }
-                if (rectangle.firstCoord.Y > rectangle.secondCoord.Y)
-                {
-                    firstDrawingCoord.Y = rectangle.secondCoord.Y;
-                    secondDrawingCoord.Y = rectangle.firstCoord.Y;
-                }
-                else
-                {
-                    firstDrawingCoord.Y = rectangle.firstCoord.Y;
-                    secondDrawingCoord.Y = rectangle.secondCoord.Y;
-                }
 
+                firstDrawingCoord.X = Math.Min(rectangle.firstCoord.X, rectangle.secondCoord.X);
+                firstDrawingCoord.Y = Math.Min(rectangle.firstCoord.Y, rectangle.secondCoord.Y);
+                secondDrawingCoord.X = Math.Max(rectangle.firstCoord.X, rectangle.secondCoord.X);
+                secondDrawingCoord.Y = Math.Max(rectangle.firstCoord.Y, rectangle.secondCoord.Y);
 
                 ViewPort newViewPort = CalculateViewPort(firstDrawingCoord, secondDrawingCoord, data);
                 data.viewPorts.Add(newViewPort);
@@ -117,8 +98,11 @@ namespace GraphRedactorCore.Tools
 
         private void Update(LinkedList<IDrawable> drawables)
         {
-            drawables.RemoveLast();
-            drawables.AddLast(rectangle);
+            if (drawables.Count > 1 && rectangle != null)
+            {
+                drawables.RemoveLast();
+                drawables.AddLast(rectangle);
+            }
         }
 
         private ViewPort CalculateViewPort(Point point, GraphData graphData)

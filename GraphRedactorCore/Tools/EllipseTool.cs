@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GraphRedactorCore.Figures;
 using GraphRedactorCore.ToolsParams;
-using GraphRedactorCore.Figures;
-using System.Windows.Media;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GraphRedactorCore.Tools
 {

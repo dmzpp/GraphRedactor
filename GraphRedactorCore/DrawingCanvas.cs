@@ -18,10 +18,6 @@ namespace GraphRedactorCore
             collection = new VisualCollection(this);
         }
 
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-           // drawingContext.DrawRectangle(new SolidColorBrush(Colors.Red), new Pen(new SolidColorBrush(Colors.Blue), 10), new Rect(10, 10, 100, 100));
-        }
         internal void Render(ICollection<IDrawable> drawables, ViewPort viewPort)
         {
             collection.Clear();

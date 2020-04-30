@@ -1,63 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GraphRedactorCore;
 using GraphRedactorCore.Tools;
-using GraphRedactorCore.ToolsParams;
 
 namespace Paint
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly GraphRedactor redactor;
-        private void SetDefault()
-        {
-           /* FillColorPicker.SelectedColor = redactor.ToolsArgs.FirstColor;
-            ConturColorPicker.SelectedColor = redactor.ToolsArgs.SecondColor;
-            WidthSlider.Value = redactor.ToolsArgs.Width;
-            SliderValueArea.Text = Convert.ToString(redactor.ToolsArgs.Width);*/
-        }
-
         public MainWindow()
         {
             InitializeComponent();
             ViewBox.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(Canvas_MouseLeftButtonDown), true);
             redactor = new GraphRedactor(800, 400, Canvas);
-            //WidthSlider.ValueChanged += WidthSlider_ValueChanged;
-           // RenderToolsArgs();
         }
-       /* private void RenderToolsArgs()
-        {
-            var toolArgs = redactor.ToolPicker.CurrentType().GetProperties();
-            ToolArgs.Children.Clear();
-            foreach (var arg in toolArgs)
-            {
-                if (arg.PropertyType.IsSubclassOf(typeof(ToolParam)))
-                {
-                    var view = ((arg.GetValue(redactor.ToolPicker.GetTool())) as ToolParam).ArgView;
-                    if(view != null)
-                    {
-                        ToolArgs.Children.Add(view);
-                    }
-                }
-            }
-            
-        }*/
 
         private void RenderCanvas()
         {
@@ -83,7 +39,6 @@ namespace Paint
         {
             Point mouseCoords = e.GetPosition(ViewBox);
             redactor.UseSelectedTool(mouseCoords);
-           // SliderValueArea.Text = $"{mouseCoords.X} {mouseCoords.Y}";
             RenderCanvas();
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -112,21 +67,6 @@ namespace Paint
         {
             redactor.Resize(e.NewSize.Width, e.NewSize.Height);
         }
-
-       /* private void WidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            redactor.SetToolArg(new WidthParam(e.NewValue));
-        }
-
-        private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
-        {
-            redactor.SetToolArg(new BorderColorParam((Color)e.NewValue));
-        }
-
-        private void FillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
-        {
-            redactor.SetToolArg(new FillColorParam((Color)e.NewValue));
-        }*/
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -171,8 +111,8 @@ namespace Paint
 
         private void LineButton_Click(object sender, RoutedEventArgs e)
         {
-            //redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Line;
-            // redactor.RenderToolArgs(ToolArgs);
+            redactor.ToolPicker.SetTool(typeof(LineTool));
+            redactor.RenderToolArgs(ToolArgs);
         }
     }
 }

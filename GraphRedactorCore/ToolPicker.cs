@@ -6,40 +6,40 @@ namespace GraphRedactorCore
 {
     public class ToolPicker
     {
-        private readonly Dictionary<Type, ITool> tools;
-        private Type currentTool;
+        private readonly Dictionary<Type, ITool> _tools;
+        private Type _currentTool;
         public ToolPicker()
         {
-            tools = new Dictionary<Type, ITool>();
-            currentTool = typeof(RectangleTool);
+            _tools = new Dictionary<Type, ITool>();
+            _currentTool = typeof(RectangleTool);
         }
 
         public Type CurrentType()
         {
-            return currentTool;
+            return _currentTool;
         }
         internal void AddTool(ITool tool)
         {
-            tools.Add(tool.GetType(), tool);
+            _tools.Add(tool.GetType(), tool);
         }
 
         internal void RemoveTool(ITool tool)
         {
-            tools.Remove(tool.GetType());
+            _tools.Remove(tool.GetType());
         }
 
         public void SetTool(Type toolType)
         {
-            currentTool = toolType;
+            _currentTool = toolType;
         }
 
         public ITool GetTool()
         {
-            if (!tools.ContainsKey(currentTool))
+            if (!_tools.ContainsKey(_currentTool))
             {
-                throw new Exception($"{currentTool.Name} is not exist in that collection");
+                throw new Exception($"{_currentTool.Name} is not exist in that collection");
             }
-            return tools[currentTool];
+            return _tools[_currentTool];
         }
     }
 }

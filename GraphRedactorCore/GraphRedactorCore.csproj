@@ -76,6 +76,7 @@
     <Compile Include="Tools\EllipseTool.cs" />
     <Compile Include="Tools\HandTool.cs" />
     <Compile Include="Tools\ITool.cs" />
+    <Compile Include="Tools\LineTool.cs" />
     <Compile Include="Tools\PencilTool.cs" />
     <Compile Include="Tools\RectangleTool.cs" />
     <Compile Include="Tools\ZoomTool.cs" />

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using GraphRedactorCore.Figures;
 using GraphRedactorCore.ToolsParams;
+using GraphRedactorCore.Figures;
+using System.Windows.Media;
 
 namespace GraphRedactorCore.Tools
 {
-    public class PencilTool : ITool
+    public class LineTool : ITool
     {
         private PolyLine polyLine = null;
 
@@ -20,9 +20,9 @@ namespace GraphRedactorCore.Tools
         public FillColorParam FillColor { get => _fillColor; set => _fillColor = value; }
         public WidthParam Width { get => _width; set => _width = value; }
 
-        public PencilTool()
+        public LineTool()
         {
-            _fillColor = new FillColorParam(Colors.Red);
+            _fillColor = new FillColorParam(Colors.Blue);
             _width = new WidthParam(10);
         }
 
@@ -57,11 +57,11 @@ namespace GraphRedactorCore.Tools
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
-            polyLine.AddPoint(point);
+            polyLine.ChangeLastPoint(point);
             Update(graphData.drawables);
         }
 
-        private void Update(LinkedList<IDrawable> drawables )
+        private void Update(LinkedList<IDrawable> drawables)
         {
             if (drawables.Count > 1)
             {

@@ -28,6 +28,7 @@ namespace GraphRedactorCore
             ToolPicker.AddTool(new EllipseTool());
             ToolPicker.AddTool(new PencilTool());
             ToolPicker.AddTool(new HandTool());
+            ToolPicker.AddTool(new LineTool());
             currentState = States.nothing;
         }
 

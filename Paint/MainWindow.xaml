@@ -29,60 +29,16 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <!--Инструменты-->
-                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
                 <!--Панель с аргументами инструмента-->
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="300"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Инструменты</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Толщина</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">Цвет</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Параметры инструмента</TextBlock>
 
-            <!--Инструментики-->
-            <WrapPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="PenButton_Click">
-                    <Image Source="icons/pen.png"/>
-                </Button>
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="RectangleButton_Click">
-                    <Image Source="icons/rectangle.png"/>
-                </Button>
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="EllipseButton_Click">
-                    <Image Source="icons/ellipse.png"/>
-                </Button>
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="SearchButton_Click">
-                    <Image Source="icons/search.png"/>
-                </Button>
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="HandButton_Click">
-                    <Image Source="icons/hand.png"/>
-                </Button>
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="CurveLineButton_Click">
-                    <Image Source="icons/curve.png"/>
-                </Button>
-                <Button Width="25" Height="25" Margin="3" Background="White" Click="LineButton_Click">
-                    <Image Source="icons/line.png"/>
-                </Button>
-            </WrapPanel>
-
-            <WrapPanel x:Name="ToolArgs" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                
-            </WrapPanel>
-            <!--Фигуры-->
-            <WrapPanel x:Name="FigureTypes" Visibility="Hidden" Grid.Column="3" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Width="55" Height="25" Margin="3" Background="White" Click="RectangleButton_Click">
-                    <Image Source="icons/rectangle.png"></Image>
-                </Button>
-                <Button Width="55" Height="25" Margin="3" Background="White" Click="EllipseButton_Click">
-                    <Image Source="icons/ellipse.png"></Image>
-                </Button>
-                <Button Width="55" Height="25" Margin="3" Background="White">
-                </Button>
-                <Button Width="55" Height="25" Margin="3" Background="White">
-                </Button>
-                <Button Width="55" Height="25" Margin="3" Background="White">
-                </Button>
-                <Button Width="55" Height="25" Margin="3" Background="White">
-                </Button>
-            </WrapPanel>
+            <WrapPanel x:Name="Tools" Grid.Row="0" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center"></WrapPanel>
+            <WrapPanel x:Name="ToolArgs" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"></WrapPanel>
         </Grid>
     </Grid>
 </Window>

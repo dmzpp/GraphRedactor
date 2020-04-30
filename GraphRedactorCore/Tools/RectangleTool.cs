@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace GraphRedactorCore.Tools
 {
-    public class RectangleTool : ITool
+    public class RectangleTool : Tool
     {
         private Rectangle rectangle = null;
         private FillColorParam _fillColor;
@@ -27,14 +27,28 @@ namespace GraphRedactorCore.Tools
             _fillColor = new FillColorParam(Colors.Black);
             _borderColor = new BorderColorParam(Colors.Yellow);
             _width = new WidthParam(10);
+
+            ToolView = new Button()
+            {
+                Width = 60,
+                Height = 30,
+                Content = "Rectangle",
+                Margin = new Thickness(3),
+                Background = new SolidColorBrush(Colors.White)
+            };
         }
 
-        public void NextPhase(Point point, GraphData graphData)
+        public RectangleTool(UIElement toolView) : this()
+        {
+            ToolView = toolView;
+        }
+
+        public override void NextPhase(Point point, GraphData graphData)
         {
             throw new NotImplementedException("Данная фигура не поддерживает подобной функции");
         }
 
-        public void StartUsing(Point point, GraphData graphData)
+        public override void StartUsing(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
@@ -44,17 +58,17 @@ namespace GraphRedactorCore.Tools
             graphData.drawables.AddLast(rectangle);
         }
 
-        public void StopUsing(Point point, GraphData graphData)
+        public override void StopUsing(Point point, GraphData graphData)
         {
             Update(graphData.drawables); 
             rectangle = null;
         }
 
-        public void Use(Point point, GraphData data)
+        public override void Use(Point point, GraphData data)
         {
             if (rectangle == null)
             {
-                throw new NullReferenceException("Работа инструмента не начата");
+                return;
             }
             var viewPort = data.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);

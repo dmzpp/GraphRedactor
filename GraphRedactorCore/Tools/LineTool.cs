@@ -7,10 +7,11 @@ using System.Windows;
 using GraphRedactorCore.ToolsParams;
 using GraphRedactorCore.Figures;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace GraphRedactorCore.Tools
 {
-    public class LineTool : ITool
+    public class LineTool : Tool
     {
         private PolyLine polyLine = null;
 
@@ -24,14 +25,27 @@ namespace GraphRedactorCore.Tools
         {
             _fillColor = new FillColorParam(Colors.Blue);
             _width = new WidthParam(10);
+            ToolView = new Button()
+            {
+                Width = 60,
+                Height = 30,
+                Content = "Line",
+                Margin = new Thickness(3),
+                Background = new SolidColorBrush(Colors.White)
+            };
         }
 
-        public void NextPhase(Point point, GraphData graphData)
+        public LineTool(UIElement toolView) : this()
+        {
+            ToolView = toolView;
+        }
+
+        public override void NextPhase(Point point, GraphData graphData)
         {
             throw new NotImplementedException("Этот инструмент пока не поддерживает это");
         }
 
-        public void StartUsing(Point point, GraphData graphData)
+        public override void StartUsing(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
@@ -41,13 +55,13 @@ namespace GraphRedactorCore.Tools
             graphData.drawables.AddLast(polyLine);
         }
 
-        public void StopUsing(Point point, GraphData graphData)
+        public override void StopUsing(Point point, GraphData graphData)
         {
             Update(graphData.drawables);
             polyLine = null;
         }
 
-        public void Use(Point point, GraphData graphData)
+        public override void Use(Point point, GraphData graphData)
         {
             if (polyLine == null)
             {

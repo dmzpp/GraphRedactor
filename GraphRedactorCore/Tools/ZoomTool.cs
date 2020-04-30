@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GraphRedactorCore.Figures;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace GraphRedactorCore.Tools
 {
-    public class ZoomTool : ITool
+    public class ZoomTool : Tool
     {
         private Rectangle rectangle = null;
         private enum States
@@ -21,14 +22,26 @@ namespace GraphRedactorCore.Tools
         public ZoomTool()
         {
             currentState = States.none;
+            ToolView = new Button()
+            {
+                Width = 60,
+                Height = 30,
+                Content = "Line",
+                Margin = new Thickness(3),
+                Background = new SolidColorBrush(Colors.White)
+            };
+        }
+        public ZoomTool(UIElement toolView) : this()
+        {
+            ToolView = toolView;
         }
 
-        public void NextPhase(Point point, GraphData data)
+        public override void NextPhase(Point point, GraphData data)
         {
             return;
         }
 
-        public void StartUsing(Point point, GraphData data)
+        public override void StartUsing(Point point, GraphData data)
         {
             if (currentState != States.stretching)
             {
@@ -42,7 +55,7 @@ namespace GraphRedactorCore.Tools
             }
         }
 
-        public void StopUsing(Point point, GraphData data)
+        public override void StopUsing(Point point, GraphData data)
         {
             if (rectangle == null)
             {
@@ -88,7 +101,7 @@ namespace GraphRedactorCore.Tools
             currentState = States.none;
         }
 
-        public void Use(Point point, GraphData data)
+        public override void Use(Point point, GraphData data)
         {
             if (rectangle == null)
             {

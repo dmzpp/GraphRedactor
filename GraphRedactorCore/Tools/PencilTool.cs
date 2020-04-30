@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Controls;
 using GraphRedactorCore.Figures;
 using GraphRedactorCore.ToolsParams;
 
 namespace GraphRedactorCore.Tools
 {
-    public class PencilTool : ITool
+    public class PencilTool : Tool
     {
         private PolyLine polyLine = null;
 
@@ -24,14 +25,26 @@ namespace GraphRedactorCore.Tools
         {
             _fillColor = new FillColorParam(Colors.Red);
             _width = new WidthParam(10);
+            ToolView = new Button()
+            {
+                Width = 60,
+                Height = 30,
+                Content = "Pencil",
+                Margin = new Thickness(3),
+                Background = new SolidColorBrush(Colors.White)
+            };
+        }
+        public PencilTool(UIElement toolView) : this()
+        {
+            ToolView = toolView;
         }
 
-        public void NextPhase(Point point, GraphData graphData)
+        public override void NextPhase(Point point, GraphData graphData)
         {
             throw new NotImplementedException("Этот инструмент пока не поддерживает это");
         }
 
-        public void StartUsing(Point point, GraphData graphData)
+        public override void StartUsing(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
@@ -41,13 +54,13 @@ namespace GraphRedactorCore.Tools
             graphData.drawables.AddLast(polyLine);
         }
 
-        public void StopUsing(Point point, GraphData graphData)
+        public override void StopUsing(Point point, GraphData graphData)
         {
             Update(graphData.drawables);
             polyLine = null;
         }
 
-        public void Use(Point point, GraphData graphData)
+        public override void Use(Point point, GraphData graphData)
         {
             if (polyLine == null)
             {

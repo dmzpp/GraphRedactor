@@ -2,6 +2,8 @@
 using System.Windows.Input;
 using GraphRedactorCore;
 using GraphRedactorCore.Tools;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Paint
 {
@@ -13,6 +15,15 @@ namespace Paint
             InitializeComponent();
             ViewBox.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(Canvas_MouseLeftButtonDown), true);
             redactor = new GraphRedactor(800, 400, Canvas);
+
+            redactor.ToolPicker.AddTool(new RectangleTool());
+            redactor.ToolPicker.AddTool(new ZoomTool());
+            redactor.ToolPicker.AddTool(new EllipseTool());
+            redactor.ToolPicker.AddTool(new PencilTool());
+            redactor.ToolPicker.AddTool(new HandTool());
+            redactor.ToolPicker.AddTool(new LineTool());
+
+            redactor.ToolPicker.RenderTools(Tools, ToolArgs);
         }
 
         private void RenderCanvas()
@@ -74,45 +85,5 @@ namespace Paint
             RenderCanvas();
         }
 
-        private void PenButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.SetTool(typeof(PencilTool));
-            redactor.RenderToolArgs(ToolArgs);
-        }
-
-        private void RectangleButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.SetTool(typeof(RectangleTool));
-            redactor.RenderToolArgs(ToolArgs);
-        }
-
-        private void EllipseButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.SetTool(typeof(EllipseTool));
-            redactor.RenderToolArgs(ToolArgs);
-        }
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.SetTool(typeof(ZoomTool));
-            redactor.RenderToolArgs(ToolArgs);
-        }
-
-        private void HandButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.SetTool(typeof(HandTool));
-            redactor.RenderToolArgs(ToolArgs);
-        }
-
-        private void CurveLineButton_Click(object sender, RoutedEventArgs e)
-        {
-            //redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.CurveLine;
-        }
-
-        private void LineButton_Click(object sender, RoutedEventArgs e)
-        {
-            redactor.ToolPicker.SetTool(typeof(LineTool));
-            redactor.RenderToolArgs(ToolArgs);
-        }
     }
 }

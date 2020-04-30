@@ -4,10 +4,11 @@ using GraphRedactorCore.ToolsParams;
 using GraphRedactorCore.Figures;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GraphRedactorCore.Tools
 {
-    public class EllipseTool : ITool
+    public class EllipseTool : Tool
     {
         private Ellipse ellipse = null;
         private FillColorParam _fillColor;
@@ -23,14 +24,27 @@ namespace GraphRedactorCore.Tools
             _fillColor = new FillColorParam(Colors.Black);
             _borderColor = new BorderColorParam(Colors.Yellow);
             _width = new WidthParam(10);
+            ToolView = new Button()
+            {
+                Width = 60,
+                Height = 30,
+                Content = "Ellipse",
+                Margin = new Thickness(3),
+                Background = new SolidColorBrush(Colors.White)
+            };
         }
 
-        public void NextPhase(Point point, GraphData graphData)
+        public EllipseTool(UIElement toolView) : this()
+        {
+            ToolView = toolView;
+        }
+
+        public override void NextPhase(Point point, GraphData graphData)
         {
             throw new NotImplementedException("Данная фигура не поддерживает подобной функции");
         }
 
-        public void StartUsing(Point point, GraphData graphData)
+        public override void StartUsing(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
@@ -40,13 +54,13 @@ namespace GraphRedactorCore.Tools
             graphData.drawables.AddLast(ellipse);
         }
 
-        public void StopUsing(Point point, GraphData graphData)
+        public override void StopUsing(Point point, GraphData graphData)
         {
             Update(graphData.drawables);
             ellipse = null;
         }
 
-        public void Use(Point point, GraphData data)
+        public override void Use(Point point, GraphData data)
         {
             if (ellipse == null)
             {

@@ -23,12 +23,6 @@ namespace GraphRedactorCore
         {
             graphData = new GraphData(width, height, drawingCanvas);
             ToolPicker = new ToolPicker();
-            ToolPicker.AddTool(new RectangleTool());
-            ToolPicker.AddTool(new ZoomTool());
-            ToolPicker.AddTool(new EllipseTool());
-            ToolPicker.AddTool(new PencilTool());
-            ToolPicker.AddTool(new HandTool());
-            ToolPicker.AddTool(new LineTool());
             currentState = States.nothing;
         }
 
@@ -74,35 +68,6 @@ namespace GraphRedactorCore
         {
             graphData.viewPorts.First().secondPoint.X = width;
             graphData.viewPorts.First().secondPoint.Y = height;
-        }
-        public void SetToolArg(ToolParam arg)
-        {
-            var properties = ToolPicker.CurrentType().GetProperties();
-
-            foreach (var property in properties)
-            {
-                if (property.PropertyType == arg.GetType())
-                {
-                    property.SetValue(ToolPicker.GetTool(), arg);
-                }
-            }
-        }
-
-        public void RenderToolArgs(Panel panel)
-        {
-            var toolArgs = ToolPicker.CurrentType().GetProperties();
-            panel.Children.Clear();
-            foreach (var arg in toolArgs)
-            {
-                if (arg.PropertyType.IsSubclassOf(typeof(ToolParam)))
-                {
-                    var view = ((arg.GetValue(ToolPicker.GetTool())) as ToolParam).ArgView;
-                    if (view != null)
-                    {
-                        panel.Children.Add(view);
-                    }
-                }
-            }
         }
     }
 }

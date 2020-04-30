@@ -76,7 +76,7 @@ namespace GraphRedactorCore.Tools
 
         private void Update(LinkedList<IDrawable> drawables )
         {
-            if (drawables.Count > 1)
+            if (drawables.Count > 1 && polyLine != null)
             {
                 drawables.RemoveLast();
                 drawables.AddLast(polyLine);

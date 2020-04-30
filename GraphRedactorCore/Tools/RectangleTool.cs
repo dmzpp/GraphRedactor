@@ -60,7 +60,7 @@ namespace GraphRedactorCore.Tools
 
         public override void StopUsing(Point point, GraphData graphData)
         {
-            Update(graphData.drawables); 
+            Update(graphData.drawables);
             rectangle = null;
         }
 
@@ -80,7 +80,7 @@ namespace GraphRedactorCore.Tools
 
         private void Update(LinkedList<IDrawable> drawables)
         {
-            if (drawables.Count == 0)
+            if (drawables.Count == 0 || rectangle == null)
             {
                 return;
             }

@@ -8,6 +8,7 @@ using GraphRedactorCore.ToolsParams;
 using GraphRedactorCore.Figures;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace GraphRedactorCore.Tools
 {
@@ -77,7 +78,7 @@ namespace GraphRedactorCore.Tools
 
         private void Update(LinkedList<IDrawable> drawables)
         {
-            if (drawables.Count > 1)
+            if (drawables.Count > 1 || polyLine != null)
             {
                 drawables.RemoveLast();
                 drawables.AddLast(polyLine);

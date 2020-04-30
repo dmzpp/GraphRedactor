@@ -68,6 +68,7 @@ namespace GraphRedactorCore
                     toolPanel.Children.Add(toolView);
                 }
             }
+            RenderToolArgs(toolArgs);
         }
         private void RenderToolArgs(Panel panel)
         {

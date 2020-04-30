@@ -76,7 +76,7 @@ namespace GraphRedactorCore.Tools
 
         private void Update(LinkedList<IDrawable> drawables)
         {
-            if (drawables.Count == 0)
+            if (drawables.Count == 0 || ellipse == null)
             {
                 return;
             }

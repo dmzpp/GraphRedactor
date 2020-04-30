@@ -26,7 +26,7 @@ namespace GraphRedactorCore.Tools
             {
                 Width = 60,
                 Height = 30,
-                Content = "Line",
+                Content = "Zoom",
                 Margin = new Thickness(3),
                 Background = new SolidColorBrush(Colors.White)
             };

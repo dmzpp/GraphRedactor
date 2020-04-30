@@ -13,10 +13,10 @@
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="125"></RowDefinition>
-            <RowDefinition x:Name="Row" Height="0.8*"></RowDefinition>
+            <RowDefinition Height="0.8*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="Column" MinWidth="800"></ColumnDefinition>
+            <ColumnDefinition MinWidth="800"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" MouseRightButtonDown="Canvas_MouseRightButtonDown" x:Name="ViewBox" MouseMove="Canvas_MouseMove" MouseLeftButtonUp="Canvas_MouseLeftButtonUp">
             <p:DrawingCanvas x:Name="Canvas"></p:DrawingCanvas>
@@ -30,12 +30,8 @@
             <Grid.ColumnDefinitions>
                 <!--Инструменты-->
                 <ColumnDefinition Width="100"></ColumnDefinition>
-                <!--Панель с выбором цвета-->
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <!--Толщина-->
-                <ColumnDefinition Width="100"></ColumnDefinition>
-                <!--Фигуры-->
-                <ColumnDefinition Width="300"></ColumnDefinition>
+                <!--Панель с аргументами инструмента-->
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Инструменты</TextBlock>
@@ -67,28 +63,9 @@
                 </Button>
             </WrapPanel>
 
-            <!--Выбор толщины-->
-            <Grid Grid.Row="0" Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition Height="0.3*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Slider Grid.Row="0" VerticalAlignment="Center" x:Name="WidthSlider" TickFrequency="1" Minimum="1" Maximum="50" TickPlacement="Both"></Slider>
-                <TextBlock Grid.Row="1" VerticalAlignment="Center" x:Name="SliderValueArea" HorizontalAlignment="Center">1</TextBlock>
-            </Grid>
-            <!--Выбор цвета-->
-            <Grid Grid.Row="0" Grid.Column="1" ShowGridLines="True">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                    <xctk:ColorPicker x:Name="ConturColorPicker" Width="50" Height="40" SelectedColorChanged="ConturColorPicker_SelectedColorChanged"></xctk:ColorPicker>
-                    <xctk:ColorPicker x:Name="FillColorPicker" Width="50" Height="40" SelectedColorChanged="FillColorPicker_SelectedColorChanged"></xctk:ColorPicker>
-                </StackPanel>
-
-            </Grid>
-
+            <WrapPanel x:Name="ToolArgs" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                
+            </WrapPanel>
             <!--Фигуры-->
             <WrapPanel x:Name="FigureTypes" Visibility="Hidden" Grid.Column="3" Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Width="55" Height="25" Margin="3" Background="White" Click="RectangleButton_Click">

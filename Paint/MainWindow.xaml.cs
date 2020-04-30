@@ -35,19 +35,29 @@ namespace Paint
 
         public MainWindow()
         {
-            //redactor = new GraphRedactor(new WriteableBitmap(800, 400, 95, 95, PixelFormats.Bgra32, null));
             InitializeComponent();
             ViewBox.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(Canvas_MouseLeftButtonDown), true);
             redactor = new GraphRedactor(800, 400, Canvas);
-            /*RenderCanvas();
-            SetDefault();
-            WidthSlider.ValueChanged += WidthSlider_ValueChanged;
-            redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Rectangle;*/
+            //WidthSlider.ValueChanged += WidthSlider_ValueChanged;
+           // RenderToolsArgs();
         }
-        private void RenderToolsArgs()
+       /* private void RenderToolsArgs()
         {
+            var toolArgs = redactor.ToolPicker.CurrentType().GetProperties();
+            ToolArgs.Children.Clear();
+            foreach (var arg in toolArgs)
+            {
+                if (arg.PropertyType.IsSubclassOf(typeof(ToolParam)))
+                {
+                    var view = ((arg.GetValue(redactor.ToolPicker.GetTool())) as ToolParam).ArgView;
+                    if(view != null)
+                    {
+                        ToolArgs.Children.Add(view);
+                    }
+                }
+            }
             
-        }
+        }*/
 
         private void RenderCanvas()
         {
@@ -73,7 +83,7 @@ namespace Paint
         {
             Point mouseCoords = e.GetPosition(ViewBox);
             redactor.UseSelectedTool(mouseCoords);
-            SliderValueArea.Text = $"{mouseCoords.X} {mouseCoords.Y}";
+           // SliderValueArea.Text = $"{mouseCoords.X} {mouseCoords.Y}";
             RenderCanvas();
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -98,50 +108,25 @@ namespace Paint
                 RenderCanvas();
             }
         }
-        private void PencilButton_Click(object sender, RoutedEventArgs e)
-        {
-            //redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.CurveLine;
-        }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             redactor.Resize(e.NewSize.Width, e.NewSize.Height);
         }
 
-        private void WidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+       /* private void WidthSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            var properties = redactor.ToolPicker.CurrentType().GetProperties();
-            foreach (var property in properties)
-            {
-                if (property.PropertyType == typeof(WidthParam))
-                {
-                    property.SetValue(redactor.ToolPicker.GetTool(), new WidthParam(e.NewValue));
-                }
-            }
+            redactor.SetToolArg(new WidthParam(e.NewValue));
         }
 
         private void ConturColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            var properties = redactor.ToolPicker.CurrentType().GetProperties();
-            foreach(var property in properties)
-            {
-                if(property.PropertyType == typeof(FillColorParam))
-                {
-                    property.SetValue(redactor.ToolPicker.GetTool(), new FillColorParam((Color)e.NewValue));
-                }
-            }
+            redactor.SetToolArg(new BorderColorParam((Color)e.NewValue));
         }
 
         private void FillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            var properties = redactor.ToolPicker.CurrentType().GetProperties();
-            foreach (var property in properties)
-            {
-                if (property.PropertyType == typeof(BorderColorParam))
-                {
-                    property.SetValue(redactor.ToolPicker.GetTool(), new BorderColorParam((Color)e.NewValue));
-                }
-            }
-        }
+            redactor.SetToolArg(new FillColorParam((Color)e.NewValue));
+        }*/
 
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -152,26 +137,31 @@ namespace Paint
         private void PenButton_Click(object sender, RoutedEventArgs e)
         {
             redactor.ToolPicker.SetTool(typeof(PencilTool));
+            redactor.RenderToolArgs(ToolArgs);
         }
 
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
             redactor.ToolPicker.SetTool(typeof(RectangleTool));
+            redactor.RenderToolArgs(ToolArgs);
         }
 
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
             redactor.ToolPicker.SetTool(typeof(EllipseTool));
+            redactor.RenderToolArgs(ToolArgs);
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             redactor.ToolPicker.SetTool(typeof(ZoomTool));
+            redactor.RenderToolArgs(ToolArgs);
         }
 
         private void HandButton_Click(object sender, RoutedEventArgs e)
         {
             redactor.ToolPicker.SetTool(typeof(HandTool));
+            redactor.RenderToolArgs(ToolArgs);
         }
 
         private void CurveLineButton_Click(object sender, RoutedEventArgs e)
@@ -182,6 +172,7 @@ namespace Paint
         private void LineButton_Click(object sender, RoutedEventArgs e)
         {
             //redactor.ToolPicker.CurrentToolType = ToolPicker.Tools.Line;
+            // redactor.RenderToolArgs(ToolArgs);
         }
     }
 }

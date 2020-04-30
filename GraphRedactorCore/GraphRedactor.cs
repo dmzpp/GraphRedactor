@@ -1,7 +1,9 @@
 ﻿using GraphRedactorCore.Tools;
+using GraphRedactorCore.ToolsParams;
 using System;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GraphRedactorCore
 {
@@ -71,6 +73,35 @@ namespace GraphRedactorCore
         {
             graphData.viewPorts.First().secondPoint.X = width;
             graphData.viewPorts.First().secondPoint.Y = height;
+        }
+        public void SetToolArg(ToolParam arg)
+        {
+            var properties = ToolPicker.CurrentType().GetProperties();
+
+            foreach (var property in properties)
+            {
+                if (property.PropertyType == arg.GetType())
+                {
+                    property.SetValue(ToolPicker.GetTool(), arg);
+                }
+            }
+        }
+
+        public void RenderToolArgs(Panel panel)
+        {
+            var toolArgs = ToolPicker.CurrentType().GetProperties();
+            panel.Children.Clear();
+            foreach (var arg in toolArgs)
+            {
+                if (arg.PropertyType.IsSubclassOf(typeof(ToolParam)))
+                {
+                    var view = ((arg.GetValue(ToolPicker.GetTool())) as ToolParam).ArgView;
+                    if (view != null)
+                    {
+                        panel.Children.Add(view);
+                    }
+                }
+            }
         }
     }
 }

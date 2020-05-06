@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Media;
 
@@ -16,6 +17,19 @@ namespace GraphRedactorCore
         public DrawingCanvas()
         {
             collection = new VisualCollection(this);
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            var geometry = new StreamGeometry();
+            using (var geometryContext = geometry.Open())
+            {
+                geometryContext.BeginFigure(new System.Windows.Point(100,100), true, false);
+                geometryContext.LineTo(new System.Windows.Point(100,70), false, false);
+                geometryContext.ArcTo(new System.Windows.Point(40, 50), new System.Windows.Size(50, 50), 100, true, SweepDirection.Clockwise, true, false);
+                geometryContext.LineTo(new System.Windows.Point(100, 100), false, false);
+            }
+            drawingContext.DrawGeometry(new SolidColorBrush(Colors.Red), new System.Windows.Media.Pen(new SolidColorBrush(Colors.Yellow), 10), geometry);
         }
 
         internal void Render(ICollection<IDrawable> drawables, ViewPort viewPort)

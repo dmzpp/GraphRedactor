@@ -37,12 +37,7 @@ namespace GraphRedactorCore.Tools
             ToolView = toolView;
         }
 
-        public override void NextPhase(Point point, GraphData graphData)
-        {
-            throw new NotImplementedException("Этот инструмент пока не поддерживает это");
-        }
-
-        public override void StartUsing(Point point, GraphData graphData)
+        public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
@@ -52,13 +47,13 @@ namespace GraphRedactorCore.Tools
             graphData.drawables.AddLast(polyLine);
         }
 
-        public override void StopUsing(Point point, GraphData graphData)
+        public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
             Update(graphData.drawables);
             polyLine = null;
         }
 
-        public override void Use(Point point, GraphData graphData)
+        public override void MouseMove(Point point, GraphData graphData)
         {
             if (polyLine == null)
             {

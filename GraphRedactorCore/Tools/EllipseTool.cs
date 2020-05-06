@@ -39,12 +39,7 @@ namespace GraphRedactorCore.Tools
             ToolView = toolView;
         }
 
-        public override void NextPhase(Point point, GraphData graphData)
-        {
-            throw new NotImplementedException("Данная фигура не поддерживает подобной функции");
-        }
-
-        public override void StartUsing(Point point, GraphData graphData)
+        public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
@@ -54,24 +49,24 @@ namespace GraphRedactorCore.Tools
             graphData.drawables.AddLast(ellipse);
         }
 
-        public override void StopUsing(Point point, GraphData graphData)
+        public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
             Update(graphData.drawables);
             ellipse = null;
         }
 
-        public override void Use(Point point, GraphData data)
+        public override void MouseMove(Point point, GraphData graphData)
         {
             if (ellipse == null)
             {
-                throw new NullReferenceException("Работа инструмента не начата");
+                return;
             }
-            var viewPort = data.viewPorts.Last();
+            var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
             ellipse.ChangeLastPoint(point);
-            Update(data.drawables);
+            Update(graphData.drawables);
         }
 
         private void Update(LinkedList<IDrawable> drawables)

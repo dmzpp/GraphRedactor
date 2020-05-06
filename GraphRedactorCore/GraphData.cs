@@ -12,6 +12,7 @@ namespace GraphRedactorCore
         {
             viewPorts = new ViewPortCollection
             {
+                new ViewPort(windowWidth, windowHeight),
                 new ViewPort(windowWidth, windowHeight)
             };
             drawables = new LinkedList<IDrawable>();

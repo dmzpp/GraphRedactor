@@ -32,41 +32,21 @@ namespace Paint
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(ViewBox);
-            /*if (e.ClickCount >= 2 && redactor.ToolPicker.CurrentType() == ToolPicker.Tools.CurveLine)
-            {
-                redactor.StopUsingTool(mouseCoords);
-            }
-            else
-            {
-                redactor.StartUsingSelectedTool(mouseCoords);
-            }*/
-            _redactor.StartUsingSelectedTool(mouseCoords);
+            _redactor.MouseLeftButtonDown(mouseCoords);
             RenderCanvas();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             Point mouseCoords = e.GetPosition(ViewBox);
-            _redactor.UseSelectedTool(mouseCoords);
+            _redactor.MouseMove(mouseCoords);
             RenderCanvas();
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 
             Point mouseCoords = e.GetPosition(ViewBox);
-
-            /*if (redactor.ToolPicker.CurrentToolType == ToolPicker.Tools.CurveLine)
-            {
-                redactor.ChangeToolPhase(mouseCoords);
-            }
-            else
-            {
-                redactor.StopUsingTool(mouseCoords);
-            }
-            if (redactor.ToolPicker.CurrentToolType != ToolPicker.Tools.Zoom)
-                RenderCanvas();*/
-
-            _redactor.StopUsingTool(mouseCoords);
+            _redactor.MouseLeftButtonUp(mouseCoords);
             if (_redactor.ToolPicker.CurrentType() != typeof(ZoomTool))
             {
                 RenderCanvas();

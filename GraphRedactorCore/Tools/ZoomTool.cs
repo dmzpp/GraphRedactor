@@ -33,36 +33,31 @@ namespace GraphRedactorCore.Tools
             ToolView = toolView;
         }
 
-        public override void NextPhase(Point point, GraphData data)
-        {
-            return;
-        }
-
-        public override void StartUsing(Point point, GraphData data)
+        public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
             if (currentState != States.stretching)
             {
-                var viewPort = data.viewPorts.Last();
+                var viewPort = graphData.viewPorts.Last();
                 point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
                 point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
                 rectangle = new Rectangle(point, Colors.DarkOrange, Colors.Transparent, 2, viewPort.Scale);
-                data.drawables.AddLast(rectangle);
+                graphData.drawables.AddLast(rectangle);
                 currentState = States.stretching;
             }
         }
 
-        public override void StopUsing(Point point, GraphData data)
+        public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
             if (rectangle == null)
             {
                 return;
             }
-            data.drawables.RemoveLast();
+            graphData.drawables.RemoveLast();
             if (rectangle.firstCoord.X == rectangle.secondCoord.X && rectangle.firstCoord.Y == rectangle.secondCoord.Y)
             {
-                ViewPort newViewPort = CalculateViewPort(rectangle.firstCoord, data);
-                data.viewPorts.Add(newViewPort);
+                ViewPort newViewPort = CalculateViewPort(rectangle.firstCoord, graphData);
+                graphData.viewPorts.Add(newViewPort);
             }
             else
             {
@@ -74,26 +69,26 @@ namespace GraphRedactorCore.Tools
                 secondDrawingCoord.X = Math.Max(rectangle.firstCoord.X, rectangle.secondCoord.X);
                 secondDrawingCoord.Y = Math.Max(rectangle.firstCoord.Y, rectangle.secondCoord.Y);
 
-                ViewPort newViewPort = CalculateViewPort(firstDrawingCoord, secondDrawingCoord, data);
-                data.viewPorts.Add(newViewPort);
+                ViewPort newViewPort = CalculateViewPort(firstDrawingCoord, secondDrawingCoord, graphData);
+                graphData.viewPorts.Add(newViewPort);
             }
-            data.canvas.Render(data.drawables, data.viewPorts.Last());
+            graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
             rectangle = null;
             currentState = States.none;
         }
 
-        public override void Use(Point point, GraphData data)
+        public override void MouseMove(Point point, GraphData graphData)
         {
             if (rectangle == null)
             {
                 return;
             }
-            var viewPort = data.viewPorts.Last();
+            var viewPort = graphData.viewPorts.Last();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
             rectangle.ChangeLastPoint(point);
-            Update(data.drawables);
+            Update(graphData.drawables);
         }
 
         private void Update(LinkedList<IDrawable> drawables)

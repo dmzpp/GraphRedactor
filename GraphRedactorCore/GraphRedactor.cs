@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using GraphRedactorCore.Brushes;
+using GraphRedactorCore.Pens;
+using System.Windows;
 
 namespace GraphRedactorCore
 {
@@ -19,6 +21,14 @@ namespace GraphRedactorCore
             graphData = new GraphData(width, height, drawingCanvas);
             ToolPicker = new ToolPicker();
             currentState = States.nothing;
+
+            BrushPicker.AddBrush(new RectangleBrush());
+            BrushPicker.AddBrush(new LinesBrush());
+            BrushPicker.AddBrush(new EllipseBrush());
+
+            PenPicker.AddPen(new DashPen());
+            PenPicker.AddPen(new SolidPen());
+            PenPicker.AddPen(new DashDotDotPen());
         }
 
         public void Render()

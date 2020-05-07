@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GraphRedactorCore.Pens;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -7,20 +8,22 @@ namespace GraphRedactorCore.Figures
     internal class PolyLine : IDrawable
     {
         private readonly List<Point> _points;
-        private readonly Pen _pen;
+        private ICustomPen _pen;
         private double _width;
         private double _scale;
+        private Color _contourColor;
 
-        public PolyLine(Point initializePoint, Color contourColor, double width, double scale)
+        public PolyLine(Point initializePoint, Color contourColor, ICustomPen pen, double width, double scale)
         {
             _points = new List<Point>
             {
                 initializePoint,
                 initializePoint
             };
-            _pen = new Pen(new SolidColorBrush(contourColor), width);
+            _pen = pen;
             _width = width;
             _scale = scale;
+            _contourColor = contourColor;
         }
 
         public void Draw(DrawingContext context, ViewPort viewPort)
@@ -40,9 +43,10 @@ namespace GraphRedactorCore.Figures
                     geometryContext.LineTo(newPoint, true, true);
                 }
             }
+
             var actualWidth = _width * viewPort.Scale / _scale;
-            _pen.Thickness = actualWidth;
-            context.DrawGeometry(null, _pen, geometry);
+            var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
+            context.DrawGeometry(null, pen, geometry);
         }
 
         public void AddPoint(Point newPoint)

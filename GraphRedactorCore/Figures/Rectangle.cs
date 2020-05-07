@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GraphRedactorCore.Brushes;
+using GraphRedactorCore.Pens;
+using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -10,17 +12,26 @@ namespace GraphRedactorCore.Figures
         internal Point secondCoord;
         private Point _firstDrawingCoord;
         private Point _secondDrawingCoord;
-        private SolidColorBrush _fillColor;
+
+        private ICustomBrush _fillBrush;
+        private ICustomPen _pen;
+
+        private Color _fillColor;
+        private Color _contourColor;
+        
         private double _width;
         private double _scale;
-        private readonly Pen pen;
-
-        public Rectangle(Point initializePoint, Color contourColor, Color fillColor, double width, double scale)
+        private readonly Pen __pen;
+        // ICustomPen.GetPen(contourColor, width);
+        public Rectangle(Point initializePoint, Color contourColor, ICustomPen pen, Color fillColor, ICustomBrush fillBrush, double width, double scale)
         {
             firstCoord = initializePoint;
             secondCoord = initializePoint;
-            pen = new Pen(new SolidColorBrush(contourColor), width);
-            _fillColor = new SolidColorBrush(fillColor);
+            __pen = new Pen(new SolidColorBrush(contourColor), width);
+            _pen = pen;
+            _fillBrush = fillBrush;
+            _fillColor = fillColor;
+            this._contourColor = contourColor;
             _width = width;
             _scale = scale;
         }
@@ -28,8 +39,11 @@ namespace GraphRedactorCore.Figures
         public void Draw(DrawingContext context, ViewPort viewPort)
         {
             CalculateDrawingCoordinats(viewPort);
-            pen.Thickness = _width * viewPort.Scale / _scale;
-            context.DrawRectangle(_fillColor, pen, new Rect(_firstDrawingCoord, _secondDrawingCoord));
+            var actualWidth = _width * viewPort.Scale / _scale;
+
+            var brush = _fillBrush.GetBrush(viewPort, _fillColor);
+            var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
+            context.DrawRectangle(brush, pen, new Rect(_firstDrawingCoord, _secondDrawingCoord));
         }
 
         public void ChangeLastPoint(Point newPoint) =>

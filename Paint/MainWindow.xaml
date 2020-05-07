@@ -31,7 +31,7 @@
                 <!--Инструменты-->
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <!--Панель с аргументами инструмента-->
-                <ColumnDefinition Width="300"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Инструменты</TextBlock>

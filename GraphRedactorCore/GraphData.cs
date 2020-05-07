@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GraphRedactorCore.Brushes;
+using System.Collections.Generic;
 
 namespace GraphRedactorCore
 {

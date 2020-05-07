@@ -1,4 +1,6 @@
-﻿using GraphRedactorCore.Figures;
+﻿using GraphRedactorCore.Brushes;
+using GraphRedactorCore.Figures;
+using GraphRedactorCore.Pens;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -41,7 +43,7 @@ namespace GraphRedactorCore.Tools
                 point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
                 point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
-                rectangle = new Rectangle(point, Colors.DarkOrange, Colors.Transparent, 2, viewPort.Scale);
+                rectangle = new Rectangle(point, Colors.DarkOrange, PenPicker.GetPen(typeof(SolidPen)), Colors.Transparent, BrushPicker.GetBrush(typeof(EllipseBrush)), 2, viewPort.Scale);
                 graphData.drawables.AddLast(rectangle);
                 currentState = States.stretching;
             }

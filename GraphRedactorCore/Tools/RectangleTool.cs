@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using GraphRedactorCore.Brushes;
 using System.Windows.Media;
+using GraphRedactorCore.Pens;
 
 namespace GraphRedactorCore.Tools
 {
@@ -21,8 +23,8 @@ namespace GraphRedactorCore.Tools
 
         public RectangleTool()
         {
-            _fillColor = new FillColorParam(Colors.Black);
-            _borderColor = new BorderColorParam(Colors.Yellow);
+            _fillColor = new FillColorParam(Colors.Black, typeof(RectangleBrush));
+            _borderColor = new BorderColorParam(Colors.Yellow, typeof(SolidPen));
             _width = new WidthParam(10);
 
             ToolView = new Button()
@@ -46,7 +48,7 @@ namespace GraphRedactorCore.Tools
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
-            rectangle = new Rectangle(point, BorderColor.Color, FillColor.Color, Width.Value, viewPort.Scale);
+            rectangle = new Rectangle(point, BorderColor.Color, PenPicker.GetPen(BorderColor.PenType), FillColor.Color, BrushPicker.GetBrush(FillColor.BrushType), Width.Value, viewPort.Scale);
             graphData.drawables.AddLast(rectangle);
         }
 

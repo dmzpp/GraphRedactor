@@ -60,6 +60,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brushes\BrushPicker.cs" />
+    <Compile Include="Brushes\EllipseBrush.cs" />
+    <Compile Include="Brushes\ICustomBrush.cs" />
+    <Compile Include="Brushes\LinesBrush.cs" />
+    <Compile Include="Brushes\RectangleBrush.cs" />
     <Compile Include="DrawingCanvas.cs" />
     <Compile Include="Figures\Ellipse.cs" />
     <Compile Include="Figures\PolyLine.cs" />
@@ -67,6 +72,11 @@
     <Compile Include="GraphData.cs" />
     <Compile Include="GraphRedactor.cs" />
     <Compile Include="IDrawable.cs" />
+    <Compile Include="Pens\DashDotDotPen.cs" />
+    <Compile Include="Pens\DashPen.cs" />
+    <Compile Include="Pens\ICustomPen.cs" />
+    <Compile Include="Pens\PenPicker.cs" />
+    <Compile Include="Pens\SolidPen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolPicker.cs" />
     <Compile Include="ToolsParams\BorderColorParam.cs" />

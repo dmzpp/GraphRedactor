@@ -1,4 +1,6 @@
-﻿using GraphRedactorCore.Figures;
+﻿using GraphRedactorCore.Brushes;
+using GraphRedactorCore.Figures;
+using GraphRedactorCore.Pens;
 using GraphRedactorCore.ToolsParams;
 using System;
 using System.Collections.Generic;
@@ -12,15 +14,15 @@ namespace GraphRedactorCore.Tools
     {
         private PolyLine polyLine = null;
 
-        private FillColorParam _fillColor;
+        private BorderColorParam _contour;
         private WidthParam _width;
 
-        public FillColorParam FillColor { get => _fillColor; set => _fillColor = value; }
+        public BorderColorParam Contour { get => _contour; set => _contour = value; }
         public WidthParam Width { get => _width; set => _width = value; }
 
         public LineTool()
         {
-            _fillColor = new FillColorParam(Colors.Blue);
+            _contour = new BorderColorParam(Colors.Blue, typeof(RectangleBrush));
             _width = new WidthParam(10);
             ToolView = new Button()
             {
@@ -43,7 +45,7 @@ namespace GraphRedactorCore.Tools
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
-            polyLine = new PolyLine(point, FillColor.Color, Width.Value, viewPort.Scale);
+            polyLine = new PolyLine(point, Contour.Color, PenPicker.GetPen(Contour.PenType), Width.Value, viewPort.Scale);
             graphData.drawables.AddLast(polyLine);
         }
 

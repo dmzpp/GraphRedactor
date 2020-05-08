@@ -61,12 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brushes\BrushPicker.cs" />
-    <Compile Include="Brushes\EllipseBrush.cs" />
     <Compile Include="Brushes\ICustomBrush.cs" />
     <Compile Include="Brushes\LinesBrush.cs" />
-    <Compile Include="Brushes\RectangleBrush.cs" />
     <Compile Include="DrawingCanvas.cs" />
     <Compile Include="Figures\Ellipse.cs" />
+    <Compile Include="Figures\Pie.cs" />
     <Compile Include="Figures\PolyLine.cs" />
     <Compile Include="Figures\Rectangle.cs" />
     <Compile Include="GraphData.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="ToolsParams\WidthParam.cs" />
     <Compile Include="Tools\EllipseTool.cs" />
     <Compile Include="Tools\HandTool.cs" />
+    <Compile Include="Tools\PieTool.cs" />
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\LineTool.cs" />
     <Compile Include="Tools\PencilTool.cs" />

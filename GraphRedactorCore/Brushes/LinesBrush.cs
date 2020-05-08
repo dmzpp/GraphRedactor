@@ -9,7 +9,7 @@ namespace GraphRedactorCore.Brushes
 {
     internal class LinesBrush : ICustomBrush
     {
-        public Brush GetBrush(ViewPort viewPort, Color color)
+        public Brush GetBrush(Color color, ViewPort viewPort, double opacity = 1)
         {
             var brush = new DrawingBrush();
             GeometryGroup myGeometryGroup = new GeometryGroup();
@@ -26,6 +26,7 @@ namespace GraphRedactorCore.Brushes
             brush.TileMode = TileMode.Tile;
             brush.Stretch = Stretch.UniformToFill;
             brush.Transform = new RotateTransform(75);
+            brush.Opacity = opacity;
 
             return brush;
         }

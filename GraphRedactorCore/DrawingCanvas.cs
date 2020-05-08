@@ -26,8 +26,8 @@ namespace GraphRedactorCore
             {
                 geometryContext.BeginFigure(new System.Windows.Point(100,100), true, false);
                 geometryContext.LineTo(new System.Windows.Point(100,70), false, false);
-                geometryContext.ArcTo(new System.Windows.Point(40, 50), new System.Windows.Size(50, 50), 100, true, SweepDirection.Clockwise, true, false);
-                geometryContext.LineTo(new System.Windows.Point(100, 100), false, false);
+                geometryContext.ArcTo(new System.Windows.Point(100, 200), new System.Windows.Size(50, 50), 720, true, SweepDirection.Clockwise, true, false);
+                geometryContext.LineTo(new System.Windows.Point(75, 100), false, false);
             }
             drawingContext.DrawGeometry(new SolidColorBrush(Colors.Red), new System.Windows.Media.Pen(new SolidColorBrush(Colors.Yellow), 10), geometry);
         }

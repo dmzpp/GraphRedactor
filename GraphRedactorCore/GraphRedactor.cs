@@ -22,9 +22,7 @@ namespace GraphRedactorCore
             ToolPicker = new ToolPicker();
             currentState = States.nothing;
 
-            BrushPicker.AddBrush(new RectangleBrush());
             BrushPicker.AddBrush(new LinesBrush());
-            BrushPicker.AddBrush(new EllipseBrush());
 
             PenPicker.AddPen(new DashPen());
             PenPicker.AddPen(new SolidPen());

@@ -23,7 +23,7 @@ namespace GraphRedactorCore.Tools
 
         public RectangleTool()
         {
-            _fillColor = new FillColorParam(Colors.Black, typeof(RectangleBrush));
+            _fillColor = new FillColorParam(Colors.Black, typeof(LinesBrush));
             _borderColor = new BorderColorParam(Colors.Yellow, typeof(SolidPen));
             _width = new WidthParam(10);
 

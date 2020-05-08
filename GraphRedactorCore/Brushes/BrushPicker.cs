@@ -13,7 +13,7 @@ namespace GraphRedactorCore.Brushes
         static BrushPicker()
         {
             brushes = new Dictionary<Type, ICustomBrush>();
-            _currentBrush = typeof(RectangleBrush);
+            _currentBrush = typeof(LinesBrush);
         }
 
         public static Type CurrentType()

@@ -16,12 +16,15 @@ namespace GraphRedactorCore.Figures
         private Color _fillColor;
         private Color _contourColor;
 
-        private Point _firstDrawingCoord;
-        private Point _secondDrawingCoord;
+        internal Point firstDrawingCoord;
+        internal Point secondDrawingCoord;
         private double _width;
         private double _scale;
+        internal Vector diameters;
 
-        public Ellipse(Point initializePoint, Color contourColor, ICustomPen pen, Color fillColor, ICustomBrush fillBrush, double width, double scale)
+        internal double opacity;
+
+        public Ellipse(Point initializePoint, Color contourColor, ICustomPen pen, Color fillColor, ICustomBrush fillBrush, double width, double scale, double opacity = 1)
         {
             firstCoord = initializePoint;
             secondCoord = initializePoint;
@@ -31,17 +34,19 @@ namespace GraphRedactorCore.Figures
             _brush = fillBrush;
             _width = width;
             _scale = scale;
+
+            this.opacity = opacity;
         }
 
         public void Draw(DrawingContext context, ViewPort viewPort)
         {
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = _width * viewPort.Scale / _scale;
-            var diameters = Point.Subtract(_secondDrawingCoord, _firstDrawingCoord);
-            var brush = _brush.GetBrush(viewPort, _fillColor);
+            diameters = Point.Subtract(secondDrawingCoord, firstDrawingCoord);
+            var brush = _brush.GetBrush(_fillColor, viewPort, opacity);
             var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
 
-            context.DrawEllipse(brush, pen, Point.Subtract(_secondDrawingCoord, diameters / 2), diameters.X / 2, diameters.Y / 2);
+            context.DrawEllipse(brush, pen, Point.Subtract(secondDrawingCoord, diameters / 2), diameters.X / 2, diameters.Y / 2);
         }
 
         public void ChangeLastPoint(Point newPoint)
@@ -49,15 +54,15 @@ namespace GraphRedactorCore.Figures
 
         private void CalculateDrawingCoordinats(ViewPort viewPort)
         {
-            _firstDrawingCoord.X = Math.Min(firstCoord.X, secondCoord.X);
-            _firstDrawingCoord.Y = Math.Min(firstCoord.Y, secondCoord.Y);
-            _secondDrawingCoord.X = Math.Max(firstCoord.X, secondCoord.X);
-            _secondDrawingCoord.Y = Math.Max(firstCoord.Y, secondCoord.Y);
+            firstDrawingCoord.X = Math.Min(firstCoord.X, secondCoord.X);
+            firstDrawingCoord.Y = Math.Min(firstCoord.Y, secondCoord.Y);
+            secondDrawingCoord.X = Math.Max(firstCoord.X, secondCoord.X);
+            secondDrawingCoord.Y = Math.Max(firstCoord.Y, secondCoord.Y);
 
-            _firstDrawingCoord.X = (_firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            _firstDrawingCoord.Y = (_firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
-            _secondDrawingCoord.X = (_secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
-            _secondDrawingCoord.Y = (_secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+            firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
+            firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+            secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
+            secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
         }
     }
 }

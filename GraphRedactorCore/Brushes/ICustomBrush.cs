@@ -9,7 +9,7 @@ namespace GraphRedactorCore.Brushes
 {
     internal interface ICustomBrush
     {
-        Brush GetBrush(ViewPort viewPort, Color color);
+        Brush GetBrush(Color color, ViewPort viewPort, double opacity = 1);
         Brush GetBrush(Color color);
     }
 }

@@ -22,7 +22,7 @@ namespace GraphRedactorCore.Tools
 
         public PencilTool()
         {
-            _contour = new BorderColorParam(Colors.Red, typeof(RectangleBrush));
+            _contour = new BorderColorParam(Colors.Red, typeof(LinesBrush));
             _width = new WidthParam(10);
             ToolView = new Button()
             {

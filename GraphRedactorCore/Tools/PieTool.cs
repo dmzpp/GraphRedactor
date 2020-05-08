@@ -73,14 +73,17 @@ namespace GraphRedactorCore.Tools
             {
                 ellipse.opacity = 0.2;
                 graphData.drawables.Last.Value = ellipse;
-
-                var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
-                var intersactionPoint = CalculateIntersectionPoint(ellipse.diameters, centerPoint, point);
                 Size radiuses = new Size()
                 {
-                    Width = ellipse.diameters.X / 2,
-                    Height = ellipse.diameters.Y / 2
+                    Width = ellipse.diameters.X / 2 / viewPort.Scale,
+                    Height = ellipse.diameters.Y / 2 / viewPort.Scale
                 };
+
+                var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
+                centerPoint.X = viewPort.firstPoint.X + (centerPoint.X / viewPort.Scale);
+                centerPoint.Y = viewPort.firstPoint.Y + (centerPoint.Y / viewPort.Scale);
+                var intersactionPoint = CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
+               
 
                 pie = new Pie(centerPoint, intersactionPoint,
                     BorderColor.Color, PenPicker.GetPen(BorderColor.PenType),
@@ -100,6 +103,7 @@ namespace GraphRedactorCore.Tools
             else if(currentState == States.drawingPie)
             {
                 graphData.drawables.Remove(graphData.drawables.Last.Previous);
+                pie = null;
                 currentState = States.nothing;
             }
         }
@@ -119,22 +123,25 @@ namespace GraphRedactorCore.Tools
 
                 ellipse.ChangeLastPoint(point);
             }
-            else if(currentState == States.drawingPie)
+            else if(currentState == States.drawingPie && pie != null)
             {
                 var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
-                var intersactionPoint = CalculateIntersectionPoint(ellipse.diameters, centerPoint, point);
-
-                if (pie != null)
+                centerPoint.X = viewPort.firstPoint.X + (centerPoint.X / viewPort.Scale);
+                centerPoint.Y = viewPort.firstPoint.Y + (centerPoint.Y / viewPort.Scale);
+                Size radiuses = new Size()
                 {
-                    pie.ChangeLastPoint(intersactionPoint);
-                }
+                    Width = ellipse.diameters.X / viewPort.Scale,
+                    Height = ellipse.diameters.Y / viewPort.Scale
+                };
+                var intersactionPoint = CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
+                pie.ChangeLastPoint(intersactionPoint);
             }
             Update(graphData.drawables);
         }
 
         private void Update(LinkedList<IDrawable> drawables)
         {
-            if (drawables.Count == 0 || ellipse == null)
+            if (drawables.Count == 0 || ellipse == null || pie == null)
             {
                 return;
             }

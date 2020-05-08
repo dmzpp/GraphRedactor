@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
+using System.Drawing.Drawing2D;
 
 namespace GraphRedactorCore.Figures
 {
@@ -16,16 +17,14 @@ namespace GraphRedactorCore.Figures
         private Point _centerPoint;
         private Point _firstPoint;
         private Point _secondPoint;
-        private double _angle;
         private double _width;
-        
+
         private ICustomBrush _brush;
         private ICustomPen _pen;
         private Color _contourColor;
         private Color _fillColor;
         private Size _radiuses;
         private double _scale;
-
         public Pie(Point centerPoint, Point intersectionPoint,
             Color contourColor, ICustomPen pen, Color fillColor, ICustomBrush brush, double width, Size radiuses, double scale)
         {
@@ -36,63 +35,108 @@ namespace GraphRedactorCore.Figures
             _pen = pen;
             _fillColor = fillColor;
             _width = width;
-            _angle = 0;
             _radiuses = radiuses;
             _scale = scale;
+
         }
 
         public void Draw(DrawingContext context, ViewPort viewPort)
         {
-            var geometry = new StreamGeometry();
-            var firstAngle = angle(_centerPoint, _firstPoint);
-            var secondAngle = angle(_centerPoint, _secondPoint);
 
-            var pieAngle = secondAngle - firstAngle;
-            var pieAngleDiff = pieAngle;
-            if(pieAngle < 0)
+            Point centerPoint = new Point()
             {
-                pieAngleDiff = secondAngle + 360 - firstAngle;
-            }
-            
-            var percents = 1D;
-            if (pieAngleDiff < 180)
+                X = (_centerPoint.X - viewPort.firstPoint.X) * viewPort.Scale,
+                Y = (_centerPoint.Y - viewPort.firstPoint.Y) * viewPort.Scale,
+            };
+            Point firstPoint = new Point()
             {
-                percents = 1 + (pieAngle - 180) / 180;
-            }
-            var radiuses = new Size()
+                X = (_firstPoint.X - viewPort.firstPoint.X) * viewPort.Scale,
+                Y = (_firstPoint.Y - viewPort.firstPoint.Y) * viewPort.Scale,
+            };
+            Point secondPoint = new Point()
             {
-                Width = _radiuses.Width * percents,
-                Height = _radiuses.Height * percents
+                X = (_secondPoint.X - viewPort.firstPoint.X) * viewPort.Scale,
+                Y = (_secondPoint.Y - viewPort.firstPoint.Y) * viewPort.Scale,
             };
 
-            using (var geometryContext = geometry.Open())
-            {
-                geometryContext.BeginFigure(_centerPoint, true, false);
-                geometryContext.LineTo(_firstPoint, false, false);
+            var firstAngle = angle(centerPoint, firstPoint);
+            var secondAngle = angle(centerPoint, secondPoint);
 
-                geometryContext.ArcTo(_secondPoint, radiuses, 360,true, SweepDirection.Clockwise, true, false);
-
-                geometryContext.LineTo(_centerPoint, false, false);
-            }
+            var pieAngle = Math.Abs(secondAngle - firstAngle);
+   
+            var geometry = new StreamGeometry();
             var actualWidth = _width * viewPort.Scale / _scale;
             var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
-            var brush = _brush.GetBrush( _fillColor, viewPort);
+            var brush = _brush.GetBrush(_fillColor, viewPort);
+            geometry = new StreamGeometry();
+            var radiuses = new Size()
+            {
+                Width = _radiuses.Width * viewPort.Scale,
+                Height = _radiuses.Height * viewPort.Scale
+            };
 
+            if (pieAngle > 179)
+            {
+                var thirdPointAngle = (firstAngle > secondAngle) ? firstAngle - pieAngle / 2 : firstAngle + pieAngle / 2;
+                var cos = Math.Cos(thirdPointAngle * Math.PI / 180);
+                var sin = Math.Sin(thirdPointAngle * Math.PI / 180);
+
+                var thirdPoint = new Point()
+                {
+                    X = (_radiuses.Width * cos) + _centerPoint.X,
+                    Y = (_radiuses.Height * sin) + _centerPoint.Y
+                };
+                thirdPoint.X = (thirdPoint.X - viewPort.firstPoint.X) * viewPort.Scale;
+                thirdPoint.Y = (thirdPoint.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+
+                using (var geometryContext = geometry.Open())
+                {
+                    if (firstAngle < secondAngle)
+                    {
+                        geometryContext.BeginFigure(centerPoint, true, false);
+                        geometryContext.LineTo(firstPoint, false, false);
+                        geometryContext.ArcTo(thirdPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                        geometryContext.ArcTo(secondPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                        geometryContext.LineTo(centerPoint, false, false);
+                    }
+                    else
+                    {
+                        geometryContext.BeginFigure(centerPoint, true, false);
+                        geometryContext.LineTo(secondPoint, false, false);
+                        geometryContext.ArcTo(thirdPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                        geometryContext.ArcTo(firstPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                        geometryContext.LineTo(centerPoint, false, false);
+                    }
+                }
+            }
+            else
+            {
+                using (var geometryContext = geometry.Open())
+                {
+                    if (firstAngle < secondAngle)
+                    {
+                        geometryContext.BeginFigure(centerPoint, true, false);
+                        geometryContext.LineTo(firstPoint, false, false);
+                        geometryContext.ArcTo(secondPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                        geometryContext.LineTo(centerPoint, false, false);
+                    }
+                    else
+                    {
+                        geometryContext.BeginFigure(centerPoint, true, false);
+                        geometryContext.LineTo(secondPoint, false, false);
+                        geometryContext.ArcTo(firstPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                        geometryContext.LineTo(centerPoint, false, false);
+                    }
+                }
+            }
+           // geometry.Freeze();
             context.DrawGeometry(brush, pen, geometry);
+
         }
 
         public void ChangeLastPoint(Point newPoint)
         {
             _secondPoint = newPoint;
-            // calculate angle
-        /*    var firstSide = Math.Sqrt(Math.Abs(_firstPoint.X - _centerPoint.X) + Math.Abs(_firstPoint.Y - _centerPoint.Y));
-            var secondSide = Math.Sqrt(Math.Abs(_secondPoint.X - _centerPoint.X) + Math.Abs(_secondPoint.Y - _centerPoint.Y));
-            var thirdSide = Math.Sqrt(Math.Abs(_firstPoint.X - _secondPoint.X) + Math.Abs(_firstPoint.Y - _secondPoint.Y));
-           // var cos = ((firstSide * firstSide) + (secondSide * secondSide) - (thirdSide * thirdSide)) / (2 * firstSide * secondSide);
-            double cos = Math.Round((_firstPoint.X * _secondPoint.X + _firstPoint.Y * _secondPoint.Y) /
-                (Math.Sqrt(_firstPoint.X * Machine.X + Machine.Y * Machine.Y) * Math.Sqrt(Destination.X * Destination.X + Destination.Y * Destination.Y)), 9);
-            _angle = Math.Acos(cos) * 180 / Math.PI;*/
-            //  arccos( (x1x2 + y1y2) / (R^2) ).
         }
 
         public static double angle(Point center, Point p1)

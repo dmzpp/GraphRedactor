@@ -29,7 +29,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <!--Инструменты-->
-                <ColumnDefinition Width="270"></ColumnDefinition>
+                <ColumnDefinition Width="300"></ColumnDefinition>
                 <!--Панель с аргументами инструмента-->
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>

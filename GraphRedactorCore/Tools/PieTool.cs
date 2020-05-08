@@ -75,6 +75,11 @@ namespace GraphRedactorCore.Tools
 
                 var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
                 centerPoint = graphData.viewPorts.ConvertToBaseViewPort(centerPoint, viewPort);
+                if(ellipse.diameters.X == 0 && ellipse.diameters.Y == 0)
+                {
+                    currentState = States.nothing;
+                    return;
+                }
                 var intersactionPoint = MathExtension.CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
 
 
@@ -119,11 +124,19 @@ namespace GraphRedactorCore.Tools
             {
                 var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
                 centerPoint = graphData.viewPorts.ConvertToBaseViewPort(centerPoint);
+
+                if (ellipse.diameters.X == 0 && ellipse.diameters.Y == 0)
+                {
+                    currentState = States.nothing;
+                    return;
+                }
+
                 Size radiuses = new Size()
                 {
                     Width = ellipse.diameters.X / graphData.viewPorts.Last().Scale,
                     Height = ellipse.diameters.Y / graphData.viewPorts.Last().Scale
                 };
+
                 var intersactionPoint = MathExtension.CalculateIntersectionPoint(ellipse.diameters / graphData.viewPorts.Last().Scale, centerPoint, point);
                 pie.ChangeLastPoint(intersactionPoint);
             }

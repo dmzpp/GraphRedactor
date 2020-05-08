@@ -113,8 +113,8 @@ namespace GraphRedactorCore.Tools
             Point fPoint = new Point();
             Point sPoint = new Point();
 
-            fPoint.X = (point.X - (newWidth / 2)) < 0 ? 0 : point.X - (newWidth / 2);
-            fPoint.Y = (point.Y - (newHeight / 2)) < 0 ? 0 : point.Y - (newHeight / 2);
+            fPoint.X = (point.X - (newWidth / 2));
+            fPoint.Y = (point.Y - (newHeight / 2));
             sPoint.X = point.X + (newWidth / 2);
             sPoint.Y = point.Y + (newHeight / 2);
 

@@ -19,8 +19,8 @@ namespace GraphRedactorCore.Brushes
             brush.ViewboxUnits = BrushMappingMode.Absolute;
             brush.Viewport = new Rect(0, 0, 10 * scale, 10 * scale);
             brush.ViewportUnits = BrushMappingMode.Absolute;
-            brush.TileMode = TileMode.Tile;
-            brush.Stretch = Stretch.UniformToFill;
+            brush.TileMode = TileMode.FlipY;
+            brush.Stretch = Stretch.Fill;
             brush.Transform = new RotateTransform(0);
             brush.Opacity = opacity;
 

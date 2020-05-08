@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
+using GraphRedactorCore.Brushes;
 using System.Windows;
+using System.Windows.Media;
+
 namespace GraphRedactorCore.Brushes
 {
-    internal class LinesBrush : ICustomBrush
+    internal class CrossBrush : ICustomBrush
     {
         public Brush GetBrush(Color color, double scale, double opacity = 1)
         {
             var brush = new DrawingBrush();
             GeometryGroup myGeometryGroup = new GeometryGroup();
-            myGeometryGroup.Children.Add(new LineGeometry(new Point(0, 0), new Point(10, 10)));
+            myGeometryGroup.Children.Add(new RectangleGeometry(new Rect(0,0,10,10)));
 
             GeometryDrawing myDrawing = new GeometryDrawing(null, new Pen(new SolidColorBrush(color), 3), myGeometryGroup);
 
@@ -25,7 +27,7 @@ namespace GraphRedactorCore.Brushes
             brush.ViewportUnits = BrushMappingMode.Absolute;
             brush.TileMode = TileMode.Tile;
             brush.Stretch = Stretch.UniformToFill;
-            brush.Transform = new RotateTransform(75);
+            brush.Transform = new RotateTransform(0);
             brush.Opacity = opacity;
 
             return brush;
@@ -35,7 +37,7 @@ namespace GraphRedactorCore.Brushes
         {
             var brush = new DrawingBrush();
             GeometryGroup myGeometryGroup = new GeometryGroup();
-            myGeometryGroup.Children.Add(new LineGeometry(new Point(0, 0), new Point(10, 10)));
+            myGeometryGroup.Children.Add(new RectangleGeometry(new Rect(0, 0, 10, 10)));
 
             GeometryDrawing myDrawing = new GeometryDrawing(null, new Pen(new SolidColorBrush(color), 3), myGeometryGroup);
 
@@ -47,7 +49,7 @@ namespace GraphRedactorCore.Brushes
             brush.ViewportUnits = BrushMappingMode.Absolute;
             brush.TileMode = TileMode.Tile;
             brush.Stretch = Stretch.UniformToFill;
-            brush.Transform = new RotateTransform(75);
+            brush.Transform = new RotateTransform(0);
 
             return brush;
         }

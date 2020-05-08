@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows;
+
 namespace GraphRedactorCore.Brushes
 {
-    internal class LinesBrush : ICustomBrush
+    internal class SecondLinesBrush : ICustomBrush
     {
         public Brush GetBrush(Color color, double scale, double opacity = 1)
         {
@@ -25,7 +26,7 @@ namespace GraphRedactorCore.Brushes
             brush.ViewportUnits = BrushMappingMode.Absolute;
             brush.TileMode = TileMode.Tile;
             brush.Stretch = Stretch.UniformToFill;
-            brush.Transform = new RotateTransform(75);
+            brush.Transform = new RotateTransform(150);
             brush.Opacity = opacity;
 
             return brush;
@@ -47,7 +48,7 @@ namespace GraphRedactorCore.Brushes
             brush.ViewportUnits = BrushMappingMode.Absolute;
             brush.TileMode = TileMode.Tile;
             brush.Stretch = Stretch.UniformToFill;
-            brush.Transform = new RotateTransform(75);
+            brush.Transform = new RotateTransform(150);
 
             return brush;
         }

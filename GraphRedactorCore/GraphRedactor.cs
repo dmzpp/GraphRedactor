@@ -23,6 +23,9 @@ namespace GraphRedactorCore
             currentState = States.nothing;
 
             BrushPicker.AddBrush(new LinesBrush());
+            BrushPicker.AddBrush(new SolidBrush());
+            BrushPicker.AddBrush(new CrossBrush());
+            BrushPicker.AddBrush(new SecondLinesBrush());
 
             PenPicker.AddPen(new DashPen());
             PenPicker.AddPen(new SolidPen());

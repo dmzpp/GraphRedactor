@@ -36,7 +36,7 @@ namespace GraphRedactorCore.Tools
 
         public PieTool()
         {
-            _fillColor = new FillColorParam(Colors.Black, typeof(LinesBrush));
+            _fillColor = new FillColorParam(Colors.Black, typeof(SolidBrush));
             _borderColor = new BorderColorParam(Colors.Yellow, typeof(SolidPen));
             _width = new WidthParam(10);
             ToolView = new Button()
@@ -58,8 +58,7 @@ namespace GraphRedactorCore.Tools
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             if (currentState == States.nothing)
             {
@@ -69,7 +68,7 @@ namespace GraphRedactorCore.Tools
                     BrushPicker.GetBrush(FillColor.BrushType), Width.Value, viewPort.Scale);
                 graphData.drawables.AddLast(ellipse);
             }
-            else if(currentState == States.drawingPie)
+            else if (currentState == States.drawingPie)
             {
                 ellipse.opacity = 0.2;
                 graphData.drawables.Last.Value = ellipse;
@@ -80,10 +79,9 @@ namespace GraphRedactorCore.Tools
                 };
 
                 var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
-                centerPoint.X = viewPort.firstPoint.X + (centerPoint.X / viewPort.Scale);
-                centerPoint.Y = viewPort.firstPoint.Y + (centerPoint.Y / viewPort.Scale);
-                var intersactionPoint = CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
-               
+                centerPoint = graphData.viewPorts.ConvertToBaseViewPort(centerPoint, viewPort);
+                var intersactionPoint =  MathExtension.CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
+
 
                 pie = new Pie(centerPoint, intersactionPoint,
                     BorderColor.Color, PenPicker.GetPen(BorderColor.PenType),
@@ -100,7 +98,7 @@ namespace GraphRedactorCore.Tools
             {
                 currentState = States.drawingPie;
             }
-            else if(currentState == States.drawingPie)
+            else if (currentState == States.drawingPie)
             {
                 graphData.drawables.Remove(graphData.drawables.Last.Previous);
                 pie = null;
@@ -111,8 +109,7 @@ namespace GraphRedactorCore.Tools
         public override void MouseMove(Point point, GraphData graphData)
         {
             var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             if (currentState == States.drawingEllipse)
             {
@@ -123,17 +120,16 @@ namespace GraphRedactorCore.Tools
 
                 ellipse.ChangeLastPoint(point);
             }
-            else if(currentState == States.drawingPie && pie != null)
+            else if (currentState == States.drawingPie && pie != null)
             {
                 var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
-                centerPoint.X = viewPort.firstPoint.X + (centerPoint.X / viewPort.Scale);
-                centerPoint.Y = viewPort.firstPoint.Y + (centerPoint.Y / viewPort.Scale);
+                centerPoint = graphData.viewPorts.ConvertToBaseViewPort(centerPoint);
                 Size radiuses = new Size()
                 {
-                    Width = ellipse.diameters.X / viewPort.Scale,
-                    Height = ellipse.diameters.Y / viewPort.Scale
+                    Width = ellipse.diameters.X / graphData.viewPorts.Last().Scale,
+                    Height = ellipse.diameters.Y / graphData.viewPorts.Last().Scale
                 };
-                var intersactionPoint = CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
+                var intersactionPoint = MathExtension.CalculateIntersectionPoint(ellipse.diameters / graphData.viewPorts.Last().Scale, centerPoint, point);
                 pie.ChangeLastPoint(intersactionPoint);
             }
             Update(graphData.drawables);
@@ -141,92 +137,18 @@ namespace GraphRedactorCore.Tools
 
         private void Update(LinkedList<IDrawable> drawables)
         {
-            if (drawables.Count == 0 || ellipse == null || pie == null)
+            if (drawables.Count == 0)
             {
                 return;
             }
-            //drawables.RemoveLast();
-            if(currentState == States.drawingEllipse)
+            if (currentState == States.drawingEllipse && ellipse != null)
             {
-               // drawables.AddLast(ellipse);
                 drawables.Last.Value = ellipse;
             }
-            else if(currentState == States.drawingPie)
+            else if (currentState == States.drawingPie && pie != null)
             {
                 drawables.Last.Value = pie;
             }
-        }
-
-        /// <summary>
-        /// Вычисление координат пересечения прямой и окружности
-        /// </summary>
-        /// <param name="radius">Радиус окружности</param>
-        /// <param name="centerPoint">Центр окружности</param>
-        /// <param name="firstPoint">Первая точка прямой</param>
-        /// <param name="secondPoint">Вторая точка прямой</param>
-        /// <returns></returns>
-        private Point CalculateIntersectionPoint(Vector radiuses, Point centerPoint, Point point)
-        {
-            var newPoint = new Point()
-            {
-                X = point.X - centerPoint.X,
-                Y = point.Y - centerPoint.Y
-            };
-            var points = FindEllipseSegmentIntersections(radiuses.X, radiuses.Y, new Point(0,0), newPoint, 0, 0);
-            var firstPointSubstract = Point.Subtract(newPoint, points[0]);
-            var secondPointSubstract = Point.Subtract(newPoint, points[1]);
-
-            if(Math.Abs(firstPointSubstract.X) >= Math.Abs(secondPointSubstract.X) && Math.Abs(firstPointSubstract.Y) >= Math.Abs(secondPointSubstract.Y))
-            {
-                return new Point()
-                {
-                    X = points[1].X + centerPoint.X,
-                    Y = points[1].Y + centerPoint.Y
-                };
-            }
-            else
-            {
-                return new Point()
-                {
-                    X = points[0].X + centerPoint.X,
-                    Y = points[0].Y + centerPoint.Y
-                };
-            }
-        }
-        private Point[] FindEllipseSegmentIntersections(double width, double height, Point pt1, Point pt2, double centerX, double centerY)
-        {
-            var cx = centerX;
-            var cy = centerY;
-            var a = width / 2;
-            var b = height / 2;
-
-            var A = (pt2.X - pt1.X) * (pt2.X - pt1.X) / a / a +
-                      (pt2.Y - pt1.Y) * (pt2.Y - pt1.Y) / b / b;
-            var B = 2 * pt1.X * (pt2.X - pt1.X) / a / a +
-                      2 * pt1.Y * (pt2.Y - pt1.Y) / b / b;
-            var C = pt1.X * pt1.X / a / a + pt1.Y * pt1.Y / b / b - 1;
-
-            var t_values = new List<double>();
-
-            var discriminant = Math.Abs(B * B - 4 * A * C);
-            if (discriminant == 0)
-            {
-                t_values.Add(-B / 2 / A);
-            }
-            else if (discriminant > 0)
-            {
-                t_values.Add((float)((-B + Math.Sqrt(discriminant)) / 2 / A));
-                t_values.Add((float)((-B - Math.Sqrt(discriminant)) / 2 / A));
-            }
-            List<Point> points = new List<Point>();
-            foreach (float t in t_values)
-            {
-                var x = pt1.X + (pt2.X - pt1.X) * t + cx;
-                var y = pt1.Y + (pt2.Y - pt1.Y) * t + cy;
-                points.Add(new Point(x, y));
-            }
-
-            return points.ToArray();
         }
     }
 }

@@ -13,8 +13,11 @@ namespace GraphRedactorCore.ToolsParams
     {
         public Color Color { get; set; }
         public Type BrushType { get; set; }
+
+        private ComboBox brushesList;
         public FillColorParam(Color color, Type custoumBrushType)
         {
+            this.brushesList = new ComboBox();
             BrushType = custoumBrushType;
             Color = color;
             var stackPanel = new StackPanel();
@@ -22,23 +25,37 @@ namespace GraphRedactorCore.ToolsParams
             var colorPicker = new ColorPicker() { SelectedColor = color, Width = 50, Height = 50, Margin = new Thickness(10) };
             colorPicker.SelectedColorChanged += FillColorParam_SelectedColorChanged;
             stackPanel.Children.Add(colorPicker);
-            var comboBox = new ComboBox();
-            foreach(var brush in BrushPicker.brushes)
+
+            this.brushesList.Width = 150;
+            this.brushesList.Height = 50;
+            RenderBrushes();
+
+            stackPanel.Children.Add(brushesList);
+            ArgView = stackPanel;
+        }
+
+        private void RenderBrushes()
+        {
+            brushesList.Items.Clear();
+
+            foreach (var brush in BrushPicker.brushes)
             {
                 ComboBoxItem item = new ComboBoxItem();
                 Rectangle rectangle = new Rectangle()
                 {
                     Fill = brush.Value.GetBrush(Color),
                     Width = 100,
-                    Height = 50
+                    Height = 40
                 };
+                if (brush.Key == BrushType)
+                {
+                    item.IsSelected = true;
+                }
                 item.Tag = brush.Key;
                 item.Content = rectangle;
                 item.Selected += Item_Selected;
-                comboBox.Items.Add(item);
+                brushesList.Items.Add(item);
             }
-            stackPanel.Children.Add(comboBox);
-            ArgView = stackPanel;
         }
 
         private void Item_Selected(object sender, RoutedEventArgs e)
@@ -49,6 +66,7 @@ namespace GraphRedactorCore.ToolsParams
         private void FillColorParam_SelectedColorChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Color?> e)
         {
             Color = (Color)e.NewValue;
+            RenderBrushes();
         }
     }
 }

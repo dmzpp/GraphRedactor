@@ -23,7 +23,7 @@ namespace GraphRedactorCore.Tools
 
         public RectangleTool()
         {
-            _fillColor = new FillColorParam(Colors.Black, typeof(LinesBrush));
+            _fillColor = new FillColorParam(Colors.Black, typeof(SolidBrush));
             _borderColor = new BorderColorParam(Colors.Yellow, typeof(SolidPen));
             _width = new WidthParam(10);
 
@@ -44,11 +44,12 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
-            var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
-            rectangle = new Rectangle(point, BorderColor.Color, PenPicker.GetPen(BorderColor.PenType), FillColor.Color, BrushPicker.GetBrush(FillColor.BrushType), Width.Value, viewPort.Scale);
+            rectangle = new Rectangle(point, BorderColor.Color,
+                PenPicker.GetPen(BorderColor.PenType), FillColor.Color,
+                BrushPicker.GetBrush(FillColor.BrushType), Width.Value, graphData.viewPorts.Last().Scale);
+
             graphData.drawables.AddLast(rectangle);
         }
 
@@ -64,9 +65,7 @@ namespace GraphRedactorCore.Tools
             {
                 return;
             }
-            var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             rectangle.ChangeLastPoint(point);
             Update(graphData.drawables);
@@ -78,8 +77,7 @@ namespace GraphRedactorCore.Tools
             {
                 return;
             }
-            drawables.RemoveLast();
-            drawables.AddLast(rectangle);
+            drawables.Last.Value = rectangle;
         }
     }
 }

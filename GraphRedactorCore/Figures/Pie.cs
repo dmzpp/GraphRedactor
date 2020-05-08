@@ -59,15 +59,15 @@ namespace GraphRedactorCore.Figures
                 Y = (_secondPoint.Y - viewPort.firstPoint.Y) * viewPort.Scale,
             };
 
-            var firstAngle = angle(centerPoint, firstPoint);
-            var secondAngle = angle(centerPoint, secondPoint);
+            var firstAngle = MathExtension.CalculateAngle(centerPoint, firstPoint);
+            var secondAngle = MathExtension.CalculateAngle(centerPoint, secondPoint);
 
             var pieAngle = Math.Abs(secondAngle - firstAngle);
    
             var geometry = new StreamGeometry();
             var actualWidth = _width * viewPort.Scale / _scale;
             var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
-            var brush = _brush.GetBrush(_fillColor, viewPort);
+            var brush = _brush.GetBrush(_fillColor, viewPort.Scale / _scale);
             geometry = new StreamGeometry();
             var radiuses = new Size()
             {
@@ -137,18 +137,6 @@ namespace GraphRedactorCore.Figures
         public void ChangeLastPoint(Point newPoint)
         {
             _secondPoint = newPoint;
-        }
-
-        public static double angle(Point center, Point p1)
-        {
-            var p0 = new Point(center.X, center.Y - Math.Sqrt(Math.Abs(p1.X - center.X) * Math.Abs(p1.X - center.X)
-                     + Math.Abs(p1.Y - center.Y) * Math.Abs(p1.Y - center.Y)));
-            var result = ((2 * Math.Atan2(p1.Y - p0.Y, p1.X - p0.X)) * 180 / Math.PI) - 90;
-            if (result < 0)
-            {
-                result += 360;
-            }
-            return result;
         }
     }
 }

@@ -43,12 +43,10 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
-            var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             ellipse = new Ellipse(point, BorderColor.Color, PenPicker.GetPen(BorderColor.PenType), FillColor.Color,
-                BrushPicker.GetBrush(FillColor.BrushType), Width.Value, viewPort.Scale);
+                BrushPicker.GetBrush(FillColor.BrushType), Width.Value, graphData.viewPorts.Last().Scale);
             graphData.drawables.AddLast(ellipse);
         }
 
@@ -64,9 +62,7 @@ namespace GraphRedactorCore.Tools
             {
                 return;
             }
-            var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             ellipse.ChangeLastPoint(point);
             Update(graphData.drawables);
@@ -78,8 +74,7 @@ namespace GraphRedactorCore.Tools
             {
                 return;
             }
-            drawables.RemoveLast();
-            drawables.AddLast(ellipse);
+            drawables.Last.Value = ellipse;
         }
     }
 }

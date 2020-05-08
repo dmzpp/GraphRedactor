@@ -97,8 +97,7 @@ namespace GraphRedactorCore.Tools
         {
             if (drawables.Count > 1 && rectangle != null)
             {
-                drawables.RemoveLast();
-                drawables.AddLast(rectangle);
+                drawables.Last.Value = rectangle;
             }
         }
 

@@ -41,7 +41,7 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = _width * viewPort.Scale / _scale;
 
-            var brush = _fillBrush.GetBrush(_fillColor, viewPort);
+            var brush = _fillBrush.GetBrush(_fillColor, viewPort.Scale / _scale);
             var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
             context.DrawRectangle(brush, pen, new Rect(_firstDrawingCoord, _secondDrawingCoord));
         }

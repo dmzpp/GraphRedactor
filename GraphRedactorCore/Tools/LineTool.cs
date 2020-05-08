@@ -22,7 +22,7 @@ namespace GraphRedactorCore.Tools
 
         public LineTool()
         {
-            _contour = new BorderColorParam(Colors.Blue, typeof(LinesBrush));
+            _contour = new BorderColorParam(Colors.Blue, typeof(SolidPen));
             _width = new WidthParam(10);
             ToolView = new Button()
             {
@@ -41,11 +41,9 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
-            var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
-            polyLine = new PolyLine(point, Contour.Color, PenPicker.GetPen(Contour.PenType), Width.Value, viewPort.Scale);
+            polyLine = new PolyLine(point, Contour.Color, PenPicker.GetPen(Contour.PenType), Width.Value, graphData.viewPorts.Last().Scale);
             graphData.drawables.AddLast(polyLine);
         }
 
@@ -61,9 +59,7 @@ namespace GraphRedactorCore.Tools
             {
                 return;
             }
-            var viewPort = graphData.viewPorts.Last();
-            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
-            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             polyLine.ChangeLastPoint(point);
             Update(graphData.drawables);
@@ -73,8 +69,7 @@ namespace GraphRedactorCore.Tools
         {
             if (drawables.Count > 1 || polyLine != null)
             {
-                drawables.RemoveLast();
-                drawables.AddLast(polyLine);
+                drawables.Last.Value = polyLine;
             }
         }
     }

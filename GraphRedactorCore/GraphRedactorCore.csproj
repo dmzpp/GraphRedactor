@@ -61,8 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Brushes\BrushPicker.cs" />
+    <Compile Include="Brushes\CrossBrush.cs" />
     <Compile Include="Brushes\ICustomBrush.cs" />
     <Compile Include="Brushes\LinesBrush.cs" />
+    <Compile Include="Brushes\SecondLinesBrush.cs" />
+    <Compile Include="Brushes\SolidBrush.cs" />
     <Compile Include="DrawingCanvas.cs" />
     <Compile Include="Figures\Ellipse.cs" />
     <Compile Include="Figures\Pie.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="GraphData.cs" />
     <Compile Include="GraphRedactor.cs" />
     <Compile Include="IDrawable.cs" />
+    <Compile Include="MathExtension.cs" />
     <Compile Include="Pens\DashDotDotPen.cs" />
     <Compile Include="Pens\DashPen.cs" />
     <Compile Include="Pens\ICustomPen.cs" />

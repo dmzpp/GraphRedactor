@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace GraphRedactorCore
 {
@@ -23,14 +24,14 @@ namespace GraphRedactorCore
         }
         public ViewPort First()
         {
-            return viewPorts.First.Value;
+            return viewPorts.First.Next.Value;
         }
 
         public ViewPort Previous()
         {
             if (viewPorts.Count == 1)
             {
-                return viewPorts.First.Value;
+                return viewPorts.Last.Value;
             }
             else
             {
@@ -45,7 +46,7 @@ namespace GraphRedactorCore
 
         public void RemoveLast()
         {
-            if (Count > 1)
+            if (Count > 2)
             {
                 viewPorts.RemoveLast();
             }
@@ -54,6 +55,20 @@ namespace GraphRedactorCore
         IEnumerator IEnumerable.GetEnumerator()
         {
             return viewPorts.GetEnumerator();
+        }
+
+        public Point ConvertToBaseViewPort(Point point)
+        {
+            var viewPort = Last();
+            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
+            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            return point;
+        }
+        public Point ConvertToBaseViewPort(Point point, ViewPort viewPort)
+        {
+            point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
+            point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
+            return point;
         }
     }
 }

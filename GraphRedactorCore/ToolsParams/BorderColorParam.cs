@@ -13,8 +13,10 @@ namespace GraphRedactorCore.ToolsParams
     {
         public Color Color { get; set; }
         public Type PenType { get; set; }
+        private readonly ComboBox _pensList;
         public BorderColorParam(Color color, Type customPenType)
         {
+            _pensList = new ComboBox();
             PenType = customPenType;
             Color = color;
             var stackPanel = new StackPanel();
@@ -22,32 +24,44 @@ namespace GraphRedactorCore.ToolsParams
             var colorPicker = new ColorPicker() { SelectedColor = color, Width = 50, Height = 50, Margin = new Thickness(10) };
             colorPicker.SelectedColorChanged += BorderColorParam_SelectedColorChanged;
             stackPanel.Children.Add(colorPicker);
-            var comboBox = new ComboBox()
-            {
-                Width = 150,
-                Height = 40
-            };
+
+            _pensList.Width = 150;
+            _pensList.Height = 40;
+
+            RenderPens();
+
+            stackPanel.Children.Add(_pensList);
+            ArgView = stackPanel;
+        }
+
+        private void RenderPens()
+        {
+            _pensList.Items.Clear();
+
             foreach (var pen in PenPicker.pens)
             {
                 ComboBoxItem item = new ComboBoxItem();
-                var brush = pen.Value.GetPen(Colors.Red, 1);
+                var brush = pen.Value.GetPen(Color, 1);
                 Line line = new Line()
                 {
                     Stroke = brush.Brush,
                     StrokeThickness = 10,
-                    X1 = 20, X2 = 130,
-                    Y1 = 20, Y2 = 20,
+                    X1 = 20,
+                    X2 = 130,
+                    Y1 = 20,
+                    Y2 = 20,
                     StrokeDashArray = brush.DashStyle.Dashes
                 };
                 item.Tag = pen.Key;
+                if (pen.Key == PenType)
+                {
+                    item.IsSelected = true;
+                }
                 item.Content = line;
                 item.Selected += Item_Selected;
-                comboBox.Items.Add(item);
+                _pensList.Items.Add(item);
             }
-            stackPanel.Children.Add(comboBox);
-            ArgView = stackPanel;
         }
-
         private void Item_Selected(object sender, RoutedEventArgs e)
         {
             PenType = (((ComboBoxItem)sender).Tag as Type);
@@ -56,6 +70,7 @@ namespace GraphRedactorCore.ToolsParams
         private void BorderColorParam_SelectedColorChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<Color?> e)
         {
             Color = (Color)e.NewValue;
+            RenderPens();
         }
     }
 }

@@ -22,12 +22,9 @@ namespace GraphRedactorCore.Tools
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
             var distance = Point.Subtract(coursorPoint, point);
-
             viewPort = graphData.viewPorts.Last();
-            viewPort.firstPoint.X += distance.X;
-            viewPort.firstPoint.Y += distance.Y;
-            viewPort.secondPoint.X += distance.X;
-            viewPort.secondPoint.Y += distance.Y;
+            viewPort.firstPoint = Point.Add(viewPort.firstPoint, distance);
+            viewPort.secondPoint = Point.Add(viewPort.secondPoint, distance);
             coursorPoint = point;
         }
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
@@ -35,7 +32,6 @@ namespace GraphRedactorCore.Tools
             var viewPort = graphData.viewPorts.Previous();
             point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
-
             coursorPoint = point;
             isMoving = true;
         }

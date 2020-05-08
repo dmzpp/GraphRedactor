@@ -43,7 +43,7 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = _width * viewPort.Scale / _scale;
             diameters = Point.Subtract(secondDrawingCoord, firstDrawingCoord);
-            var brush = _brush.GetBrush(_fillColor, viewPort, opacity);
+            var brush = _brush.GetBrush(_fillColor, viewPort.Scale / _scale, opacity);
             var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
 
             context.DrawEllipse(brush, pen, Point.Subtract(secondDrawingCoord, diameters / 2), diameters.X / 2, diameters.Y / 2);

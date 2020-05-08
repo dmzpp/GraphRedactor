@@ -45,12 +45,6 @@ namespace GraphRedactorCore
             return _tools[_currentTool];
         }
 
-        /// <summary>
-        /// Отображает панель с добавленными инструментами на toolPanel.
-        /// При нажатии на инструмент с панели toolPanel на панель toolArgs будут отображены аргументы нажатого инструмента
-        /// </summary>
-        /// <param name="toolPanel">Панель для отображения инструментов</param>
-        /// <param name="toolArgs">Панель для отражения параметров выбранного инструмента</param>
         public void RenderTools(Panel toolPanel, Panel toolArgs)
         {
             toolPanel.Children.Clear();

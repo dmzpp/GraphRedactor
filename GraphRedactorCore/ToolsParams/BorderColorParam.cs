@@ -1,11 +1,10 @@
-﻿using System;
+﻿using GraphRedactorCore.Pens;
+using System;
 using System.Windows;
-using System.Windows.Media;
-using Xceed.Wpf.Toolkit;
 using System.Windows.Controls;
-using GraphRedactorCore.Pens;
+using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Collections;
+using Xceed.Wpf.Toolkit;
 
 namespace GraphRedactorCore.ToolsParams
 {
@@ -19,8 +18,10 @@ namespace GraphRedactorCore.ToolsParams
             _pensList = new ComboBox();
             PenType = customPenType;
             Color = color;
-            var stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Horizontal;
+            var stackPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal
+            };
             var colorPicker = new ColorPicker() { SelectedColor = color, Width = 50, Height = 50, Margin = new Thickness(10) };
             colorPicker.SelectedColorChanged += BorderColorParam_SelectedColorChanged;
             stackPanel.Children.Add(colorPicker);

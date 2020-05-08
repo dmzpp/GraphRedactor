@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace GraphRedactorCore.Pens
 {
@@ -11,15 +6,19 @@ namespace GraphRedactorCore.Pens
     {
         public Pen GetPen(ViewPort viewPort, Color color, double width)
         {
-            var pen = new Pen(new SolidColorBrush(color), width);
-            pen.DashStyle = DashStyles.Dash;
+            var pen = new Pen(new SolidColorBrush(color), width)
+            {
+                DashStyle = DashStyles.Dash
+            };
             return pen;
         }
 
         public Pen GetPen(Color color, double width)
         {
-            var pen = new Pen(new SolidColorBrush(color), width);
-            pen.DashStyle = DashStyles.Dash;
+            var pen = new Pen(new SolidColorBrush(color), width)
+            {
+                DashStyle = DashStyles.Dash
+            };
             return pen;
         }
     }

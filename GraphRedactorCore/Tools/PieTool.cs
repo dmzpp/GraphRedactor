@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GraphRedactorCore.Brushes;
 using GraphRedactorCore.Figures;
-using GraphRedactorCore.Tools;
-using GraphRedactorCore.ToolsParams;
 using GraphRedactorCore.Pens;
-using GraphRedactorCore.Brushes;
+using GraphRedactorCore.ToolsParams;
+using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GraphRedactorCore.Tools
 {
@@ -80,7 +75,7 @@ namespace GraphRedactorCore.Tools
 
                 var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
                 centerPoint = graphData.viewPorts.ConvertToBaseViewPort(centerPoint, viewPort);
-                var intersactionPoint =  MathExtension.CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
+                var intersactionPoint = MathExtension.CalculateIntersectionPoint(ellipse.diameters / viewPort.Scale, centerPoint, point);
 
 
                 pie = new Pie(centerPoint, intersactionPoint,

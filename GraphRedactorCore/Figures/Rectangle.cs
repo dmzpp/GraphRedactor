@@ -18,7 +18,7 @@ namespace GraphRedactorCore.Figures
 
         private Color _fillColor;
         private Color _contourColor;
-        
+
         private double _width;
         private double _scale;
         private readonly Pen __pen;

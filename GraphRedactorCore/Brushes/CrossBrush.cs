@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GraphRedactorCore.Brushes;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace GraphRedactorCore.Brushes
@@ -15,7 +9,7 @@ namespace GraphRedactorCore.Brushes
         {
             var brush = new DrawingBrush();
             GeometryGroup myGeometryGroup = new GeometryGroup();
-            myGeometryGroup.Children.Add(new RectangleGeometry(new Rect(0,0,10,10)));
+            myGeometryGroup.Children.Add(new RectangleGeometry(new Rect(0, 0, 10, 10)));
 
             GeometryDrawing myDrawing = new GeometryDrawing(null, new Pen(new SolidColorBrush(color), 3), myGeometryGroup);
 

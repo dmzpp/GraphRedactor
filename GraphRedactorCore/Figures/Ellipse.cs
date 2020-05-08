@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GraphRedactorCore.Brushes;
+using GraphRedactorCore.Pens;
+using System;
 using System.Windows;
 using System.Windows.Media;
-using GraphRedactorCore.Brushes;
-using GraphRedactorCore.Pens;
 
 namespace GraphRedactorCore.Figures
 {

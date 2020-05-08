@@ -8,19 +8,11 @@ namespace GraphRedactorCore
     {
         private readonly GraphData graphData;
         public ToolPicker ToolPicker { get; }
-        private States currentState;
-        private enum States
-        {
-            creating,
-            editing,
-            nothing
-        }
 
         public GraphRedactor(int width, int height, DrawingCanvas drawingCanvas)
         {
             graphData = new GraphData(width, height, drawingCanvas);
             ToolPicker = new ToolPicker();
-            currentState = States.nothing;
 
             BrushPicker.AddBrush(new LinesBrush());
             BrushPicker.AddBrush(new SolidBrush());
@@ -47,7 +39,7 @@ namespace GraphRedactorCore
             graphData.viewPorts.First().secondPoint.X = width;
             graphData.viewPorts.First().secondPoint.Y = height;
         }
-        
+
         public void MouseMove(Point point)
         {
             ToolPicker.GetTool().MouseMove(point, graphData);
@@ -57,7 +49,7 @@ namespace GraphRedactorCore
         {
             ToolPicker.GetTool().MouseLeftButtonUp(point, graphData);
         }
-        
+
         public void MouseRightButtonUp(Point point)
         {
             ToolPicker.GetTool().MouseRightButtonUp(point, graphData);

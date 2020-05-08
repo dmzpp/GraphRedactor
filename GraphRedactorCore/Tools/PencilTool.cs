@@ -1,8 +1,6 @@
-﻿using GraphRedactorCore.Brushes;
-using GraphRedactorCore.Figures;
+﻿using GraphRedactorCore.Figures;
 using GraphRedactorCore.Pens;
 using GraphRedactorCore.ToolsParams;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows;
+﻿using System.Windows.Media;
 
 namespace GraphRedactorCore.Brushes
 {
@@ -12,8 +6,10 @@ namespace GraphRedactorCore.Brushes
     {
         public Brush GetBrush(Color color, double scale, double opacity = 1)
         {
-            var brush = new SolidColorBrush(color);
-            brush.Opacity = opacity;
+            var brush = new SolidColorBrush(color)
+            {
+                Opacity = opacity
+            };
             return brush;
         }
 

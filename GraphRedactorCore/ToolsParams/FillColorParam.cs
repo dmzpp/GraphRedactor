@@ -1,11 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using Xceed.Wpf.Toolkit;
-using GraphRedactorCore.Brushes;
-using System.Windows.Controls;
+﻿using GraphRedactorCore.Brushes;
 using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Automation.Peers;
+using Xceed.Wpf.Toolkit;
 
 namespace GraphRedactorCore.ToolsParams
 {
@@ -20,8 +19,10 @@ namespace GraphRedactorCore.ToolsParams
             this.brushesList = new ComboBox();
             BrushType = custoumBrushType;
             Color = color;
-            var stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Horizontal;
+            var stackPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal
+            };
             var colorPicker = new ColorPicker() { SelectedColor = color, Width = 50, Height = 50, Margin = new Thickness(10) };
             colorPicker.SelectedColorChanged += FillColorParam_SelectedColorChanged;
             stackPanel.Children.Add(colorPicker);

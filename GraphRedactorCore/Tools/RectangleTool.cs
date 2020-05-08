@@ -1,12 +1,11 @@
-﻿using GraphRedactorCore.Figures;
+﻿using GraphRedactorCore.Brushes;
+using GraphRedactorCore.Figures;
+using GraphRedactorCore.Pens;
 using GraphRedactorCore.ToolsParams;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using GraphRedactorCore.Brushes;
 using System.Windows.Media;
-using GraphRedactorCore.Pens;
 
 namespace GraphRedactorCore.Tools
 {

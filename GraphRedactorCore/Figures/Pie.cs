@@ -1,14 +1,8 @@
 ﻿using GraphRedactorCore.Brushes;
 using GraphRedactorCore.Pens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
-using System.Windows.Media.TextFormatting;
-using System.Drawing.Drawing2D;
 
 namespace GraphRedactorCore.Figures
 {
@@ -63,7 +57,7 @@ namespace GraphRedactorCore.Figures
             var secondAngle = MathExtension.CalculateAngle(centerPoint, secondPoint);
 
             var pieAngle = Math.Abs(secondAngle - firstAngle);
-   
+
             var geometry = new StreamGeometry();
             var actualWidth = _width * viewPort.Scale / _scale;
             var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
@@ -77,7 +71,7 @@ namespace GraphRedactorCore.Figures
 
             if (pieAngle > 179)
             {
-                var thirdPointAngle = (firstAngle > secondAngle) ? firstAngle - pieAngle / 2 : firstAngle + pieAngle / 2;
+                var thirdPointAngle = (firstAngle > secondAngle) ? firstAngle - (pieAngle / 2) : firstAngle + (pieAngle / 2);
                 var cos = Math.Cos(thirdPointAngle * Math.PI / 180);
                 var sin = Math.Sin(thirdPointAngle * Math.PI / 180);
 
@@ -129,7 +123,7 @@ namespace GraphRedactorCore.Figures
                     }
                 }
             }
-           // geometry.Freeze();
+            // geometry.Freeze();
             context.DrawGeometry(brush, pen, geometry);
 
         }

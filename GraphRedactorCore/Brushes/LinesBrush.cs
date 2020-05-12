@@ -4,11 +4,11 @@ namespace GraphRedactorCore.Brushes
 {
     internal class LinesBrush : ICustomBrush
     {
-        public Brush GetBrush(Color color, double scale, double opacity = 1)
+        public Brush GetBrush(Color color, ViewPort viewPort, double scale, Point firstPoint, Point secondPoint, double opacity = 1)
         {
             var brush = new DrawingBrush();
             GeometryGroup myGeometryGroup = new GeometryGroup();
-            myGeometryGroup.Children.Add(new LineGeometry(new Point(0, 0), new Point(10, 10)));
+            myGeometryGroup.Children.Add(new LineGeometry(new Point(0, 5), new Point(10, 5)));
 
             GeometryDrawing myDrawing = new GeometryDrawing(null, new Pen(new SolidColorBrush(color), 3), myGeometryGroup);
 
@@ -16,11 +16,11 @@ namespace GraphRedactorCore.Brushes
 
             brush.Viewbox = new Rect(0, 0, 10, 10);
             brush.ViewboxUnits = BrushMappingMode.Absolute;
-            brush.Viewport = new Rect(0, 0, 10 * scale, 10 * scale);
+            brush.Viewport = new Rect(firstPoint.X, firstPoint.Y, 10 * viewPort.Scale / scale, 10 * viewPort.Scale / scale);
             brush.ViewportUnits = BrushMappingMode.Absolute;
             brush.TileMode = TileMode.Tile;
             brush.Stretch = Stretch.UniformToFill;
-            brush.Transform = new RotateTransform(75);
+            brush.Transform = new RotateTransform(0);
             brush.Opacity = opacity;
 
             return brush;
@@ -30,7 +30,7 @@ namespace GraphRedactorCore.Brushes
         {
             var brush = new DrawingBrush();
             GeometryGroup myGeometryGroup = new GeometryGroup();
-            myGeometryGroup.Children.Add(new LineGeometry(new Point(0, 0), new Point(10, 10)));
+            myGeometryGroup.Children.Add(new LineGeometry(new Point(0, 5), new Point(10, 5)));
 
             GeometryDrawing myDrawing = new GeometryDrawing(null, new Pen(new SolidColorBrush(color), 3), myGeometryGroup);
 
@@ -42,7 +42,7 @@ namespace GraphRedactorCore.Brushes
             brush.ViewportUnits = BrushMappingMode.Absolute;
             brush.TileMode = TileMode.Tile;
             brush.Stretch = Stretch.UniformToFill;
-            brush.Transform = new RotateTransform(75);
+            brush.Transform = new RotateTransform(0);
 
             return brush;
         }

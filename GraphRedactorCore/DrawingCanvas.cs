@@ -27,7 +27,7 @@ namespace GraphRedactorCore
             {
                 foreach (var drawable in drawables)
                 {
-                    drawable?.Draw(context, viewPort);
+                    drawable.Draw(context, viewPort);
                 }
             }
             collection.Add(visual);

@@ -46,8 +46,8 @@ namespace GraphRedactorCore.Tools
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             rectangle = new Rectangle(point, BorderColor.Color,
-                PenPicker.GetPen(BorderColor.PenType), FillColor.Color,
-                BrushPicker.GetBrush(FillColor.BrushType), Width.Value, graphData.viewPorts.Last().Scale);
+                BorderColor.PenType, FillColor.Color,
+                FillColor.BrushType, Width.Value, graphData.viewPorts.Last().Scale);
 
             graphData.drawables.AddLast(rectangle);
         }

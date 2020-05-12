@@ -13,20 +13,20 @@ namespace GraphRedactorCore.Figures
         private Point _secondPoint;
         private double _width;
 
-        private ICustomBrush _brush;
-        private ICustomPen _pen;
+        private Type _brushType;
+        private Type _penType;
         private Color _contourColor;
         private Color _fillColor;
         private Size _radiuses;
         private double _scale;
         public Pie(Point centerPoint, Point intersectionPoint,
-            Color contourColor, ICustomPen pen, Color fillColor, ICustomBrush brush, double width, Size radiuses, double scale)
+            Color contourColor, Type pen, Color fillColor, Type brush, double width, Size radiuses, double scale)
         {
             _centerPoint = centerPoint;
             _firstPoint = _secondPoint = intersectionPoint;
             _contourColor = contourColor;
-            _brush = brush;
-            _pen = pen;
+            _brushType = brush;
+            _penType = pen;
             _fillColor = fillColor;
             _width = width;
             _radiuses = radiuses;
@@ -60,8 +60,9 @@ namespace GraphRedactorCore.Figures
 
             var geometry = new StreamGeometry();
             var actualWidth = _width * viewPort.Scale / _scale;
-            var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
-            var brush = _brush.GetBrush(_fillColor, viewPort.Scale / _scale);
+            var pen = PenPicker.GetPen(_penType).GetPen(viewPort, _contourColor, actualWidth);
+            var brush = BrushPicker.GetBrush(_brushType).GetBrush(_fillColor, viewPort, _scale, firstPoint, secondPoint);
+
             geometry = new StreamGeometry();
             var radiuses = new Size()
             {
@@ -69,63 +70,44 @@ namespace GraphRedactorCore.Figures
                 Height = _radiuses.Height * viewPort.Scale
             };
 
-            if (pieAngle > 179)
+            var thirdPointAngle = (firstAngle > secondAngle) ? firstAngle - (pieAngle / 2) : firstAngle + (pieAngle / 2);
+            var cos = Math.Cos(thirdPointAngle * Math.PI / 180);
+            var sin = Math.Sin(thirdPointAngle * Math.PI / 180);
+
+            var thirdPoint = new Point()
             {
-                var thirdPointAngle = (firstAngle > secondAngle) ? firstAngle - (pieAngle / 2) : firstAngle + (pieAngle / 2);
-                var cos = Math.Cos(thirdPointAngle * Math.PI / 180);
-                var sin = Math.Sin(thirdPointAngle * Math.PI / 180);
+                X = (_radiuses.Width * cos) + _centerPoint.X,
+                Y = (_radiuses.Height * sin) + _centerPoint.Y
+            };
+            thirdPoint.X = (thirdPoint.X - viewPort.firstPoint.X) * viewPort.Scale;
+            thirdPoint.Y = (thirdPoint.Y - viewPort.firstPoint.Y) * viewPort.Scale;
 
-                var thirdPoint = new Point()
+            using (var geometryContext = geometry.Open())
+            {
+                if (firstAngle < secondAngle)
                 {
-                    X = (_radiuses.Width * cos) + _centerPoint.X,
-                    Y = (_radiuses.Height * sin) + _centerPoint.Y
-                };
-                thirdPoint.X = (thirdPoint.X - viewPort.firstPoint.X) * viewPort.Scale;
-                thirdPoint.Y = (thirdPoint.Y - viewPort.firstPoint.Y) * viewPort.Scale;
-
-                using (var geometryContext = geometry.Open())
+                    geometryContext.BeginFigure(centerPoint, true, false);
+                    geometryContext.LineTo(firstPoint, false, false);
+                    if (pieAngle > 179)
+                    {
+                        geometryContext.ArcTo(thirdPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                    }
+                    geometryContext.ArcTo(secondPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                    geometryContext.LineTo(centerPoint, false, false);
+                }
+                else
                 {
-                    if (firstAngle < secondAngle)
+                    geometryContext.BeginFigure(centerPoint, true, false);
+                    geometryContext.LineTo(secondPoint, false, false);
+                    if(pieAngle > 179)
                     {
-                        geometryContext.BeginFigure(centerPoint, true, false);
-                        geometryContext.LineTo(firstPoint, false, false);
                         geometryContext.ArcTo(thirdPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
-                        geometryContext.ArcTo(secondPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
-                        geometryContext.LineTo(centerPoint, false, false);
                     }
-                    else
-                    {
-                        geometryContext.BeginFigure(centerPoint, true, false);
-                        geometryContext.LineTo(secondPoint, false, false);
-                        geometryContext.ArcTo(thirdPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
-                        geometryContext.ArcTo(firstPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
-                        geometryContext.LineTo(centerPoint, false, false);
-                    }
+                    geometryContext.ArcTo(firstPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
+                    geometryContext.LineTo(centerPoint, false, false);
                 }
             }
-            else
-            {
-                using (var geometryContext = geometry.Open())
-                {
-                    if (firstAngle < secondAngle)
-                    {
-                        geometryContext.BeginFigure(centerPoint, true, false);
-                        geometryContext.LineTo(firstPoint, false, false);
-                        geometryContext.ArcTo(secondPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
-                        geometryContext.LineTo(centerPoint, false, false);
-                    }
-                    else
-                    {
-                        geometryContext.BeginFigure(centerPoint, true, false);
-                        geometryContext.LineTo(secondPoint, false, false);
-                        geometryContext.ArcTo(firstPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
-                        geometryContext.LineTo(centerPoint, false, false);
-                    }
-                }
-            }
-            // geometry.Freeze();
             context.DrawGeometry(brush, pen, geometry);
-
         }
 
         public void ChangeLastPoint(Point newPoint)

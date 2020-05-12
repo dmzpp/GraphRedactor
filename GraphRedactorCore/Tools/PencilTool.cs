@@ -40,7 +40,7 @@ namespace GraphRedactorCore.Tools
         {
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
-            polyLine = new PolyLine(point, Contour.Color, PenPicker.GetPen(Contour.PenType), Width.Value, graphData.viewPorts.Last().Scale);
+            polyLine = new PolyLine(point, Contour.Color, Contour.PenType, Width.Value, graphData.viewPorts.Last().Scale);
             graphData.drawables.AddLast(polyLine);
         }
 

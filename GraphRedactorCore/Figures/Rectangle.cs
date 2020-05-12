@@ -13,23 +13,20 @@ namespace GraphRedactorCore.Figures
         private Point _firstDrawingCoord;
         private Point _secondDrawingCoord;
 
-        private ICustomBrush _fillBrush;
-        private ICustomPen _pen;
+        private Type _brushType;
+        private Type _penType;
 
         private Color _fillColor;
         private Color _contourColor;
 
         private double _width;
         private double _scale;
-        private readonly Pen __pen;
-        // ICustomPen.GetPen(contourColor, width);
-        public Rectangle(Point initializePoint, Color contourColor, ICustomPen pen, Color fillColor, ICustomBrush fillBrush, double width, double scale)
+        public Rectangle(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, double scale)
         {
             firstCoord = initializePoint;
             secondCoord = initializePoint;
-            __pen = new Pen(new SolidColorBrush(contourColor), width);
-            _pen = pen;
-            _fillBrush = fillBrush;
+            _penType = pen;
+            _brushType = fillBrush;
             _fillColor = fillColor;
             this._contourColor = contourColor;
             _width = width;
@@ -41,8 +38,8 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = _width * viewPort.Scale / _scale;
 
-            var brush = _fillBrush.GetBrush(_fillColor, viewPort.Scale / _scale);
-            var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
+            var brush = BrushPicker.GetBrush(_brushType).GetBrush(_fillColor, viewPort, _scale, _firstDrawingCoord, _secondDrawingCoord);
+            var pen = PenPicker.GetPen(_penType).GetPen(viewPort, _contourColor, actualWidth);
             context.DrawRectangle(brush, pen, new Rect(_firstDrawingCoord, _secondDrawingCoord));
         }
 

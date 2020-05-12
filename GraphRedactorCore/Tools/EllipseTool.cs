@@ -44,8 +44,8 @@ namespace GraphRedactorCore.Tools
         {
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
-            ellipse = new Ellipse(point, BorderColor.Color, PenPicker.GetPen(BorderColor.PenType), FillColor.Color,
-                BrushPicker.GetBrush(FillColor.BrushType), Width.Value, graphData.viewPorts.Last().Scale);
+            ellipse = new Ellipse(point, BorderColor.Color, BorderColor.PenType, FillColor.Color,
+                FillColor.BrushType, Width.Value, graphData.viewPorts.Last().Scale);
             graphData.drawables.AddLast(ellipse);
         }
 

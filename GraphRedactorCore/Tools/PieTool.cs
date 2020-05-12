@@ -59,8 +59,8 @@ namespace GraphRedactorCore.Tools
             {
                 currentState = States.drawingEllipse;
 
-                ellipse = new Ellipse(point, BorderColor.Color, PenPicker.GetPen(BorderColor.PenType), FillColor.Color,
-                    BrushPicker.GetBrush(FillColor.BrushType), Width.Value, viewPort.Scale);
+                ellipse = new Ellipse(point, BorderColor.Color, BorderColor.PenType, FillColor.Color,
+                    FillColor.BrushType, Width.Value, viewPort.Scale);
                 graphData.drawables.AddLast(ellipse);
             }
             else if (currentState == States.drawingPie)
@@ -84,8 +84,8 @@ namespace GraphRedactorCore.Tools
 
 
                 pie = new Pie(centerPoint, intersactionPoint,
-                    BorderColor.Color, PenPicker.GetPen(BorderColor.PenType),
-                    FillColor.Color, BrushPicker.GetBrush(FillColor.BrushType),
+                    BorderColor.Color, BorderColor.PenType,
+                    FillColor.Color, FillColor.BrushType,
                     Width.Value, radiuses, viewPort.Scale);
                 graphData.drawables.AddLast(pie);
                 Update(graphData.drawables);

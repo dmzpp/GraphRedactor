@@ -43,7 +43,7 @@ namespace GraphRedactorCore.Tools
                 point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
                 point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
-                rectangle = new Rectangle(point, Colors.DarkOrange, PenPicker.GetPen(typeof(SolidPen)), Colors.Transparent, BrushPicker.GetBrush(typeof(LinesBrush)), 2, viewPort.Scale);
+                rectangle = new Rectangle(point, Colors.DarkOrange, typeof(SolidPen), Colors.Transparent, typeof(LinesBrush), 2, viewPort.Scale);
                 graphData.drawables.AddLast(rectangle);
                 currentState = States.stretching;
             }

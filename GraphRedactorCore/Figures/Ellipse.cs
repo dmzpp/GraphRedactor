@@ -8,8 +8,8 @@ namespace GraphRedactorCore.Figures
 {
     internal class Ellipse : IDrawable
     {
-        private ICustomBrush _brush;
-        private ICustomPen _pen;
+        private Type _brushType;
+        private Type _penType;
         internal Point firstCoord;
         internal Point secondCoord;
 
@@ -24,14 +24,14 @@ namespace GraphRedactorCore.Figures
 
         internal double opacity;
 
-        public Ellipse(Point initializePoint, Color contourColor, ICustomPen pen, Color fillColor, ICustomBrush fillBrush, double width, double scale, double opacity = 1)
+        public Ellipse(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, double scale, double opacity = 1)
         {
             firstCoord = initializePoint;
             secondCoord = initializePoint;
             _fillColor = fillColor;
             _contourColor = contourColor;
-            _pen = pen;
-            _brush = fillBrush;
+            _penType = pen;
+            _brushType = fillBrush;
             _width = width;
             _scale = scale;
 
@@ -43,8 +43,8 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = _width * viewPort.Scale / _scale;
             diameters = Point.Subtract(secondDrawingCoord, firstDrawingCoord);
-            var brush = _brush.GetBrush(_fillColor, viewPort.Scale / _scale, opacity);
-            var pen = _pen.GetPen(viewPort, _contourColor, actualWidth);
+            var brush = BrushPicker.GetBrush(_brushType).GetBrush(_fillColor, viewPort, _scale, firstDrawingCoord, secondDrawingCoord, opacity);
+            var pen = PenPicker.GetPen(_penType).GetPen(viewPort, _contourColor, actualWidth);
 
             context.DrawEllipse(brush, pen, Point.Subtract(secondDrawingCoord, diameters / 2), diameters.X / 2, diameters.Y / 2);
         }

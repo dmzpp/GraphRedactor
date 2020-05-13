@@ -1,7 +1,10 @@
 ﻿using GraphRedactorCore;
 using GraphRedactorCore.Tools;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Input;
+
+using Dialog = System.Windows.Forms.FolderBrowserDialog;
 
 namespace Paint
 {
@@ -45,7 +48,6 @@ namespace Paint
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
             Point mouseCoords = e.GetPosition(ViewBox);
             _redactor.MouseLeftButtonUp(mouseCoords);
             if (_redactor.ToolPicker.CurrentType() != typeof(ZoomTool))
@@ -64,5 +66,37 @@ namespace Paint
             RenderCanvas();
         }
 
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "myimage"; 
+            dlg.DefaultExt = ".yaml"; 
+            dlg.Filter = "Yaml documents (.yaml)|*.yaml";
+
+            var result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                _redactor.SaveFile(filename);
+            }
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "myimage";
+            dlg.DefaultExt = ".yaml";
+            dlg.Filter = "Text documents (.yaml)|*.yaml";
+
+            var result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                _redactor.OpenFile(filename);
+                RenderCanvas();
+            }
+        }
     }
 }

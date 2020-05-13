@@ -8,6 +8,25 @@ namespace GraphRedactorCore.Figures
 {
     internal class Pie : IDrawable
     {
+        public Point CenterPoint { get => _centerPoint; set => _centerPoint = value; }
+        public Point FirstPoint { get => _firstPoint; set => _firstPoint = value; }
+        public Point SecondPoint { get => _secondPoint; set => _secondPoint = value; }
+        public Type BrushType { get => _brushType; set => _brushType = value; }
+        public Type PenType { get => _penType; set => _penType = value; }
+        public Color FillColor { get => _fillColor; set => _fillColor = value; }
+        public Color ContourColor { get => _contourColor; set => _contourColor = value; }
+        public double Width { get => _width; set => _width = value; }
+        public double Scale { get => _scale; set => _scale = value; }
+        public Size Radiuses
+        {
+            get => _radiuses;
+            set
+            {
+                _radiuses.Width = value.Width;
+                _radiuses.Height = value.Height;
+            }
+        }
+
         private Point _centerPoint;
         private Point _firstPoint;
         private Point _secondPoint;
@@ -19,6 +38,11 @@ namespace GraphRedactorCore.Figures
         private Color _fillColor;
         private Size _radiuses;
         private double _scale;
+
+        public Pie()
+        {
+
+        }
         public Pie(Point centerPoint, Point intersectionPoint,
             Color contourColor, Type pen, Color fillColor, Type brush, double width, Size radiuses, double scale)
         {
@@ -99,7 +123,7 @@ namespace GraphRedactorCore.Figures
                 {
                     geometryContext.BeginFigure(centerPoint, true, false);
                     geometryContext.LineTo(secondPoint, false, false);
-                    if(pieAngle > 179)
+                    if (pieAngle > 179)
                     {
                         geometryContext.ArcTo(thirdPoint, radiuses, 0, false, SweepDirection.Clockwise, true, false);
                     }

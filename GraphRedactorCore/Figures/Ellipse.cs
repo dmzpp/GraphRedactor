@@ -8,26 +8,38 @@ namespace GraphRedactorCore.Figures
 {
     internal class Ellipse : IDrawable
     {
+        public Point FirstPoint { get => _firstCoord; set => _firstCoord = value; }
+        public Point SecondPoint { get => _secondCoord; set => _secondCoord = value; }
+        public Type BrushType { get => _brushType; set => _brushType = value; }
+        public Type PenType { get => _penType; set => _penType = value; }
+        public Color FillColor { get => _fillColor; set => _fillColor = value; }
+        public Color ContourColor { get => _contourColor; set => _contourColor = value; }
+        public double Width { get => _width; set => _width = value; }
+        public double Scale { get => _scale; set => _scale = value; }
+
         private Type _brushType;
         private Type _penType;
-        internal Point firstCoord;
-        internal Point secondCoord;
-
+        private Point _firstCoord;
+        private Point _secondCoord;
         private Color _fillColor;
         private Color _contourColor;
-
         internal Point firstDrawingCoord;
         internal Point secondDrawingCoord;
         private double _width;
         private double _scale;
         internal Vector diameters;
-
         internal double opacity;
+
+        public Ellipse()
+        {
+            opacity = 1; 
+        }
+
 
         public Ellipse(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, double scale, double opacity = 1)
         {
-            firstCoord = initializePoint;
-            secondCoord = initializePoint;
+            _firstCoord = initializePoint;
+            _secondCoord = initializePoint;
             _fillColor = fillColor;
             _contourColor = contourColor;
             _penType = pen;
@@ -43,6 +55,7 @@ namespace GraphRedactorCore.Figures
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = _width * viewPort.Scale / _scale;
             diameters = Point.Subtract(secondDrawingCoord, firstDrawingCoord);
+
             var brush = BrushPicker.GetBrush(_brushType).GetBrush(_fillColor, viewPort, _scale, firstDrawingCoord, secondDrawingCoord, opacity);
             var pen = PenPicker.GetPen(_penType).GetPen(viewPort, _contourColor, actualWidth);
 
@@ -50,14 +63,14 @@ namespace GraphRedactorCore.Figures
         }
 
         public void ChangeLastPoint(Point newPoint)
-            => secondCoord = newPoint;
+            => _secondCoord = newPoint;
 
         private void CalculateDrawingCoordinats(ViewPort viewPort)
         {
-            firstDrawingCoord.X = Math.Min(firstCoord.X, secondCoord.X);
-            firstDrawingCoord.Y = Math.Min(firstCoord.Y, secondCoord.Y);
-            secondDrawingCoord.X = Math.Max(firstCoord.X, secondCoord.X);
-            secondDrawingCoord.Y = Math.Max(firstCoord.Y, secondCoord.Y);
+            firstDrawingCoord.X = Math.Min(_firstCoord.X, _secondCoord.X);
+            firstDrawingCoord.Y = Math.Min(_firstCoord.Y, _secondCoord.Y);
+            secondDrawingCoord.X = Math.Max(_firstCoord.X, _secondCoord.X);
+            secondDrawingCoord.Y = Math.Max(_firstCoord.Y, _secondCoord.Y);
 
             firstDrawingCoord.X = (firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
             firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;

@@ -5,6 +5,7 @@ using GraphRedactorCore.ToolsParams;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 using System.Windows.Media;
 
 namespace GraphRedactorCore.Tools
@@ -46,7 +47,7 @@ namespace GraphRedactorCore.Tools
 
             ellipse = new Ellipse(point, BorderColor.Color, BorderColor.PenType, FillColor.Color,
                 FillColor.BrushType, Width.Value, graphData.viewPorts.Last().Scale);
-            graphData.drawables.AddLast(ellipse);
+            graphData.drawables[typeof(Ellipse)].AddLast(ellipse);
         }
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
@@ -67,13 +68,13 @@ namespace GraphRedactorCore.Tools
             Update(graphData.drawables);
         }
 
-        private void Update(LinkedList<IDrawable> drawables)
+        private void Update(Dictionary<Type, LinkedList<IDrawable>> drawables)
         {
-            if (drawables.Count == 0 || ellipse == null)
+            if (drawables[typeof(Ellipse)].Count == 0 || ellipse == null)
             {
                 return;
             }
-            drawables.Last.Value = ellipse;
+            drawables[typeof(Ellipse)].Last.Value = ellipse;
         }
     }
 }

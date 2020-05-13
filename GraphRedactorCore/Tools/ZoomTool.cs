@@ -44,7 +44,8 @@ namespace GraphRedactorCore.Tools
                 point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
                 rectangle = new Rectangle(point, Colors.DarkOrange, typeof(SolidPen), Colors.Transparent, typeof(LinesBrush), 2, viewPort.Scale);
-                graphData.drawables.AddLast(rectangle);
+                //graphData.drawables.AddLast(rectangle);
+                graphData.drawables[rectangle.GetType()].AddLast(rectangle);
                 currentState = States.stretching;
             }
         }
@@ -55,10 +56,11 @@ namespace GraphRedactorCore.Tools
             {
                 return;
             }
-            graphData.drawables.RemoveLast();
-            if (rectangle.firstCoord.X == rectangle.secondCoord.X && rectangle.firstCoord.Y == rectangle.secondCoord.Y)
+            //graphData.drawables.RemoveLast();
+            graphData.drawables[typeof(Rectangle)].RemoveLast();
+            if (rectangle.FirstPoint.X == rectangle.SecondPoint.X && rectangle.FirstPoint.Y == rectangle.SecondPoint.Y)
             {
-                ViewPort newViewPort = CalculateViewPort(rectangle.firstCoord, graphData);
+                ViewPort newViewPort = CalculateViewPort(rectangle.FirstPoint, graphData);
                 graphData.viewPorts.Add(newViewPort);
             }
             else
@@ -66,10 +68,10 @@ namespace GraphRedactorCore.Tools
                 Point firstDrawingCoord = new Point();
                 Point secondDrawingCoord = new Point();
 
-                firstDrawingCoord.X = Math.Min(rectangle.firstCoord.X, rectangle.secondCoord.X);
-                firstDrawingCoord.Y = Math.Min(rectangle.firstCoord.Y, rectangle.secondCoord.Y);
-                secondDrawingCoord.X = Math.Max(rectangle.firstCoord.X, rectangle.secondCoord.X);
-                secondDrawingCoord.Y = Math.Max(rectangle.firstCoord.Y, rectangle.secondCoord.Y);
+                firstDrawingCoord.X = Math.Min(rectangle.FirstPoint.X, rectangle.SecondPoint.X);
+                firstDrawingCoord.Y = Math.Min(rectangle.FirstPoint.Y, rectangle.SecondPoint.Y);
+                secondDrawingCoord.X = Math.Max(rectangle.FirstPoint.X, rectangle.SecondPoint.X);
+                secondDrawingCoord.Y = Math.Max(rectangle.FirstPoint.Y, rectangle.SecondPoint.Y);
 
                 ViewPort newViewPort = CalculateViewPort(firstDrawingCoord, secondDrawingCoord, graphData);
                 graphData.viewPorts.Add(newViewPort);
@@ -93,11 +95,11 @@ namespace GraphRedactorCore.Tools
             Update(graphData.drawables);
         }
 
-        private void Update(LinkedList<IDrawable> drawables)
+        private void Update(Dictionary<Type, LinkedList<IDrawable>> drawables)
         {
-            if (drawables.Count > 1 && rectangle != null)
+            if (drawables[rectangle.GetType()].Count > 1 && rectangle != null)
             {
-                drawables.Last.Value = rectangle;
+                drawables[rectangle.GetType()].Last.Value = rectangle;
             }
         }
 

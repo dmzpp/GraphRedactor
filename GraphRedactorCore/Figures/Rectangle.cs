@@ -1,6 +1,7 @@
 ﻿using GraphRedactorCore.Brushes;
 using GraphRedactorCore.Pens;
 using System;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Media;
 
@@ -8,50 +9,63 @@ namespace GraphRedactorCore.Figures
 {
     internal class Rectangle : IDrawable
     {
-        internal Point firstCoord;
-        internal Point secondCoord;
+        public Point FirstPoint { get => _firstPoint; set => _firstPoint = value; }
+        public Point SecondPoint { get => _secondPoint; set => _secondPoint = value; }
+        public Type BrushType { get => _brushType ; set => _brushType = value; }
+        public Type PenType { get => _penType; set => _penType = value; }
+        public Color FillColor { get => _fillColor; set => _fillColor = value; }
+        public Color ContourColor { get => _contourColor; set => _contourColor = value; }
+        public double Width { get => _width; set => _width = value; }
+        public double Scale { get => _scale; set => _scale = value; }
+
+        private Point _firstPoint;
+        private Point _secondPoint;
+        private Type _brushType;
+        private Type _penType;
+        private Color _fillColor;
+        private Color _contourColor;
+        private double _width;
+        private double _scale;
+
         private Point _firstDrawingCoord;
         private Point _secondDrawingCoord;
 
-        private Type _brushType;
-        private Type _penType;
+        public Rectangle()
+        {
 
-        private Color _fillColor;
-        private Color _contourColor;
+        }
 
-        private double _width;
-        private double _scale;
         public Rectangle(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, double scale)
         {
-            firstCoord = initializePoint;
-            secondCoord = initializePoint;
-            _penType = pen;
-            _brushType = fillBrush;
-            _fillColor = fillColor;
-            this._contourColor = contourColor;
-            _width = width;
-            _scale = scale;
+            FirstPoint = initializePoint;
+            SecondPoint = initializePoint;
+            PenType = pen;
+            BrushType = fillBrush;
+            FillColor = fillColor;
+            this.ContourColor = contourColor;
+            Width = width;
+            Scale = scale;
         }
 
         public void Draw(DrawingContext context, ViewPort viewPort)
         {
             CalculateDrawingCoordinats(viewPort);
-            var actualWidth = _width * viewPort.Scale / _scale;
+            var actualWidth = Width * viewPort.Scale / Scale;
 
-            var brush = BrushPicker.GetBrush(_brushType).GetBrush(_fillColor, viewPort, _scale, _firstDrawingCoord, _secondDrawingCoord);
-            var pen = PenPicker.GetPen(_penType).GetPen(viewPort, _contourColor, actualWidth);
+            var brush = BrushPicker.GetBrush(BrushType).GetBrush(_fillColor, viewPort, Scale, _firstDrawingCoord, _secondDrawingCoord);
+            var pen = PenPicker.GetPen(PenType).GetPen(viewPort, _contourColor, actualWidth);
             context.DrawRectangle(brush, pen, new Rect(_firstDrawingCoord, _secondDrawingCoord));
         }
 
         public void ChangeLastPoint(Point newPoint) =>
-            secondCoord = newPoint;
+            SecondPoint = newPoint;
 
         private void CalculateDrawingCoordinats(ViewPort viewPort)
         {
-            _firstDrawingCoord.X = Math.Min(firstCoord.X, secondCoord.X);
-            _firstDrawingCoord.Y = Math.Min(firstCoord.Y, secondCoord.Y);
-            _secondDrawingCoord.X = Math.Max(firstCoord.X, secondCoord.X);
-            _secondDrawingCoord.Y = Math.Max(firstCoord.Y, secondCoord.Y);
+            _firstDrawingCoord.X = Math.Min(FirstPoint.X, SecondPoint.X);
+            _firstDrawingCoord.Y = Math.Min(FirstPoint.Y, SecondPoint.Y);
+            _secondDrawingCoord.X = Math.Max(FirstPoint.X, SecondPoint.X);
+            _secondDrawingCoord.Y = Math.Max(FirstPoint.Y, SecondPoint.Y);
 
             _firstDrawingCoord.X = (_firstDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
             _firstDrawingCoord.Y = (_firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;

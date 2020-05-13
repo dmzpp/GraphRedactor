@@ -4,6 +4,7 @@ using GraphRedactorCore.ToolsParams;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 using System.Windows.Media;
 
 namespace GraphRedactorCore.Tools
@@ -41,7 +42,7 @@ namespace GraphRedactorCore.Tools
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             polyLine = new PolyLine(point, Contour.Color, Contour.PenType, Width.Value, graphData.viewPorts.Last().Scale);
-            graphData.drawables.AddLast(polyLine);
+            graphData.drawables[typeof(PolyLine)].AddLast(polyLine);
         }
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
@@ -62,11 +63,11 @@ namespace GraphRedactorCore.Tools
             Update(graphData.drawables);
         }
 
-        private void Update(LinkedList<IDrawable> drawables)
+        private void Update(Dictionary<Type, LinkedList<IDrawable>> drawables)
         {
-            if (drawables.Count > 1 && polyLine != null)
+            if (drawables[polyLine.GetType()].Count > 1 && polyLine != null)
             {
-                drawables.Last.Value = polyLine;
+                drawables[polyLine.GetType()].Last.Value = polyLine;
             }
         }
     }

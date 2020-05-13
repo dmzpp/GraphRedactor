@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -18,16 +19,19 @@ namespace GraphRedactorCore
             collection = new VisualCollection(this);
         }
 
-        internal void Render(ICollection<IDrawable> drawables, ViewPort viewPort)
+        internal void Render(Dictionary<Type, LinkedList<IDrawable>> drawables, ViewPort viewPort)
         {
             collection.Clear();
             DrawingVisual visual = new DrawingVisual();
 
             using (var context = visual.RenderOpen())
             {
-                foreach (var drawable in drawables)
+                foreach(var drawableList in drawables)
                 {
-                    drawable.Draw(context, viewPort);
+                    foreach(var drawable in drawableList.Value)
+                    {
+                        drawable.Draw(context, viewPort);
+                    }
                 }
             }
             collection.Add(visual);

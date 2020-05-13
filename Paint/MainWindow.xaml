@@ -12,16 +12,21 @@
         >
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
             <RowDefinition Height="125"></RowDefinition>
             <RowDefinition Height="0.8*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="800"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" MouseRightButtonDown="Canvas_MouseRightButtonDown" x:Name="ViewBox" MouseMove="Canvas_MouseMove" MouseLeftButtonUp="Canvas_MouseLeftButtonUp">
+        <Menu Grid.Row="0">
+            <MenuItem Header="Сохранить" Click="Save_Click"></MenuItem>
+            <MenuItem Header="Открыть" Click="Open_Click"></MenuItem>
+        </Menu>
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="0" MouseRightButtonDown="Canvas_MouseRightButtonDown" x:Name="ViewBox" MouseMove="Canvas_MouseMove" MouseLeftButtonUp="Canvas_MouseLeftButtonUp">
             <p:DrawingCanvas x:Name="Canvas"></p:DrawingCanvas>
         </ScrollViewer>
-        <Grid Grid.Row="0" ShowGridLines="True">
+        <Grid Grid.Row="1" ShowGridLines="True">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="0.2*"></RowDefinition>

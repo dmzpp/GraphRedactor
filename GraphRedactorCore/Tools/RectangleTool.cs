@@ -4,6 +4,7 @@ using GraphRedactorCore.Pens;
 using GraphRedactorCore.ToolsParams;
 using System.Collections.Generic;
 using System.Windows;
+using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -49,7 +50,7 @@ namespace GraphRedactorCore.Tools
                 BorderColor.PenType, FillColor.Color,
                 FillColor.BrushType, Width.Value, graphData.viewPorts.Last().Scale);
 
-            graphData.drawables.AddLast(rectangle);
+            graphData.drawables[rectangle.GetType()].AddLast(rectangle);
         }
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
@@ -70,13 +71,13 @@ namespace GraphRedactorCore.Tools
             Update(graphData.drawables);
         }
 
-        private void Update(LinkedList<IDrawable> drawables)
+        private void Update(Dictionary<Type, LinkedList<IDrawable>> drawables)
         {
-            if (drawables.Count == 0 || rectangle == null)
+            if (drawables[rectangle.GetType()].Count == 0 || rectangle == null)
             {
                 return;
             }
-            drawables.Last.Value = rectangle;
+            drawables[rectangle.GetType()].Last.Value = rectangle;
         }
     }
 }

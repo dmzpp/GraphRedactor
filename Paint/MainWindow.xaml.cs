@@ -1,10 +1,7 @@
 ﻿using GraphRedactorCore;
 using GraphRedactorCore.Tools;
-using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Input;
-
-using Dialog = System.Windows.Forms.FolderBrowserDialog;
 
 namespace Paint
 {
@@ -69,8 +66,8 @@ namespace Paint
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "myimage"; 
-            dlg.DefaultExt = ".yaml"; 
+            dlg.FileName = "myimage";
+            dlg.DefaultExt = ".yaml";
             dlg.Filter = "Yaml documents (.yaml)|*.yaml";
 
             var result = dlg.ShowDialog();
@@ -97,6 +94,12 @@ namespace Paint
                 _redactor.OpenFile(filename);
                 RenderCanvas();
             }
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            _redactor.ClearCanvas();
+            RenderCanvas();
         }
     }
 }

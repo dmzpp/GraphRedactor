@@ -43,9 +43,8 @@ namespace GraphRedactorCore.Tools
                 point.X = viewPort.firstPoint.X + (point.X / viewPort.Scale);
                 point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
-                rectangle = new Rectangle(point, Colors.DarkOrange, typeof(SolidPen), Colors.Transparent, typeof(LinesBrush), 2, viewPort.Scale);
-                //graphData.drawables.AddLast(rectangle);
-                graphData.drawables[rectangle.GetType()].AddLast(rectangle);
+                rectangle = new Rectangle(point, Colors.DarkOrange, typeof(SolidPen), Colors.Transparent, typeof(LinesBrush), 2, graphData.drawables.Count + 1, viewPort.Scale);
+                graphData.drawables.AddLast(rectangle);
                 currentState = States.stretching;
             }
         }
@@ -57,7 +56,7 @@ namespace GraphRedactorCore.Tools
                 return;
             }
             //graphData.drawables.RemoveLast();
-            graphData.drawables[typeof(Rectangle)].RemoveLast();
+            graphData.drawables.RemoveLast();
             if (rectangle.FirstPoint.X == rectangle.SecondPoint.X && rectangle.FirstPoint.Y == rectangle.SecondPoint.Y)
             {
                 ViewPort newViewPort = CalculateViewPort(rectangle.FirstPoint, graphData);
@@ -95,11 +94,11 @@ namespace GraphRedactorCore.Tools
             Update(graphData.drawables);
         }
 
-        private void Update(Dictionary<Type, LinkedList<IDrawable>> drawables)
+        private void Update(LinkedList<DrawableElement> drawables)
         {
-            if (drawables[rectangle.GetType()].Count > 1 && rectangle != null)
+            if (drawables.Count > 1 && rectangle != null)
             {
-                drawables[rectangle.GetType()].Last.Value = rectangle;
+                drawables.Last.Value = rectangle;
             }
         }
 

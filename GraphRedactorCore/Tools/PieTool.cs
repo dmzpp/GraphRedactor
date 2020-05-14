@@ -2,7 +2,6 @@
 using GraphRedactorCore.Figures;
 using GraphRedactorCore.Pens;
 using GraphRedactorCore.ToolsParams;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,13 +60,13 @@ namespace GraphRedactorCore.Tools
                 currentState = States.drawingEllipse;
 
                 ellipse = new Ellipse(point, BorderColor.Color, BorderColor.PenType, FillColor.Color,
-                    FillColor.BrushType, Width.Value, viewPort.Scale);
-                graphData.drawables[ellipse.GetType()].AddLast(ellipse);
+                    FillColor.BrushType, Width.Value, viewPort.Scale, graphData.drawables.Count + 1);
+                graphData.drawables.AddLast(ellipse);
             }
             else if (currentState == States.drawingPie)
             {
                 ellipse.opacity = 0.2;
-                graphData.drawables[ellipse.GetType()].Last.Value = ellipse;
+                graphData.drawables.Last.Value = ellipse;
                 Size radiuses = new Size()
                 {
                     Width = ellipse.diameters.X / 2 / viewPort.Scale,
@@ -76,7 +75,7 @@ namespace GraphRedactorCore.Tools
 
                 var centerPoint = Point.Subtract(ellipse.secondDrawingCoord, ellipse.diameters / 2);
                 centerPoint = graphData.viewPorts.ConvertToBaseViewPort(centerPoint, viewPort);
-                if(ellipse.diameters.X == 0 && ellipse.diameters.Y == 0)
+                if (ellipse.diameters.X == 0 && ellipse.diameters.Y == 0)
                 {
                     currentState = States.nothing;
                     return;
@@ -87,8 +86,8 @@ namespace GraphRedactorCore.Tools
                 pie = new Pie(centerPoint, intersactionPoint,
                     BorderColor.Color, BorderColor.PenType,
                     FillColor.Color, FillColor.BrushType,
-                    Width.Value, radiuses, viewPort.Scale);
-                graphData.drawables[typeof(Pie)].AddLast(pie);
+                    Width.Value, radiuses, viewPort.Scale, graphData.drawables.Count);
+                graphData.drawables.AddLast(pie);
                 Update(graphData.drawables);
             }
         }
@@ -101,7 +100,7 @@ namespace GraphRedactorCore.Tools
             }
             else if (currentState == States.drawingPie)
             {
-                graphData.drawables[typeof(Ellipse)].RemoveLast();
+                graphData.drawables.Remove(graphData.drawables.Last.Previous);
                 pie = null;
                 currentState = States.nothing;
             }
@@ -144,7 +143,7 @@ namespace GraphRedactorCore.Tools
             Update(graphData.drawables);
         }
 
-        private void Update(Dictionary<Type, LinkedList<IDrawable>> drawables)
+        private void Update(LinkedList<DrawableElement> drawables)
         {
             if (drawables.Count == 0)
             {
@@ -152,11 +151,11 @@ namespace GraphRedactorCore.Tools
             }
             if (currentState == States.drawingEllipse && ellipse != null)
             {
-                drawables[ellipse.GetType()].Last.Value = ellipse;
+                drawables.Last.Value = ellipse;
             }
             else if (currentState == States.drawingPie && pie != null)
             {
-                drawables[pie.GetType()].Last.Value = pie;
+                drawables.Last.Value = pie;
             }
         }
     }

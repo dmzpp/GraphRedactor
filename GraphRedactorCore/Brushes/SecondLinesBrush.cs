@@ -5,7 +5,7 @@ namespace GraphRedactorCore.Brushes
 {
     internal class SecondLinesBrush : ICustomBrush
     {
-        public Brush GetBrush(Color color, ViewPort viewPort, double scale, Point firstPoint, Point secondPoint,  double opacity = 1)
+        public Brush GetBrush(Color color, ViewPort viewPort, double scale, Point firstPoint, Point secondPoint, double opacity = 1)
         {
             var brush = new DrawingBrush();
             GeometryGroup myGeometryGroup = new GeometryGroup();

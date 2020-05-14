@@ -1,17 +1,16 @@
 ﻿using GraphRedactorCore.Brushes;
 using GraphRedactorCore.Pens;
 using System;
-using System.Configuration;
 using System.Windows;
 using System.Windows.Media;
 
 namespace GraphRedactorCore.Figures
 {
-    internal class Rectangle : IDrawable
+    internal class Rectangle : DrawableElement
     {
         public Point FirstPoint { get => _firstPoint; set => _firstPoint = value; }
         public Point SecondPoint { get => _secondPoint; set => _secondPoint = value; }
-        public Type BrushType { get => _brushType ; set => _brushType = value; }
+        public Type BrushType { get => _brushType; set => _brushType = value; }
         public Type PenType { get => _penType; set => _penType = value; }
         public Color FillColor { get => _fillColor; set => _fillColor = value; }
         public Color ContourColor { get => _contourColor; set => _contourColor = value; }
@@ -35,7 +34,7 @@ namespace GraphRedactorCore.Figures
 
         }
 
-        public Rectangle(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, double scale)
+        public Rectangle(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, int zIndex, double scale)
         {
             FirstPoint = initializePoint;
             SecondPoint = initializePoint;
@@ -45,9 +44,10 @@ namespace GraphRedactorCore.Figures
             this.ContourColor = contourColor;
             Width = width;
             Scale = scale;
+            _zIndex = zIndex;
         }
 
-        public void Draw(DrawingContext context, ViewPort viewPort)
+        public override void Draw(DrawingContext context, ViewPort viewPort)
         {
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = Width * viewPort.Scale / Scale;

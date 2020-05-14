@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace GraphRedactorCore.Figures
 {
-    internal class PolyLine : IDrawable
+    internal class PolyLine : DrawableElement
     {
         public List<Point> Points { get => _points; set => _points = value; }
         public Type PenType { get => _penType; set => _penType = value; }
@@ -25,7 +25,7 @@ namespace GraphRedactorCore.Figures
 
         }
 
-        public PolyLine(Point initializePoint, Color contourColor, Type pen, double width, double scale)
+        public PolyLine(Point initializePoint, Color contourColor, Type pen, double width, double scale, int zIndex)
         {
             _points = new List<Point>
             {
@@ -35,10 +35,11 @@ namespace GraphRedactorCore.Figures
             _penType = pen;
             _width = width;
             _scale = scale;
+            _zIndex = zIndex;
             _contourColor = contourColor;
         }
 
-        public void Draw(DrawingContext context, ViewPort viewPort)
+        public override void Draw(DrawingContext context, ViewPort viewPort)
         {
             var geometry = new StreamGeometry();
             using (var geometryContext = geometry.Open())

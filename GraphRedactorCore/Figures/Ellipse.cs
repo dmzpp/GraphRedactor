@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace GraphRedactorCore.Figures
 {
-    internal class Ellipse : IDrawable
+    internal class Ellipse : DrawableElement
     {
         public Point FirstPoint { get => _firstCoord; set => _firstCoord = value; }
         public Point SecondPoint { get => _secondCoord; set => _secondCoord = value; }
@@ -32,11 +32,10 @@ namespace GraphRedactorCore.Figures
 
         public Ellipse()
         {
-            opacity = 1; 
+            opacity = 1;
         }
 
-
-        public Ellipse(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, double scale, double opacity = 1)
+        public Ellipse(Point initializePoint, Color contourColor, Type pen, Color fillColor, Type fillBrush, double width, double scale, int zIndex, double opacity = 1)
         {
             _firstCoord = initializePoint;
             _secondCoord = initializePoint;
@@ -46,11 +45,12 @@ namespace GraphRedactorCore.Figures
             _brushType = fillBrush;
             _width = width;
             _scale = scale;
+            _zIndex = zIndex;
 
             this.opacity = opacity;
         }
 
-        public void Draw(DrawingContext context, ViewPort viewPort)
+        public override void Draw(DrawingContext context, ViewPort viewPort)
         {
             CalculateDrawingCoordinats(viewPort);
             var actualWidth = _width * viewPort.Scale / _scale;

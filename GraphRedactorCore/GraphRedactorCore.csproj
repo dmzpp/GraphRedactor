@@ -69,6 +69,7 @@
     <Compile Include="Brushes\LinesBrush.cs" />
     <Compile Include="Brushes\SecondLinesBrush.cs" />
     <Compile Include="Brushes\SolidBrush.cs" />
+    <Compile Include="DrawableElement.cs" />
     <Compile Include="DrawingCanvas.cs" />
     <Compile Include="Figures\Ellipse.cs" />
     <Compile Include="Figures\Pie.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Tools\PencilTool.cs" />
     <Compile Include="Tools\RectangleTool.cs" />
     <Compile Include="Tools\ZoomTool.cs" />
+    <Compile Include="Uploader.cs" />
     <Compile Include="ViewPort.cs" />
     <Compile Include="ViewPortCollection.cs" />
   </ItemGroup>

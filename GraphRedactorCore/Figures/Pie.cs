@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace GraphRedactorCore.Figures
 {
-    internal class Pie : IDrawable
+    internal class Pie : DrawableElement
     {
         public Point CenterPoint { get => _centerPoint; set => _centerPoint = value; }
         public Point FirstPoint { get => _firstPoint; set => _firstPoint = value; }
@@ -44,7 +44,7 @@ namespace GraphRedactorCore.Figures
 
         }
         public Pie(Point centerPoint, Point intersectionPoint,
-            Color contourColor, Type pen, Color fillColor, Type brush, double width, Size radiuses, double scale)
+            Color contourColor, Type pen, Color fillColor, Type brush, double width, Size radiuses, double scale, int zIndex)
         {
             _centerPoint = centerPoint;
             _firstPoint = _secondPoint = intersectionPoint;
@@ -55,10 +55,11 @@ namespace GraphRedactorCore.Figures
             _width = width;
             _radiuses = radiuses;
             _scale = scale;
+            _zIndex = zIndex;
 
         }
 
-        public void Draw(DrawingContext context, ViewPort viewPort)
+        public override void Draw(DrawingContext context, ViewPort viewPort)
         {
 
             Point centerPoint = new Point()

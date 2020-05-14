@@ -39,23 +39,31 @@ namespace GraphRedactorCore
             var serializer = new Serializer();
             using (StreamReader reader = new StreamReader(path))
             {
-                var data = deserializer.Deserialize<Dictionary<Type, LinkedList<object>>>(reader);
-                foreach (var drawableType in data)
+                try
                 {
-                    var genericMethodInfo = deserializer.GetType().GetMethods().Single(method =>
-                            method.Name == nameof(deserializer.Deserialize) &&
-                            method.IsGenericMethod &&
-                            method.GetParameters().Length == 1 &&
-                            method.GetParameters()[0].ParameterType == typeof(string));
-
-                    var genericMethod = genericMethodInfo.MakeGenericMethod(drawableType.Key);
-                    foreach (var obj in drawableType.Value)
+                    var data = deserializer.Deserialize<Dictionary<Type, LinkedList<object>>>(reader);
+                    foreach (var drawableType in data)
                     {
-                        var str = serializer.Serialize(obj);
-                        var result = genericMethod.Invoke(deserializer, new object[] { str });
-                        graphData.drawables.AddLast((DrawableElement)result);
+                        var genericMethodInfo = deserializer.GetType().GetMethods().Single(method =>
+                                method.Name == nameof(deserializer.Deserialize) &&
+                                method.IsGenericMethod &&
+                                method.GetParameters().Length == 1 &&
+                                method.GetParameters()[0].ParameterType == typeof(string));
+
+                        var genericMethod = genericMethodInfo.MakeGenericMethod(drawableType.Key);
+                        foreach (var obj in drawableType.Value)
+                        {
+                            var str = serializer.Serialize(obj);
+                            var result = genericMethod.Invoke(deserializer, new object[] { str });
+                            graphData.drawables.AddLast((DrawableElement)result);
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    throw new FileFormatException("Не удалось прочитать файл");
+                }
+
             }
             graphData.drawables = new LinkedList<DrawableElement>(graphData.drawables.OrderBy(item => item.ZIndex));
         }

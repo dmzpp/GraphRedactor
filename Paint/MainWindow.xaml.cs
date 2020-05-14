@@ -1,5 +1,6 @@
 ﻿using GraphRedactorCore;
 using GraphRedactorCore.Tools;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -91,7 +92,14 @@ namespace Paint
             if (result == true)
             {
                 string filename = dlg.FileName;
-                _redactor.OpenFile(filename);
+                try
+                {
+                    _redactor.OpenFile(filename);
+                }
+                catch (FileFormatException exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }
                 RenderCanvas();
             }
         }

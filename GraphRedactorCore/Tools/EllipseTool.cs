@@ -51,7 +51,7 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
-            Update(graphData.drawables);
+            Update(graphData);
             ellipse = null;
         }
 
@@ -64,16 +64,17 @@ namespace GraphRedactorCore.Tools
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             ellipse.ChangeLastPoint(point);
-            Update(graphData.drawables);
+            Update(graphData);
         }
 
-        private void Update(LinkedList<DrawableElement> drawables)
+        private void Update(GraphData graphData)
         {
-            if (drawables.Count == 0 || ellipse == null)
+            if (graphData.drawables.Count == 0 || ellipse == null)
             {
                 return;
             }
-            drawables.Last.Value = ellipse;
+            graphData.drawables.Last.Value = ellipse;
+            graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
         }
     }
 }

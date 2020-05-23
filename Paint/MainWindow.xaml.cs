@@ -26,32 +26,21 @@ namespace Paint
             _redactor.ToolPicker.RenderTools(Tools, ToolArgs);
         }
 
-        private void RenderCanvas()
-        {
-            _redactor.Render();
-        }
-
         private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(ViewBox);
             _redactor.MouseLeftButtonDown(mouseCoords);
-            RenderCanvas();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             Point mouseCoords = e.GetPosition(ViewBox);
             _redactor.MouseMove(mouseCoords);
-            RenderCanvas();
         }
         private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Point mouseCoords = e.GetPosition(ViewBox);
             _redactor.MouseLeftButtonUp(mouseCoords);
-            if (_redactor.ToolPicker.CurrentType() != typeof(ZoomTool))
-            {
-                RenderCanvas();
-            }
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -61,7 +50,6 @@ namespace Paint
         private void Canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _redactor.PreviousScale();
-            RenderCanvas();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -100,14 +88,12 @@ namespace Paint
                 {
                     MessageBox.Show(exception.Message);
                 }
-                RenderCanvas();
             }
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             _redactor.ClearCanvas();
-            RenderCanvas();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace GraphRedactorCore
 
         public void Render()
         {
-            graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
+            //graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
         }
 
         public void PreviousScale()

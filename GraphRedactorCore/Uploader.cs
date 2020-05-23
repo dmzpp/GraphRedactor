@@ -65,7 +65,7 @@ namespace GraphRedactorCore
                 }
 
             }
-            graphData.drawables = new LinkedList<DrawableElement>(graphData.drawables.OrderBy(item => item.ZIndex));
+            graphData.drawables.collection = new LinkedList<DrawableElement>(graphData.drawables.OrderBy(item => item.ZIndex));
         }
     }
 }

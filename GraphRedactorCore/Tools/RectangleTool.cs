@@ -54,7 +54,7 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
-            Update(graphData.drawables);
+            Update(graphData);
             rectangle = null;
         }
 
@@ -67,16 +67,17 @@ namespace GraphRedactorCore.Tools
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             rectangle.ChangeLastPoint(point);
-            Update(graphData.drawables);
+            Update(graphData);
         }
 
-        private void Update(LinkedList<DrawableElement> drawables)
+        private void Update(GraphData data)
         {
-            if (drawables.Count == 0 || rectangle == null)
+            if (data.drawables.Count == 0 || rectangle == null)
             {
                 return;
             }
-            drawables.Last.Value = rectangle;
+            data.drawables.Last.Value = rectangle;
+            data.canvas.Render(data.drawables.collection, data.viewPorts.Last());
         }
     }
 }

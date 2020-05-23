@@ -25,6 +25,8 @@ namespace GraphRedactorCore.Tools
             viewPort.firstPoint = Point.Add(viewPort.firstPoint, distance);
             viewPort.secondPoint = Point.Add(viewPort.secondPoint, distance);
             coursorPoint = point;
+
+            graphData.canvas.Render(graphData.drawables.collection, graphData.viewPorts.Last());
         }
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {

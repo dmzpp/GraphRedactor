@@ -18,9 +18,23 @@ namespace GraphRedactorCore
             collection = new VisualCollection(this);
         }
 
-        internal void Render(LinkedList<DrawableElement> drawables, ViewPort viewPort)
+        internal void Render(IEnumerable<DrawableElement> drawables, ViewPort viewPort)
         {
             collection.Clear();
+            DrawingVisual visual = new DrawingVisual();
+
+            using (var context = visual.RenderOpen())
+            {
+                foreach (var drawable in drawables)
+                {
+                    drawable.Draw(context, viewPort);
+                }
+            }
+            collection.Add(visual);
+        }
+
+        internal void RenderAdditionalElements(IEnumerable<DrawableElement> drawables, ViewPort viewPort)
+        {
             DrawingVisual visual = new DrawingVisual();
 
             using (var context = visual.RenderOpen())

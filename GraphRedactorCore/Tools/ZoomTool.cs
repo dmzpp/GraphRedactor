@@ -56,7 +56,7 @@ namespace GraphRedactorCore.Tools
                 return;
             }
             //graphData.drawables.RemoveLast();
-            graphData.drawables.RemoveLast();
+            graphData.drawables.collection.RemoveLast();
             if (rectangle.FirstPoint.X == rectangle.SecondPoint.X && rectangle.FirstPoint.Y == rectangle.SecondPoint.Y)
             {
                 ViewPort newViewPort = CalculateViewPort(rectangle.FirstPoint, graphData);
@@ -75,7 +75,6 @@ namespace GraphRedactorCore.Tools
                 ViewPort newViewPort = CalculateViewPort(firstDrawingCoord, secondDrawingCoord, graphData);
                 graphData.viewPorts.Add(newViewPort);
             }
-            graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
             rectangle = null;
             currentState = States.none;
         }
@@ -91,15 +90,17 @@ namespace GraphRedactorCore.Tools
             point.Y = viewPort.firstPoint.Y + (point.Y / viewPort.Scale);
 
             rectangle.ChangeLastPoint(point);
-            Update(graphData.drawables);
+            Update(graphData);
         }
 
-        private void Update(LinkedList<DrawableElement> drawables)
+        private void Update(GraphData graphData)
         {
-            if (drawables.Count > 1 && rectangle != null)
+            if (graphData.drawables.Count > 1 && rectangle != null)
             {
-                drawables.Last.Value = rectangle;
+                graphData.drawables.Last.Value = rectangle;
             }
+            graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
+
         }
 
         private ViewPort CalculateViewPort(Point point, GraphData graphData)

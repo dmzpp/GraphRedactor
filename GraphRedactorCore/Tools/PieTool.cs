@@ -88,7 +88,7 @@ namespace GraphRedactorCore.Tools
                     FillColor.Color, FillColor.BrushType,
                     Width.Value, radiuses, viewPort.Scale, graphData.drawables.Count);
                 graphData.drawables.AddLast(pie);
-                Update(graphData.drawables);
+                Update(graphData);
             }
         }
 
@@ -140,23 +140,25 @@ namespace GraphRedactorCore.Tools
                 var intersactionPoint = MathExtension.CalculateIntersectionPoint(ellipse.diameters / graphData.viewPorts.Last().Scale, centerPoint, point);
                 pie.ChangeLastPoint(intersactionPoint);
             }
-            Update(graphData.drawables);
+            Update(graphData);
         }
 
-        private void Update(LinkedList<DrawableElement> drawables)
+        private void Update(GraphData data)
         {
-            if (drawables.Count == 0)
+            if (data.drawables.Count == 0)
             {
                 return;
             }
             if (currentState == States.drawingEllipse && ellipse != null)
             {
-                drawables.Last.Value = ellipse;
+                data.drawables.Last.Value = ellipse;
             }
             else if (currentState == States.drawingPie && pie != null)
             {
-                drawables.Last.Value = pie;
+                data.drawables.Last.Value = pie;
             }
+            data.canvas.Render(data.drawables.collection, data.viewPorts.Last());
+
         }
     }
 }

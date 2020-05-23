@@ -69,6 +69,7 @@
     <Compile Include="Brushes\LinesBrush.cs" />
     <Compile Include="Brushes\SecondLinesBrush.cs" />
     <Compile Include="Brushes\SolidBrush.cs" />
+    <Compile Include="DrawableCollection.cs" />
     <Compile Include="DrawableElement.cs" />
     <Compile Include="DrawingCanvas.cs" />
     <Compile Include="Figures\Ellipse.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="ToolsParams\FillColorParam.cs" />
     <Compile Include="ToolsParams\ToolParam.cs" />
     <Compile Include="ToolsParams\WidthParam.cs" />
+    <Compile Include="Tools\AnimateTool.cs" />
     <Compile Include="Tools\EllipseTool.cs" />
     <Compile Include="Tools\HandTool.cs" />
     <Compile Include="Tools\PieTool.cs" />

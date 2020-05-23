@@ -47,7 +47,7 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
-            Update(graphData.drawables);
+            Update(graphData);
             polyLine = null;
         }
 
@@ -60,14 +60,15 @@ namespace GraphRedactorCore.Tools
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
 
             polyLine.ChangeLastPoint(point);
-            Update(graphData.drawables);
+            Update(graphData);
         }
 
-        private void Update(LinkedList<DrawableElement> drawables)
+        private void Update(GraphData graphData)
         {
-            if (drawables.Count > 1 || polyLine != null)
+            if (graphData.drawables.Count > 1 || polyLine != null)
             {
-                drawables.Last.Value = polyLine;
+                graphData.drawables.Last.Value = polyLine;
+                graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
             }
         }
     }

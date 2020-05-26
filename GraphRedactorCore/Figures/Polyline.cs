@@ -81,11 +81,18 @@ namespace GraphRedactorCore.Figures
 
         public override bool IsIntersect(Rect area)
         {
-            foreach(var point in _points)
+            if (_points.Count == 2)
             {
-                if (area.IntersectsWith(new Rect(point, point)))
+                return area.IntersectsWith(new Rect(_points[0], _points[1]));
+            }
+            else
+            {
+                foreach (var point in _points)
                 {
-                    return true;
+                    if (area.IntersectsWith(new Rect(point, point)))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

@@ -44,6 +44,7 @@ namespace GraphRedactorCore.Figures
             _width = width;
             _scale = scale;
             _zIndex = zIndex;
+            _animationScale = 1;
 
             this.opacity = opacity;
         }
@@ -59,7 +60,7 @@ namespace GraphRedactorCore.Figures
 
             var centerPoint = Point.Subtract(secondDrawingCoord, diameters / 2);
             context.PushTransform(new RotateTransform(RotateAngle, centerPoint.X, centerPoint.Y));
-            context.PushTransform(new ScaleTransform(_scale, _scale, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new ScaleTransform(AnimationScale, AnimationScale, centerPoint.X, centerPoint.Y));
             context.PushTransform(new TranslateTransform(OffsetX, OffsetY));
 
             context.DrawEllipse(brush, pen, centerPoint, diameters.X / 2, diameters.Y / 2);

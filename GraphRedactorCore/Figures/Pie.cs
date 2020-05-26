@@ -56,6 +56,7 @@ namespace GraphRedactorCore.Figures
             _radiuses = radiuses;
             _scale = scale;
             _zIndex = zIndex;
+            _animationScale = 1;
 
         }
 
@@ -137,7 +138,7 @@ namespace GraphRedactorCore.Figures
 
             var center = new Point(geometry.Bounds.X + geometry.Bounds.Width / 2, geometry.Bounds.Y + geometry.Bounds.Height / 2);
             context.PushTransform(new RotateTransform(RotateAngle, centerPoint.X, centerPoint.Y));
-            context.PushTransform(new ScaleTransform(_scale, _scale, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new ScaleTransform(AnimationScale, AnimationScale, centerPoint.X, centerPoint.Y));
             context.PushTransform(new TranslateTransform(OffsetX, OffsetY));
 
             context.DrawGeometry(brush, pen, geometry);

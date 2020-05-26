@@ -16,7 +16,7 @@ namespace GraphRedactorCore.ToolsParams.AnimateToolParams
         {
             Value = width;
 
-            var slider = new Slider() { Value = width, Maximum = 10, Minimum = 1, Width = 80, Height = 20, Margin = new Thickness(10) };
+            var slider = new Slider() { Value = width, Maximum = 200, Minimum = 0, Width = 80, Height = 20, Margin = new Thickness(10) };
             slider.ValueChanged += Slider_ValueChanged;
             var textBlock = new TextBlock() { Text = "Возвратно-поступательное движение" };
             ArgView = new StackPanel()

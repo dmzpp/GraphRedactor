@@ -47,6 +47,7 @@ namespace GraphRedactorCore.Figures
             _rotateAngle = 0;
             OffsetX = 0;
             OffsetX = 0;
+            _animationScale = 1;
         }
 
         public override void Draw(DrawingContext context, ViewPort viewPort)
@@ -63,7 +64,7 @@ namespace GraphRedactorCore.Figures
             };
 
             context.PushTransform(new RotateTransform(RotateAngle, centerPoint.X, centerPoint.Y));
-            context.PushTransform(new ScaleTransform(_scale, _scale, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new ScaleTransform(_animationScale, _animationScale, centerPoint.X, centerPoint.Y));
             context.PushTransform(new TranslateTransform(OffsetX, OffsetY));
 
             context.DrawRectangle(brush, pen, new Rect(_firstDrawingCoord, _secondDrawingCoord));

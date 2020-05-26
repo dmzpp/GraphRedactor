@@ -35,6 +35,7 @@ namespace GraphRedactorCore.Figures
             _scale = scale;
             _zIndex = zIndex;
             _contourColor = contourColor;
+            _animationScale = 1;
         }
 
         public override void Draw(DrawingContext context, ViewPort viewPort)
@@ -60,7 +61,7 @@ namespace GraphRedactorCore.Figures
 
             var centerPoint = new Point(geometry.Bounds.X + geometry.Bounds.Width / 2, geometry.Bounds.Y + geometry.Bounds.Height / 2);
             context.PushTransform(new RotateTransform(RotateAngle, centerPoint.X, centerPoint.Y));
-            context.PushTransform(new ScaleTransform(_scale, _scale, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new ScaleTransform(AnimationScale, AnimationScale, centerPoint.X, centerPoint.Y));
             context.PushTransform(new TranslateTransform(OffsetX, OffsetY));
             context.DrawGeometry(null, pen, geometry);
         }

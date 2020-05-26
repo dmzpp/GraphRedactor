@@ -34,9 +34,9 @@ namespace GraphRedactorCore.Tools
         private RotationParam _rotationParam;
         public AnimateTool()
         {
-            _rotationParam = new RotationParam(1);
-            _movingParam = new MovingParam(1);
-            _scalingParam = new ScalingParam(1);
+            _rotationParam = new RotationParam(0);
+            _movingParam = new MovingParam(0);
+            _scalingParam = new ScalingParam(0);
 
             ToolView = new Button()
             {
@@ -68,6 +68,10 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
+            if(_rectangle == null)
+            {
+                return;
+            }
             isSelecting = false;
             graphData.drawables.Remove(graphData.drawables.Last);
             var selectedElements = graphData.drawables.SelectElements(_rectangle.ToRect());
@@ -85,11 +89,11 @@ namespace GraphRedactorCore.Tools
                 }
                 if (MovingParam.Value != 0)
                 {
-                    //ApplyAnimation(item, typeof(Animation));
+                    graphData.animations.Add(ApplyAnimation(item, typeof(MovingAnimation), MovingParam.Value));
                 }
                 if (ScalingParam.Value != 0)
                 {
-                    //ApplyAnimation(item, typeof(RotationAnimation));
+                    graphData.animations.Add(ApplyAnimation(item, typeof(ScalingAnimation), ScalingParam.Value));
                 }
             }
             _rectangle = null;
@@ -98,15 +102,6 @@ namespace GraphRedactorCore.Tools
         private Animation ApplyAnimation(DrawableElement drawable, Type animation, object additionalArg)
         {
             return animation.GetConstructor(new Type[] { typeof(DrawableElement), additionalArg.GetType() }).Invoke(new object[] {drawable, additionalArg}) as Animation;
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-          /*  rect.RotateAngle += 1;
-            
-            rect.OffsetX = Math.Sin(rect.RotateAngle / Math.PI) * 100;
-            rect.OffsetY = Math.Cos(rect.RotateAngle / Math.PI) * 100;
-            graphData.canvas.Render(graphData.drawables.collection, graphData.viewPorts.Last());*/
         }
 
     }

@@ -21,6 +21,7 @@ namespace GraphRedactorCore
                 { typeof(PolyLine), new LinkedList<DrawableElement>() }
             };
 
+
             foreach (var drawable in graphData.drawables)
             {
                 elements[drawable.GetType()].AddLast(drawable);

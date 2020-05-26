@@ -158,7 +158,6 @@ namespace GraphRedactorCore.Tools
                 data.drawables.Last.Value = pie;
             }
             data.canvas.Render(data.drawables.collection, data.viewPorts.Last());
-
         }
     }
 }

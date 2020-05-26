@@ -50,6 +50,7 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseMove(Point point, GraphData graphData)
         {
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
             if (!isSelecting)
             {
                 return;
@@ -60,15 +61,16 @@ namespace GraphRedactorCore.Tools
 
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
             _rectangle = new Rectangle(point, Colors.Blue, typeof(SolidPen), Colors.Transparent, typeof(SolidBrush), 2, graphData.drawables.Count + 1, graphData.viewPorts.Last().Scale);
-            // graphData.canvas.RenderAdditionalElement(_rectangle, graphData.viewPorts.Last());
             graphData.drawables.AddLast(_rectangle);
             isSelecting = true;
         }
 
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
-            if(_rectangle == null)
+            point = graphData.viewPorts.ConvertToBaseViewPort(point);
+            if (_rectangle == null)
             {
                 return;
             }

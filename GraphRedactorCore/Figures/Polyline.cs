@@ -11,13 +11,11 @@ namespace GraphRedactorCore.Figures
         public List<Point> Points { get => _points; set => _points = value; }
         public Type PenType { get => _penType; set => _penType = value; }
         public double Width { get => _width; set => _width = value; }
-        public double Scale { get => _scale; set => _scale = value; }
         public Color ContourColor { get => _contourColor; set => _contourColor = value; }
 
         private List<Point> _points;
         private Type _penType;
         private double _width;
-        private double _scale;
         private Color _contourColor;
 
         public PolyLine()

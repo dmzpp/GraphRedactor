@@ -22,6 +22,7 @@ namespace Paint
             _redactor.ToolPicker.AddTool(new HandTool());
             _redactor.ToolPicker.AddTool(new LineTool());
             _redactor.ToolPicker.AddTool(new PieTool());
+            _redactor.ToolPicker.AddTool(new AnimateTool());
 
             _redactor.ToolPicker.RenderTools(Tools, ToolArgs);
         }

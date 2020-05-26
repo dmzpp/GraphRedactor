@@ -16,7 +16,6 @@ namespace GraphRedactorCore.Figures
         public Color FillColor { get => _fillColor; set => _fillColor = value; }
         public Color ContourColor { get => _contourColor; set => _contourColor = value; }
         public double Width { get => _width; set => _width = value; }
-        public double Scale { get => _scale; set => _scale = value; }
         public Size Radiuses
         {
             get => _radiuses;
@@ -37,7 +36,6 @@ namespace GraphRedactorCore.Figures
         private Color _contourColor;
         private Color _fillColor;
         private Size _radiuses;
-        private double _scale;
 
         public Pie()
         {

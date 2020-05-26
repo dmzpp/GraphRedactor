@@ -87,6 +87,9 @@
     <Compile Include="Pens\SolidPen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolPicker.cs" />
+    <Compile Include="ToolsParams\AnimateToolParams\MovingParam.cs" />
+    <Compile Include="ToolsParams\AnimateToolParams\RotationParam.cs" />
+    <Compile Include="ToolsParams\AnimateToolParams\ScalingParam.cs" />
     <Compile Include="ToolsParams\BorderColorParam.cs" />
     <Compile Include="ToolsParams\FillColorParam.cs" />
     <Compile Include="ToolsParams\ToolParam.cs" />

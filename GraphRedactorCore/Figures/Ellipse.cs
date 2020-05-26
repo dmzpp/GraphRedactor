@@ -15,7 +15,6 @@ namespace GraphRedactorCore.Figures
         public Color FillColor { get => _fillColor; set => _fillColor = value; }
         public Color ContourColor { get => _contourColor; set => _contourColor = value; }
         public double Width { get => _width; set => _width = value; }
-        public double Scale { get => _scale; set => _scale = value; }
 
         private Type _brushType;
         private Type _penType;
@@ -26,7 +25,6 @@ namespace GraphRedactorCore.Figures
         internal Point firstDrawingCoord;
         internal Point secondDrawingCoord;
         private double _width;
-        private double _scale;
         internal Vector diameters;
         internal double opacity;
 

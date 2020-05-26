@@ -95,6 +95,8 @@
     <Compile Include="ToolsParams\ToolParam.cs" />
     <Compile Include="ToolsParams\WidthParam.cs" />
     <Compile Include="Tools\AnimateTool.cs" />
+    <Compile Include="Tools\Animations\Animation.cs" />
+    <Compile Include="Tools\Animations\RotationAnimation.cs" />
     <Compile Include="Tools\EllipseTool.cs" />
     <Compile Include="Tools\HandTool.cs" />
     <Compile Include="Tools\PieTool.cs" />

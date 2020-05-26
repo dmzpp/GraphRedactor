@@ -15,13 +15,13 @@ using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using GraphRedactorCore.ToolsParams.AnimateToolParams;
 using YamlDotNet.Core.Tokens;
+using GraphRedactorCore.Tools.Animations;
 
 namespace GraphRedactorCore.Tools
 {
     public class AnimateTool : Tool
     {
         private List<DrawableElement> _selectedElements = new List<DrawableElement>();
-        private DispatcherTimer timer = new DispatcherTimer();
         private Rectangle _rectangle = null;
         private bool isSelecting = false;
 
@@ -55,40 +55,59 @@ namespace GraphRedactorCore.Tools
                 return;
             }
             _rectangle.ChangeLastPoint(point);
-            graphData.canvas.RenderAdditionalElement(_rectangle, graphData.viewPorts.Last());
+           // graphData.drawables.Last.Value = _rectangle;
         }
 
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
             _rectangle = new Rectangle(point, Colors.Blue, typeof(SolidPen), Colors.Transparent, typeof(SolidBrush), 2, graphData.drawables.Count + 1, graphData.viewPorts.Last().Scale);
-            graphData.canvas.RenderAdditionalElement(_rectangle, graphData.viewPorts.Last());
+            // graphData.canvas.RenderAdditionalElement(_rectangle, graphData.viewPorts.Last());
+            graphData.drawables.AddLast(_rectangle);
             isSelecting = true;
         }
 
-        private Rectangle rect;
-        private GraphData graphData;
-
         public override void MouseLeftButtonUp(Point point, GraphData graphData)
         {
-            this.graphData = graphData;
-            graphData.canvas.RemoveLast();
-            rect = (Rectangle)graphData.drawables.collection.First.Value;
-            timer.Tick += Timer_Tick;
-            timer.Interval = new TimeSpan(100000);
-            timer.Start();
-
-            graphData.canvas.Render(graphData.drawables.collection, graphData.viewPorts.Last());
             isSelecting = false;
+            graphData.drawables.Remove(graphData.drawables.Last);
+            var selectedElements = graphData.drawables.SelectElements(_rectangle.ToRect());
+            if(selectedElements.Count() == 0)
+            {
+                _rectangle = null;
+                return;
+            }
+
+            foreach(var item in selectedElements)
+            {
+                if (RotationParam.Value != 0)
+                {
+                    graphData.animations.Add(ApplyAnimation(item, typeof(RotationAnimation), RotationParam.Value));
+                }
+                if (MovingParam.Value != 0)
+                {
+                    //ApplyAnimation(item, typeof(Animation));
+                }
+                if (ScalingParam.Value != 0)
+                {
+                    //ApplyAnimation(item, typeof(RotationAnimation));
+                }
+            }
+            _rectangle = null;
         }
 
+        private Animation ApplyAnimation(DrawableElement drawable, Type animation, object additionalArg)
+        {
+            return animation.GetConstructor(new Type[] { typeof(DrawableElement), additionalArg.GetType() }).Invoke(new object[] {drawable, additionalArg}) as Animation;
+        }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            rect.RotateAngle += 1;
+          /*  rect.RotateAngle += 1;
             
             rect.OffsetX = Math.Sin(rect.RotateAngle / Math.PI) * 100;
             rect.OffsetY = Math.Cos(rect.RotateAngle / Math.PI) * 100;
-            graphData.canvas.Render(graphData.drawables.collection, graphData.viewPorts.Last());
+            graphData.canvas.Render(graphData.drawables.collection, graphData.viewPorts.Last());*/
         }
+
     }
 }

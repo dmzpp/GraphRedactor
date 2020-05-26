@@ -57,6 +57,11 @@ namespace GraphRedactorCore.Figures
 
             var actualWidth = _width * viewPort.Scale / _scale;
             var pen = PenPicker.GetPen(_penType).GetPen(viewPort, _contourColor, actualWidth);
+
+            var centerPoint = new Point(geometry.Bounds.X + geometry.Bounds.Width / 2, geometry.Bounds.Y + geometry.Bounds.Height / 2);
+            context.PushTransform(new RotateTransform(RotateAngle, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new ScaleTransform(_scale, _scale, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new TranslateTransform(OffsetX, OffsetY));
             context.DrawGeometry(null, pen, geometry);
         }
 
@@ -73,5 +78,16 @@ namespace GraphRedactorCore.Figures
             }
         }
 
+        public override bool IsIntersect(Rect area)
+        {
+            foreach(var point in _points)
+            {
+                if (area.IntersectsWith(new Rect(point, point)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

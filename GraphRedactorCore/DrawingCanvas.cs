@@ -21,56 +21,28 @@ namespace GraphRedactorCore
         internal void Render(IEnumerable<DrawableElement> drawables, ViewPort viewPort)
         {
             collection.Clear();
+           /* DrawingVisual visual = new DrawingVisual();
+
+            using (var context = visual.RenderOpen())
+            {
+                foreach (var drawable in drawables)
+                {
+                    drawable.Draw(context, viewPort);
+                }
+            }*/
 
             foreach(var drawable in drawables)
             {
                 var visual = new DrawingVisual();
-                using(var context = visual.RenderOpen())
+
+                using (var context = visual.RenderOpen())
                 {
                     drawable.Draw(context, viewPort);
                 }
                 collection.Add(visual);
             }
-        }
 
-
-        private bool isAdditionaAdd = false;
-        internal void RenderAdditionalElement(DrawableElement drawable, ViewPort viewPort)
-        {
-            if (isAdditionaAdd)
-            {
-                RemoveLast();
-            }
-            DrawingVisual visual = new DrawingVisual();
-
-            using (var context = visual.RenderOpen())
-            {
-               drawable.Draw(context, viewPort);
-            }
-            collection.Add(visual);
-            isAdditionaAdd = true;
-        }
-
-        internal void RemoveLast()
-        {
-            if (collection.Count > 0)
-            {
-                collection.RemoveAt(collection.Count - 1);
-            }
-        }
-
-        internal IEnumerable<DrawingVisual> SelectElements(Rect area)
-        {
-            List<DrawingVisual> selectedElements = new List<DrawingVisual>();
-            foreach(var drawable in collection)
-            {
-                var intersect = Rect.Intersect(area, ((DrawingVisual)drawable).ContentBounds);
-                if(intersect != Rect.Empty)
-                {
-                    selectedElements.Add(drawable as DrawingVisual);
-                }
-            }
-            return selectedElements;
+           // collection.Add(visual);
         }
     }
 }

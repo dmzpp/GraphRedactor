@@ -36,6 +36,8 @@ namespace GraphRedactorCore.Figures
         private Color _contourColor;
         private Color _fillColor;
         private Size _radiuses;
+        private Rect _bounds;
+
 
         public Pie()
         {
@@ -130,12 +132,25 @@ namespace GraphRedactorCore.Figures
                     geometryContext.LineTo(centerPoint, false, false);
                 }
             }
+            _bounds = geometry.Bounds;
+
+
+            var center = new Point(geometry.Bounds.X + geometry.Bounds.Width / 2, geometry.Bounds.Y + geometry.Bounds.Height / 2);
+            context.PushTransform(new RotateTransform(RotateAngle, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new ScaleTransform(_scale, _scale, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new TranslateTransform(OffsetX, OffsetY));
+
             context.DrawGeometry(brush, pen, geometry);
         }
 
         public void ChangeLastPoint(Point newPoint)
         {
             _secondPoint = newPoint;
+        }
+
+        public override bool IsIntersect(Rect area)
+        {
+            return _bounds.IntersectsWith(area);
         }
     }
 }

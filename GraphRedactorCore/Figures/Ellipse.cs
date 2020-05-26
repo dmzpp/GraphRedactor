@@ -57,7 +57,12 @@ namespace GraphRedactorCore.Figures
             var brush = BrushPicker.GetBrush(_brushType).GetBrush(_fillColor, viewPort, _scale, firstDrawingCoord, secondDrawingCoord, opacity);
             var pen = PenPicker.GetPen(_penType).GetPen(viewPort, _contourColor, actualWidth);
 
-            context.DrawEllipse(brush, pen, Point.Subtract(secondDrawingCoord, diameters / 2), diameters.X / 2, diameters.Y / 2);
+            var centerPoint = Point.Subtract(secondDrawingCoord, diameters / 2);
+            context.PushTransform(new RotateTransform(RotateAngle, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new ScaleTransform(_scale, _scale, centerPoint.X, centerPoint.Y));
+            context.PushTransform(new TranslateTransform(OffsetX, OffsetY));
+
+            context.DrawEllipse(brush, pen, centerPoint, diameters.X / 2, diameters.Y / 2);
         }
 
         public void ChangeLastPoint(Point newPoint)
@@ -74,6 +79,12 @@ namespace GraphRedactorCore.Figures
             firstDrawingCoord.Y = (firstDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
             secondDrawingCoord.X = (secondDrawingCoord.X - viewPort.firstPoint.X) * viewPort.Scale;
             secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
+        }
+        
+        public override bool IsIntersect(Rect area)
+        {
+            var rect = new Rect(firstDrawingCoord, secondDrawingCoord);
+            return rect.IntersectsWith(area);
         }
     }
 }

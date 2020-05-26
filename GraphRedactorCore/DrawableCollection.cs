@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GraphRedactorCore
 {
@@ -42,6 +43,21 @@ namespace GraphRedactorCore
         {
             collection.Remove(node);
             Change?.Invoke();
+        }
+
+        public IEnumerable<DrawableElement> SelectElements(Rect area)
+        {
+            var list = new List<DrawableElement>();
+            
+            foreach(var drawable in collection)
+            {
+                if (drawable.IsIntersect(area))
+                {
+                    list.Add(drawable);
+                }
+            }
+
+            return list;
         }
     }
 }

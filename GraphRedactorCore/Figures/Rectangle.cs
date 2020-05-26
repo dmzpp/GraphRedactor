@@ -92,5 +92,10 @@ namespace GraphRedactorCore.Figures
         {
             return new Rect(_firstDrawingCoord, _secondDrawingCoord);
         }
+
+        public override bool IsIntersect(Rect area)
+        {
+            return ToRect().IntersectsWith(area);
+        }
     }
 }

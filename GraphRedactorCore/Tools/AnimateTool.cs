@@ -56,11 +56,14 @@ namespace GraphRedactorCore.Tools
                 return;
             }
             _rectangle.ChangeLastPoint(point);
-           // graphData.drawables.Last.Value = _rectangle;
         }
 
         public override void MouseLeftButtonDown(Point point, GraphData graphData)
         {
+            if(_rectangle != null)
+            {
+                return;
+            }
             point = graphData.viewPorts.ConvertToBaseViewPort(point);
             _rectangle = new Rectangle(point, Colors.Blue, typeof(SolidPen), Colors.Transparent, typeof(SolidBrush), 2, graphData.drawables.Count + 1, graphData.viewPorts.Last().Scale);
             graphData.drawables.AddLast(_rectangle);

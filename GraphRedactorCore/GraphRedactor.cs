@@ -26,11 +26,6 @@ namespace GraphRedactorCore
             PenPicker.AddPen(new DashDotDotPen());
         }
 
-        public void Render()
-        {
-            //graphData.canvas.Render(graphData.drawables, graphData.viewPorts.Last());
-        }
-
         public void PreviousScale()
         {
             graphData.viewPorts.RemoveLast();
@@ -74,6 +69,7 @@ namespace GraphRedactorCore
 
         public void ClearCanvas()
         {
+            graphData.animations.Clear();
             graphData.drawables.Clear();
         }
     }

@@ -45,13 +45,13 @@ namespace GraphRedactorCore
             Change?.Invoke();
         }
 
-        public IEnumerable<DrawableElement> SelectElements(Rect area)
+        public IEnumerable<DrawableElement> SelectElements(Rect area, ViewPort viewPort)
         {
             var list = new List<DrawableElement>();
             
             foreach(var drawable in collection)
             {
-                if (drawable.IsIntersect(area))
+                if (drawable.IsIntersect(area, viewPort))
                 {
                     list.Add(drawable);
                 }

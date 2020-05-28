@@ -76,7 +76,8 @@ namespace GraphRedactorCore.Tools
             }
             isSelecting = false;
             graphData.drawables.Remove(graphData.drawables.Last);
-            var selectedElements = graphData.drawables.SelectElements(_rectangle.ToRect());
+
+            var selectedElements = graphData.drawables.SelectElements(_rectangle.ToRect(), graphData.viewPorts.Last());
             if(selectedElements.Count() == 0)
             {
                 _rectangle = null;

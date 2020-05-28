@@ -82,7 +82,7 @@ namespace GraphRedactorCore.Figures
             secondDrawingCoord.Y = (secondDrawingCoord.Y - viewPort.firstPoint.Y) * viewPort.Scale;
         }
         
-        public override bool IsIntersect(Rect area)
+        public override bool IsIntersect(Rect area, ViewPort viewPort)
         {
             var rect = new Rect(firstDrawingCoord, secondDrawingCoord);
             return rect.IntersectsWith(area);

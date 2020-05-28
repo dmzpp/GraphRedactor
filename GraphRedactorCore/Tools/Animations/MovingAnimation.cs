@@ -22,6 +22,7 @@ namespace GraphRedactorCore.Tools.Animations
         {
             _drawable = drawable;
         }
+
         public MovingAnimation(DrawableElement drawable, double speed)
         {
             _drawable = drawable;

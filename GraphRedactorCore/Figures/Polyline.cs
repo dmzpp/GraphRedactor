@@ -79,17 +79,18 @@ namespace GraphRedactorCore.Figures
             }
         }
 
-        public override bool IsIntersect(Rect area)
+        public override bool IsIntersect(Rect area, ViewPort viewPort)
         {
             if (_points.Count == 2)
             {
-                return area.IntersectsWith(new Rect(_points[0], _points[1]));
+                var result = area.IntersectsWith(new Rect(viewPort.ConvertPointToActual(_points[0]), viewPort.ConvertPointToActual(_points[1])));
+                return result;
             }
             else
             {
                 foreach (var point in _points)
                 {
-                    if (area.IntersectsWith(new Rect(point, point)))
+                    if (area.IntersectsWith(new Rect(viewPort.ConvertPointToActual(point), viewPort.ConvertPointToActual(point))))
                     {
                         return true;
                     }

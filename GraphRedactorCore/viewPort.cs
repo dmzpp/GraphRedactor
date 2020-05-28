@@ -21,5 +21,10 @@ namespace GraphRedactorCore
             this.secondPoint = secondPoint;
             this.Scale = scale;
         }
+
+        public Point ConvertPointToActual(Point point)
+        {
+            return new Point((point.X - firstPoint.X) * Scale, (point.Y - firstPoint.Y) * Scale);
+        }
     }
 }

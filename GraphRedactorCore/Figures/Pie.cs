@@ -149,7 +149,7 @@ namespace GraphRedactorCore.Figures
             _secondPoint = newPoint;
         }
 
-        public override bool IsIntersect(Rect area)
+        public override bool IsIntersect(Rect area, ViewPort viewPort)
         {
             return _bounds.IntersectsWith(area);
         }
